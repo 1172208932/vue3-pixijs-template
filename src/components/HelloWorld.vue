@@ -1,20 +1,29 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router';
 
 defineProps<{ msg: string }>()
 
+const router = useRouter();
+const route = useRoute();
+
 const count = ref(0)
+
+// 点击当前节点
+const handleNodeClick = () => {
+  window.open(location.href.replace('/#/', '/preview/#/?actid=1'));
+};
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
 
-  <p>
-    Recommended IDE setup:
-    <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
-    +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
+
+  Recommended IDE setup:
+  <div @click="handleNodeClick">模板项目预览</div>
+  +
+  <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
+
 
   <p>See <code>README.md</code> for more information.</p>
 
