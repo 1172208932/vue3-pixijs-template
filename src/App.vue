@@ -1,8 +1,11 @@
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <el-config-provider>
+    <router-view #="{ Component, route }">
+      <component :is="Component" :key="route.path" />
+    </router-view>
+  </el-config-provider>
 </template>
+
 
 <style>
 #app {
@@ -11,6 +14,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+* {
+  padding: 0;
+  margin: 0;
 }
 </style>

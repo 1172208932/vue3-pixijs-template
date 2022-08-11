@@ -11,7 +11,7 @@ const count = ref(0)
 
 // 点击当前节点
 const handleNodeClick = () => {
-  window.open(location.href.replace('/#/', '/preview/#/?actid=1'));
+  router.replace('/game');
 };
 </script>
 

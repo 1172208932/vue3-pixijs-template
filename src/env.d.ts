@@ -6,3 +6,18 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+
+declare const EVA: any;
+
+interface Window {
+  EVA: any;
+  playAnim: any;
+  game: any;
+  throwBall: any;
+  resetBall: any;
+}
+
+interface HTMLElement {
+  value: any;
+}

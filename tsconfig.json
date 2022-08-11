@@ -32,16 +32,14 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
+    "src/*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/App.vue",
     "types/**/*.d.ts",
     "types/**/*.ts",
-    "preview/**/*.ts",
-    "preview/**/*.d.ts",
-    "preview/**/*.tsx",
-    "preview/**/*.vue",
     "components.d.ts",
     "auto-imports.d.ts"
   ],
