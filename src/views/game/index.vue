@@ -29,7 +29,8 @@ import { PhysicsSystem, Physics, PhysicsType } from "@eva/plugin-matterjs";
 import { Img, ImgSystem } from "@eva/plugin-renderer-img";
 import { Graphics, GraphicsSystem } from "@eva/plugin-renderer-graphics";
 import sources from "./resource";
-import createBackground from './gameObjects/background';
+import createBackground from "./gameObjects/background";
+import createRole from "./gameObjects/role";
 
 import {
   defineComponent,
@@ -53,6 +54,43 @@ export default defineComponent({
       itemPhys: [],
       physicsSystem: null,
     });
+
+    const createWall = (x, y, width, height) => {
+      const go = new GameObject("graphics", {
+        position: { x: x + width / 2, y: y + height / 2 },
+        size: { width, height },
+        origin: { x: 0.5, y: 0.5 },
+      });
+      const graphics = go.addComponent(new Graphics());
+      graphics.graphics.beginFill(0x00ff00);
+      graphics.graphics.drawRect(0, 0, width, height);
+
+      go.addComponent(
+        new Physics({
+          type: PhysicsType.RECTANGLE,
+          bodyOptions: {
+            isStatic: true, // Whether the object is still, any force acting on the object in a static state will not produce any effect
+            restitution: 0.1,
+            frictionAir: 0,
+            friction: 0,
+            frictionStatic: 0,
+            force: {
+              x: 0,
+              y: 0,
+            },
+          },
+          stopRotation: true, // default false, usually do not need to be set
+        })
+      );
+      state.game.scene.addChild(go);
+
+      return {
+        drawColor(color) {
+          graphics.graphics.beginFill(color);
+          graphics.graphics.drawRect(0, 0, width, height);
+        },
+      };
+    };
 
     const updateGravity = (event) => {
       // console.log("alpha:", event.alpha); // X
@@ -117,9 +155,19 @@ export default defineComponent({
           state.physicsSystem,
         ],
       });
+
       state.game.scene.addChild(createBackground());
 
+      state.walls = [
+        createWall(0, 0, 60, state.sceneHeight),
+        createWall(750 - 60, 0, 60, state.sceneHeight),
+        createWall(0, state.sceneHeight - 60, 750, 60),
+        createWall(0, 0, 750, 60),
+      ];
 
+      const randomX = Math.random() * state.sceneWidth;
+      const { role } = createRole({ x: randomX, y: 600 });
+      state.game.scene.addChild(role);
       window.game = state.game;
       window.game.playing = false;
 

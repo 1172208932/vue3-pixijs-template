@@ -21,6 +21,7 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 - 编程语言：[TypeScript 4.x](https://www.typescriptlang.org/zh/) + [JavaScript](https://www.javascript.com/)
 - 构建工具：[Vite 2.x](https://cn.vitejs.dev/)
 - 前端框架：[Vue 3.x](https://v3.cn.vuejs.org/)
+- 游戏框架：[eva.js](https://eva.js.org/)
 - 路由工具：[Vue Router 4.x](https://next.router.vuejs.org/zh/index.html)
 - 状态管理：[Vuex 4.x](https://next.vuex.vuejs.org/)
 - PC 端 UI 框架：[Element Plus](https://element-plus.org/#/zh-CN)
