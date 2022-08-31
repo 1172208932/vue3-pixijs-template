@@ -8,7 +8,6 @@ import qs from 'qs';
 import { Toast } from 'vant';
 import { ContentTypeEnum } from './httpEnum';
 import router from '@/router/index';
-
 // create an axios instance
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_URL as string, // url = base api url + request url

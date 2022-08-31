@@ -1,0 +1,130 @@
+.slide-img {
+  width: 100%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.swiper3 {
+  width: 100%;
+}
+
+
+.swiper-next {
+  height: 200px;
+}
+
+
+
+.background-box {
+  position: absolute;
+  left: 20px;
+  width: 710px;
+  top: 551px;
+  border-radius: 20px;
+  // border: 2px solid;
+  background-color: #fff;
+  min-height: 100%;
+}
+
+
+.beautiful-box {
+  position: relative;
+  height: 508px;
+
+  .beautiful-t1 {
+    position: absolute;
+    top: 60px;
+    left: 28px;
+    font-size: 38px;
+    font-family: HYa3gj;
+    color: #123542;
+    line-height: 38px;
+    background: linear-gradient(150deg, #593521 0%, #B16F44 57%, #53301D 100%), linear-gradient(350deg, #3B2121 0%, #CA925A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .beautiful-t2 {
+    position: absolute;
+    top: 65px;
+    right: 52px;
+    font-size: 26px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #3B2121;
+    line-height: 30px;
+  }
+
+  .beautiful-list {
+    width: 682px;
+    display: flex;
+    position: absolute;
+    top: 138px;
+    height: 300px;
+    padding-left: 28px;
+    overflow: hidden;
+    overflow-x: scroll;
+
+    img {
+      width: 300px;
+      height: 300px;
+      background: #C14A25;
+      border-radius: 15px;
+      // opacity: 0.14;
+      margin-right: 28px;
+    }
+  }
+}
+
+
+
+.video-list {
+  position: relative;
+  width: 100%;
+
+  .video-title {
+    position: relative;
+    width: 100%;
+    height: 108px;
+    margin-bottom: 40px;
+
+    .video-t1 {
+      position: absolute;
+      top: 70px;
+      font-size: 38px;
+      font-family: HYa3gj;
+      color: #3B2121;
+      line-height: 38px;
+      -webkit-text-stroke: 0px #3B2121;
+      text-stroke: 0px #3B2121;
+      left: 28px;
+    }
+
+    .video-t2 {
+      position: absolute;
+      right: 53px;
+      top: 74px;
+      font-size: 26px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #3B2121;
+      line-height: 30px;
+    }
+  }
+
+  .card{
+    width: 317px;
+    margin-left: 28px;
+    img{
+      width: 317px;
+      border-radius: 20px;
+    }
+  }
+
+  .imgs-list{
+    width: 317px;
+  }
+
+}
