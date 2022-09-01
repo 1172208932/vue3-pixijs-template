@@ -90,7 +90,7 @@ export default defineComponent({
           isplaying = true;
           console.log("REMOVE");
           document.body.removeChild(app.view);
-          // router.replace("/home");
+          router.replace("/home");
         }
 
         // filter2.time += app.ticker.elapsedMS / 1000;
