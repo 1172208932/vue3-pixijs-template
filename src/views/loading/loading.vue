@@ -38,7 +38,7 @@ export default defineComponent({
       document.body.appendChild(app.view);
       app.renderer.view.style.position = "absolute";
       app.renderer.view.style.display = "block";
-      app.renderer.autoResize = true;
+      // app.renderer.autoResize = true;
       app.renderer.resize(window.innerWidth, window.innerHeight);
 
       //         let container = new PIXI.Container();
@@ -53,6 +53,7 @@ export default defineComponent({
       container.height = app.screen.height;
       container.filterArea = app.screen;
       app.stage.addChild(container);
+      // @ts-ignore
       let filter: {
         uniforms: {
           amplitude: number;
@@ -87,10 +88,10 @@ export default defineComponent({
         if (isplaying) return;
         filter.uniforms.time += app.ticker.elapsedMS / 1000;
         if (filter.uniforms.time >= 2) {
-          isplaying = true;
-          console.log("REMOVE");
-          document.body.removeChild(app.view);
-          router.replace("/home");
+          // isplaying = true;
+          // console.log("REMOVE");
+          // document.body.removeChild(app.view);
+          // router.replace("/home");
         }
 
         // filter2.time += app.ticker.elapsedMS / 1000;
