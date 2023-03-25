@@ -1,0 +1,94 @@
+<template>
+  <div class="box">
+    <audio ref="audio" :src="audioUrl"></audio>
+    <div class="top"></div>
+    <div class="boox">
+      <div class="game-box" id="canvas" ref="canvasRef"></div>
+    </div>
+    <div class="control-box">
+      <div class="control-center">
+
+      </div>
+      <div class="control-center">
+        <n-button circle quaternary class="again-btn">
+          <template #icon>
+            <n-icon size="30">
+              <svg t="1679646099327" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="2778" width="200" height="200">
+                <path
+                  d="M920.43 430.03c-3.41 0-6.37-2.41-7.02-5.76C875.96 233.02 707.49 88.69 505.26 88.69c-163.63 0-305.18 94.49-373.08 231.88-2.36 4.77 1.11 10.36 6.43 10.36h28.24c2.65 0 5.06-1.47 6.32-3.8 63.24-117.2 187.13-196.85 329.65-196.85 178.1 0 327.11 124.39 365 291.02 1.02 4.47-2.41 8.72-7 8.72h-90.31c-6.14 0-9.44 7.21-5.42 11.85L888.7 585c2.93 3.39 8.21 3.29 11.01-0.2l114.94-143.13c3.77-4.69 0.43-11.66-5.59-11.66l-88.63 0.02zM103.57 593.97c3.41 0 6.37 2.41 7.02 5.76 37.45 191.26 205.92 335.58 408.14 335.58 163.63 0 305.17-94.49 373.08-231.88 2.36-4.77-1.11-10.36-6.43-10.36h-28.24c-2.65 0-5.06 1.47-6.32 3.8-63.22 117.2-187.12 196.84-329.64 196.84-178.11 0-327.11-124.39-365-291.02-1.02-4.47 2.41-8.72 7-8.72h90.31c6.14 0 9.44-7.21 5.42-11.85l-123.6-143.13c-2.93-3.39-8.21-3.29-11.01 0.2L9.36 582.31c-3.77 4.69-0.43 11.66 5.59 11.66h88.62z"
+                  p-id="2779" fill="#A6BED8"></path>
+                <path
+                  d="M706.23 498.03l-309.8-178.86c-10.77-6.23-24.24 1.56-24.24 13.99v357.72c0 12.41 13.43 20.17 24.19 13.96l309.85-178.89c10.75-6.2 10.75-21.72 0-27.92z"
+                  p-id="2780" fill="#A6BED8"></path>
+              </svg>
+            </n-icon>
+          </template>
+        </n-button>
+        <n-button color="#8a2be2" class="begin-btn" @click="begin">
+          <template #icon>
+            <n-icon class="begin-icon" size="20">
+              <svg t="1679646979880" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="16964" width="200" height="200">
+                <path
+                  d="M840.675206 557.64355 241.136477 942.336072c-32.617885 21.080108-76.31613 11.7056-76.31613-19.303648L164.820348 101.404528c0-35.950793 40.73782-38.3484 76.31613-19.264762l599.539752 384.64545C865.346095 491.873614 865.346095 532.547988 840.675206 557.64355z"
+                  fill="#ffffff" p-id="16965"></path>
+              </svg>
+            </n-icon>
+          </template>
+          BET
+        </n-button>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import {
+  defineComponent,
+  reactive,
+  toRefs,
+  onMounted,
+  SetupContext,
+  Ref,
+  ref
+} from "vue";
+import { PixiEngine } from './systems/engine';
+import EventBus from '@/utils/eventbus';
+export default defineComponent({
+  name: "gameIndex",
+  components: {},
+  setup(props, { emit }: SetupContext) {
+    let audio = ref<any>(null)
+    const state: {
+      audioUrl: string
+    } = reactive({
+      swperList2: [],
+      worksList: [],
+      audioUrl: 'https://turbo.spribegaming.com/assets/sounds/big_button.mp3'
+    });
+
+    const begin = () => {
+      audio.value.play();
+      EventBus.fire('BEGIN_GAME')
+    }
+
+    onMounted(async () => {
+      await PixiEngine.init(836, 648);
+      const canvasInfo = PixiEngine.getCanvas();
+      document.querySelector("#canvas")!.appendChild(canvasInfo);
+    });
+
+    return {
+      ...toRefs(state),
+      begin,
+      audio
+    };
+  },
+});
+</script>
+
+<style lang="scss">
+@import "./style/common";
+</style>

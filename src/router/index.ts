@@ -15,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "Loading",
     component: () => import("../views/loading/loading.vue"),
+  },
+  {
+    path: "/game",
+    name: "Game",
+    component: () => import("../views/game/index.vue"),
   }
 ];
 

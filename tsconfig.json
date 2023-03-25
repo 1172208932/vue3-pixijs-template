@@ -24,7 +24,7 @@
     "removeComments": false,
     "strictFunctionTypes": false,
     "baseUrl": ".",
-    "types": ["vite/client", "node", "element-plus/global", "unplugin-vue-define-options"],
+    "types": ["vite/client", "node","unplugin-vue-define-options"],
     "typeRoots": ["./node_modules/@types/", "./types"],
     "paths": {
       "@/*": ["src/*"]

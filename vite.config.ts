@@ -4,7 +4,6 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import legacy from "@vitejs/plugin-legacy";
 import {
-  ElementPlusResolver,
   VantResolver,
 } from "unplugin-vue-components/resolvers";
 import AutoImport from "unplugin-auto-import/vite";
@@ -80,7 +79,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       }),
       Components({
         dts: true,
-        resolvers: [ElementPlusResolver(), VantResolver()],
+        resolvers: [ VantResolver()],
       }),
       vitePluginString()
       // https://github.com/fi3ework/vite-plugin-checker
@@ -122,7 +121,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     optimizeDeps: {
       include: [
         "@vueuse/core",
-        "element-plus",
         "vant",
         "lodash-es",
         "vuedraggable",

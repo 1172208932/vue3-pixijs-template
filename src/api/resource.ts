@@ -1,4 +1,4 @@
-import NbRequest from "@newblue/nb-axios";
+import NbRequest from "./index";
 interface BaseResponse<T = any> {
   code: number;
   data: T;
