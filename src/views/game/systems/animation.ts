@@ -23,7 +23,6 @@ export const playFipAllAnimation = (type: FLIP_TYPE, gridView: Array<PIXI.Contai
 export const playFlipAnimation = (type: FLIP_TYPE, cardView: PIXI.Container) => {
     return new Promise<PIXI.Container>((resolve) => {
         const toFront = type == FLIP_TYPE.FRONT;
-        console.log(cardView.children)
         const [front,back ] = cardView.children;
 
         const DURATION = 300;

@@ -2,6 +2,7 @@
   <div class="box">
     <audio ref="audio" :src="audioUrl"></audio>
     <div class="top"></div>
+    <n-progress type="line" :color="'#28a745'" :rail-color="'#105181'" class="line" :percentage="percentage" :show-indicator="false" />
     <div class="boox">
       <div class="game-box" id="canvas" ref="canvasRef"></div>
     </div>
@@ -10,7 +11,7 @@
 
       </div>
       <div class="control-center">
-        <n-button circle quaternary class="again-btn">
+        <n-button circle quaternary class="again-btn" @click="againGame">
           <template #icon>
             <n-icon size="30">
               <svg t="1679646099327" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +26,7 @@
             </n-icon>
           </template>
         </n-button>
-        <n-button color="#8a2be2" class="begin-btn" @click="begin">
+        <!-- <n-button disabled color="#8a2be2" class="begin-btn" @click="begin">
           <template #icon>
             <n-icon class="begin-icon" size="20">
               <svg t="1679646979880" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +38,13 @@
             </n-icon>
           </template>
           BET
+        </n-button> -->
+        <n-button color="#8a2be2" class="over-btn" @click="begin">
+          <template #default>
+            <div class="over-btn-text">CASH OUT</div>
+            <div class="over-btn-text2">0.33 USD</div>
+          </template>
+
         </n-button>
       </div>
 
@@ -54,6 +62,8 @@ import {
   Ref,
   ref
 } from "vue";
+import { SOUND_TYPE } from "./soundEnum";
+
 import { PixiEngine } from './systems/engine';
 import EventBus from '@/utils/eventbus';
 export default defineComponent({
@@ -62,11 +72,13 @@ export default defineComponent({
   setup(props, { emit }: SetupContext) {
     let audio = ref<any>(null)
     const state: {
-      audioUrl: string
+      audioUrl: string,
+      percentage:number
     } = reactive({
       swperList2: [],
       worksList: [],
-      audioUrl: 'https://turbo.spribegaming.com/assets/sounds/big_button.mp3'
+      audioUrl: SOUND_TYPE.BEGIN,
+      percentage: 20
     });
 
     const begin = () => {
@@ -74,7 +86,35 @@ export default defineComponent({
       EventBus.fire('BEGIN_GAME')
     }
 
+    const againGame = () => {
+      // EventBus.fire('AGAIN_GAME')
+      // EventBus.fire('OVER_GAME')
+      EventBus.fire('RANDOM')
+
+      
+    }
+
+    const playSound = (res) => {
+      switch (res.detail) {
+        case 'win':
+          state.audioUrl = SOUND_TYPE.WIN
+          nextTick(() => {
+            console.log(audio)
+            audio.value.play();
+          })
+          break
+        case "bomb":
+        state.audioUrl = SOUND_TYPE.BOMB
+          nextTick(() => {
+            console.log(audio)
+            audio.value.play();
+          })
+          break
+      }
+    }
+
     onMounted(async () => {
+      EventBus.on("PLAY_SOUND", playSound)
       await PixiEngine.init(836, 648);
       const canvasInfo = PixiEngine.getCanvas();
       document.querySelector("#canvas")!.appendChild(canvasInfo);
@@ -83,7 +123,8 @@ export default defineComponent({
     return {
       ...toRefs(state),
       begin,
-      audio
+      audio,
+      againGame
     };
   },
 });
