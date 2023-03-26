@@ -78,6 +78,7 @@ export const PixiEngine = {
             } else {
                 front.texture = PIXI.utils.TextureCache['mc_star_triggered']
                 EventBus.fire('PLAY_SOUND', 'win')
+                EventBus.fire('GET_STARE')
             }
             isBegin = true
         }, 500)
