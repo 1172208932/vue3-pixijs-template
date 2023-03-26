@@ -9,7 +9,7 @@
       </button>
       <!-- 钱 -->
       <button class="money btn-game">
-        <span class="centered-xy"> Next: {{ mines }} USD </span>
+        <span class="centered-xy"> Next: {{ usd }} USD </span>
       </button>
     </div>
     <n-progress
@@ -176,6 +176,7 @@ export default defineComponent({
     let showDown = ref<boolean>(false);
     let showPop = ref<boolean>(false);
     let mines = ref<number>(1);
+    let usd = ref<number>(1);
     const gradeList = Array.from(Array(20), (d, i) => i + 1);
     const state: {
       audioUrl: string;
@@ -224,6 +225,7 @@ export default defineComponent({
      */
     const chiceMines = (e: number) => {
       mines.value = e;
+      usd.value = e;
       setTimeout(() => {
         showDown.value = false;
       }, 200);
@@ -279,6 +281,7 @@ export default defineComponent({
       audio,
       mines,
       showPop,
+      usd,
       showDownList,
       chiceMines,
       begin,
