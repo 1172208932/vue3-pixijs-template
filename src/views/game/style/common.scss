@@ -7,7 +7,7 @@
     height: 100vh;
     max-width: 100%;
     border-radius: 8px;
-    background-color: #136FCE;
+    background-image: linear-gradient(-57deg,#0048dc 3%,#0781cc 85%)!important;
   }
 
   .btn-game {
@@ -115,7 +115,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 170px 0 10px 0;
 
   .RANDOM {
     font-size: 26px;
@@ -195,7 +194,7 @@
   .control-center {
     width: 640px;
     height: 100px;
-    background-color: #105181;
+    // background-color: #105181;
     display: flex
   }
 }

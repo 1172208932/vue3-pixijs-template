@@ -5,7 +5,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 // import store from '@/store'
-import { Toast } from 'vant';
 import { ContentTypeEnum } from './httpEnum';
 import router from '@/router/index';
 // create an axios instance
@@ -30,9 +29,7 @@ service.interceptors.request.use(
     // 不传递默认开启loading
     if (!config.hideLoading) {
       // loading
-      Toast.loading({
-        forbidClick: true,
-      });
+
     }
     // if (store.getters['user/token'] &&  config.headers) {
     //   config.headers['X-Token'] = store.getters['user/token']
@@ -59,7 +56,6 @@ service.interceptors.request.use(
 // respone拦截器
 service.interceptors.response.use(
   (response) => {
-    Toast.clear();
     const res = response.data;
     if (res.code && res.code !== 0) {
       // 登录超时,重新登录
@@ -69,7 +65,6 @@ service.interceptors.response.use(
         // })
         router.replace('/error');
       } else {
-        Toast(res.msg || '服务器访问出错了~');
       }
       return Promise.reject(res || 'error');
     } else {
@@ -78,7 +73,6 @@ service.interceptors.response.use(
   },
   (error: Error) => {
     if (error.message?.includes('timeout')) {
-      Toast('请求超时!');
     }
     console.log(`err${error}`); // for debug
     return Promise.reject(error);

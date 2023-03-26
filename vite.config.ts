@@ -3,9 +3,6 @@ import { ConfigEnv, loadEnv, UserConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import legacy from "@vitejs/plugin-legacy";
-import {
-  VantResolver,
-} from "unplugin-vue-components/resolvers";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import WindiCSS from "vite-plugin-windicss";
@@ -77,10 +74,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         dts: true,
         imports: ["vue", "vue-router"],
       }),
-      Components({
-        dts: true,
-        resolvers: [ VantResolver()],
-      }),
       vitePluginString()
       // https://github.com/fi3ework/vite-plugin-checker
       // checker({
@@ -121,7 +114,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     optimizeDeps: {
       include: [
         "@vueuse/core",
-        "vant",
         "lodash-es",
         "vuedraggable",
       ],

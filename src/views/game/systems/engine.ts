@@ -19,7 +19,7 @@ export const PixiEngine = {
         EventBus.on('RANDOM', this.randomClick, this)
 
         
-        PixiApp = new PIXI.Application({ width, height, backgroundColor: 0x2980b9 });
+        PixiApp = new PIXI.Application({ width, height, backgroundColor: 0x136FCE });
         function animate(time) {
             requestAnimationFrame(animate)
             TWEEN.update(time)
@@ -55,6 +55,7 @@ export const PixiEngine = {
             cardList[index] = contor
 
             contor.on('pointerdown', () => {
+                if(contor['front']){return}
                 this.onCardClick(contor)
             });
             PixiApp.stage.addChild(contor);
