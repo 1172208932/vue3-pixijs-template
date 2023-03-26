@@ -118,7 +118,7 @@ export const PixiEngine = {
         cardList.forEach((item) => {
             item.destroy()
         });
-        let arr = new Array(22).fill(1).concat(new Array(10).fill(3))
+        let arr = new Array(22).fill(1).concat(new Array(3).fill(3))
         cardList = shuffle(arr)
         this.addCards()
         setTimeout(() => {

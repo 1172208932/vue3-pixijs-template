@@ -113,6 +113,7 @@ import {
 import { SOUND_TYPE } from "./soundEnum";
 import { PixiEngine } from "./systems/engine";
 import EventBus from "@/utils/eventbus";
+import { throttle } from "@/utils/throttle"
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
@@ -132,7 +133,7 @@ export default defineComponent({
       swperList2: [],
       worksList: [],
       audioUrl: SOUND_TYPE.BEGIN,
-      percentage: 20,
+      percentage: 0,
       isDisabled: false,
       isBegin: false,
       money: 0
@@ -176,8 +177,9 @@ export default defineComponent({
       }, 200);
     };
 
-    const getScore = ()=>{
-      state.money += 1
+    const getScore = () => {
+      state.money += 1;
+      state.percentage = state.money/22 *100
     }
 
     const againGame = () => {
@@ -185,11 +187,11 @@ export default defineComponent({
       // EventBus.fire('OVER_GAME')
     }
 
-    const random = () => {
+    const random = throttle(() => {
       if (state.isBegin) {
         EventBus.fire('RANDOM')
       }
-    }
+    },2000) 
 
     const playSound = (res) => {
       switch (res.detail) {
@@ -205,6 +207,7 @@ export default defineComponent({
             audio.value.play();
             state.isBegin = false
             state.money = 0
+            state.percentage = 0
           })
           break
       }
