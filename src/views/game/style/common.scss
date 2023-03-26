@@ -2,33 +2,18 @@
 
   /*for 0 x 769*/
   .box {
-    // position: absolute;
-    // width: 100vw;
-    // max-width:  calc(960px* 1/2);
-    // max-height: calc(540px* 1/2); 
-    // height: 100vh;
-    // background-color: #136FCE;
-    // overflow: hidden;
-    // left: 50%;
-    // top: 20%;
-    // transform: translateY(-50%);
-    // transform: translateX(-50%);
-    // position: absolute;
     overflow: hidden;
-    // top: 0;
-    // left: 0;
-    // transform: translate(0);
     width: 100vw;
     height: 100vh;
     max-width: 100%;
-    // max-height: 100%;
+    border-radius: 8px;
     background-color: #136FCE;
   }
 
   .btn-game {
     // width: 140px;
     cursor: default;
-    font-size: 12px;
+    font-size: 21px;
     color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 20px;
@@ -80,7 +65,7 @@
     width: 240px !important;
     justify-content: center;
     padding: 10px 0;
-    font-size: 12px;
+    // font-size: 12px;
     font-weight: 550;
     margin-right: 2px;
     color: #fff;
@@ -118,10 +103,6 @@
     list-style: none;
     margin-bottom: 14px;
     font-weight: bold;
-  }
-
-  li:last-child {
-    margin-bottom: 0 !important;
   }
 
   .clickTab {
@@ -185,12 +166,12 @@
 .boox {
   display: flex;
   justify-content: center;
-  margin-top: 122px;
+  margin-top: 13vh;
 
   .game-box {
     width: calc(365px*2);
     // height:calc( 247.64px*2);
-    background-color: aqua;
+    // background-color: aqua;
 
     canvas {
       width: 90%;
@@ -334,6 +315,12 @@
   p {
     display: inline-block;
     color: #ffffff80 !important
+  }
+
+  .wen{
+    width: 40px;
+    height: 40px;
+    margin: 5px 0 0 17px;
   }
 }
 
