@@ -78,7 +78,7 @@
         <div class="control-centerUnder">
           <div style="color: #fff; display: grid">
             <span>Bet, USD</span>
-            <input/>
+            <input />
           </div>
           <div class="round roundSmall">-</div>
           <div class="round"><img src="@/assets/moeny.png" /></div>
@@ -96,9 +96,17 @@
           2999.53
           <p>USD</p>
         </div>
-        <div style="position: absolute; right: 0px; bottom: 0" class="round roundSmall">
-          <img class="mean" src="../../assets/mean.png" />
-        </div>
+        <n-popover trigger="click" raw :show-arrow="false">
+          <template #trigger>
+            <div style="position: absolute; right: 0px; bottom: 0" class="round roundSmall">
+              <img class="mean" src="../../assets/mean.png" />
+            </div>
+          </template>
+          <div class="large-text2">
+            Who kicks a hole in the sky so the heaven cry over me.
+          </div>
+        </n-popover>
+
       </div>
     </div>
     <!-- <question-pop v-if="showPop" :msg=""></question-pop> -->
@@ -132,6 +140,7 @@ export default defineComponent({
     let showPop = ref<boolean>(false);
     let mines = ref<number>(1);
     let usd = ref<number>(1);
+    let overlap = ref(false)
     const gradeList = Array.from(Array(20), (d, i) => i + 1);
     const state: {
       audioUrl: string;
@@ -187,8 +196,8 @@ export default defineComponent({
     };
 
     const getScore = () => {
-      state.money = Number((state.money + usd.value).toFixed(2))  ;
-      usd.value = Number(( usd.value +  0.2).toFixed(2)) ;
+      state.money = Number((state.money + usd.value).toFixed(2));
+      usd.value = Number((usd.value + 0.2).toFixed(2));
       state.percentage = state.money / 22 * 100
     }
 
@@ -233,6 +242,8 @@ export default defineComponent({
       document.querySelector("#canvas")!.appendChild(canvasInfo);
     });
 
+
+
     return {
       ...toRefs(state),
       gradeList,
@@ -241,6 +252,7 @@ export default defineComponent({
       mines,
       showPop,
       usd,
+      overlap,
       showDownList,
       chiceMines,
       begin,
@@ -252,5 +264,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "./style/common";
+// @import "./style/common";
+// @import "./style/test";
+
+@media screen and (max-width: 769px) {
+  @import "./style/common";
+}
+
+@media screen and (min-width: 769px) {
+  @import "./style/pcStyle";
+}
 </style>

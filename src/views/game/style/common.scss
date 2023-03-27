@@ -1,77 +1,90 @@
-@media screen and (max-width: 769px) {
 
-  /*for 0 x 769*/
-  .box {
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
-    border-radius: 8px;
-    background-image: linear-gradient(-57deg,#0048dc 3%,#0781cc 85%)!important;
-  }
 
-  .btn-game {
-    // width: 140px;
-    cursor: default;
-    font-size: 21px;
-    color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    background-color: #0267a5;
-    box-shadow: inset 1px 1px #fff1cd33;
-    white-space: nowrap;
-    display: block;
-    height: 100%;
-    padding: 0 100px;
-    position: relative;
+.large-text2 {
+  padding: 0;
+  width: 600px;
+  border-color: #212226;
+  background-color: #212226;
+  transform-origin: inherit;
+  border-radius: 10px;
+}
 
-    .centered-xy {
-      // display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.n-popover__content {
+  padding: 0;
+}
 
-    img {
-      // vertical-align: baseline;
-      width: 15px;
-      height: 15px;
-      position: absolute;
-      right: 11px;
-      top: 15px;
-    }
-  }
+/*for 0 x 769*/
+.box {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 8px;
+  // max-width: 375px;
+  // height: 812px;
+  background-image: linear-gradient(-57deg, #0048dc 3%, #0781cc 85%) !important;
+}
 
-  .top {
-    border-radius: 25px;
-    height: 50px;
-    background-color: #105181;
-    margin: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
+.btn-game {
+  // width: 140px;
+  cursor: default;
+  font-size: 21px;
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  background-color: #0267a5;
+  box-shadow: inset 1px 1px #fff1cd33;
+  white-space: nowrap;
+  display: block;
+  height: 100%;
+  padding: 0 100px;
+  position: relative;
 
-  .line {
-    border-radius: 25px;
-    width: 96% !important;
-    background-color: #105181;
-    margin: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .money {
-    background-color: #ffc107 !important;
-    color: #343a40 !important;
-    width: 240px !important;
-    justify-content: center;
-    padding: 10px 0;
-    // font-size: 12px;
-    font-weight: 550;
-    margin-right: 2px;
-    color: #fff;
-    display: flex;
+  .centered-xy {
+    // display: flex;
     align-items: center;
+    justify-content: center;
   }
+
+  img {
+    // vertical-align: baseline;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 11px;
+    top: 15px;
+  }
+}
+
+.top {
+  border-radius: 25px;
+  height: 50px;
+  background-color: #105181;
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.line {
+  border-radius: 25px;
+  width: 96% !important;
+  background-color: #105181;
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.money {
+  background-color: #ffc107 !important;
+  color: #343a40 !important;
+  width: 240px !important;
+  justify-content: center;
+  padding: 10px 0;
+  // font-size: 12px;
+  font-weight: 550;
+  margin-right: 2px;
+  color: #fff;
+  display: flex;
+  align-items: center;
 }
 
 .shadow {
@@ -157,7 +170,7 @@
   }
 }
 
-.mean{
+.mean {
   width: 29px;
   height: 29px;
 }
@@ -316,73 +329,9 @@
     color: #ffffff80 !important
   }
 
-  .wen{
+  .wen {
     width: 40px;
     height: 40px;
     margin: 5px 0 0 17px;
   }
 }
-
-
-
-@media screen and (min-width: 769px) {
-
-  /*for 0 x 769*/
-  .box {
-    // position: absolute;
-    // width: 100vw;
-    // max-width:  calc(960px* 1/2);
-    // max-height: 100vh; 
-    // height: 100vh;
-    // background-color: #136FCE;
-    // overflow: hidden;
-    // left: 50%;
-    // top: 20%;
-    // transform: translateY(-50%);
-    // transform: translateX(-50%);
-    position: absolute;
-    display: block;
-    width: 100%;
-    padding: 0;
-    overflow: hidden;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 177.78vh;
-    max-height: 100vh;
-    background-color: #136FCE;
-  }
-
-  .top {
-    border-radius: 25px;
-    height: 50px;
-    background-color: #105181;
-    margin: 10px;
-  }
-
-  .game-box {
-    position: absolute;
-    left: 50%;
-    top: 30%;
-    transform: translateY(-50%);
-    transform: translateX(-50%);
-
-    width: calc(365px*2);
-    height: calc(247.64px*2);
-    background-color: aqua;
-    // canvas{
-
-    // }
-  }
-
-}
-
-
-// .boox{
-//     font-size: 18px;
-//     height: 100%;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// }
