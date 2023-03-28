@@ -68,7 +68,7 @@
             </template>
             BET
           </n-button>
-          <n-button v-else :disabled="money == 0" color="#8a2be2" class="over-btn" @click="begin">
+          <n-button v-else :disabled="money == 0" color="#8a2be2" class="over-btn" @click="overGame">
             <template #default>
               <div class="over-btn-text">CASH OUT</div>
               <div class="over-btn-text2">{{ money }}USD</div>
@@ -206,6 +206,18 @@ export default defineComponent({
       // EventBus.fire('OVER_GAME')
     };
 
+    const overGame = () => {
+      EventBus.fire('OVER_GAME')
+      state.isBegin = false
+      state.money = 0
+      state.percentage = 0
+      usd.value = 1
+      state.isDisabled = true;
+        setTimeout(() => {
+          state.isDisabled = false;
+        }, 600);
+    }
+
     const random = throttle(() => {
       if (state.isBegin) {
         EventBus.fire("RANDOM");
@@ -253,6 +265,7 @@ export default defineComponent({
       showPop,
       usd,
       overlap,
+      overGame,
       showDownList,
       chiceMines,
       begin,
