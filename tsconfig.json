@@ -23,7 +23,7 @@
     "noImplicitThis": true,
     "removeComments": false,
     "strictFunctionTypes": false,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "types": ["vite/client", "node","unplugin-vue-define-options"],
     "typeRoots": ["./node_modules/@types/", "./types"],
     "paths": {

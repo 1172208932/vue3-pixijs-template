@@ -32,7 +32,7 @@
         <div class="Auto RANDOM">
           <img src="@/assets/reflush.png" />
           <n-space>
-            <n-switch v-model:value="autoSwitch"  @update:value="switchChange" size="small" />
+            <n-switch v-model:value="autoSwitch" :disabled="gameStart"  @update:value="switchChange" size="small" />
           </n-space>
           <div class="auto">Auto Game</div>
         </div>
@@ -124,21 +124,22 @@ import {
 } from "vue";
 import { SOUND_TYPE } from "./soundEnum";
 import { PixiEngine } from "./systems/engine";
-import "@/components/questionPop.vue";
+import QuestionPop from "../../components/questionPop.vue";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
   components: {
-    // questionPop
+    QuestionPop
   },
   setup(props, { emit }: SetupContext) {
+    let mines = ref<number>(1);
+    let usd = ref<number>(1);
     let audio = ref<any>(null);
     let showDown = ref<boolean>(false);
     let showPop = ref<boolean>(false);
-    let mines = ref<number>(1);
-    let usd = ref<number>(1);
+    let gameStart = ref<boolean>(false);
     let overlap = ref(false);
     let autoSwitch = ref(false)
     let canSetAuto = ref(false)
@@ -207,11 +208,13 @@ export default defineComponent({
         }, 600);
       }else{
         EventBus.fire('AUTO_SELECT_CLOSE')
+        state.isDisabled = false
         canSetAuto.value = false
       }
     }
 
     const getScore = () => {
+      gameStart.value = true;
       state.money = Number((state.money + usd.value).toFixed(2));
       usd.value = Number((usd.value + 0.2).toFixed(2));
       state.percentage = state.money / 22 * 100
@@ -227,6 +230,8 @@ export default defineComponent({
 
     const overGame = () => {
       EventBus.fire('OVER_GAME')
+      // 游戏结束后把auto的disable取消
+      gameStart.value = false
       state.isBegin = false
       state.money = 0
       state.percentage = 0
@@ -268,10 +273,15 @@ export default defineComponent({
       canSetAuto.value = true
     }
 
+    const closePop = () =>{
+      showPop.value = false
+    }
+
     onMounted(async () => {
       EventBus.on("PLAY_SOUND", playSound);
       EventBus.on("GET_STARE", getScore);
       EventBus.on("CAN_AUTO_SET", setAutoConfig);
+      EventBus.on("CLOSEPOP", closePop);
 
 
       await PixiEngine.init(836, 648);
@@ -291,6 +301,7 @@ export default defineComponent({
       usd,
       overlap,
       autoSwitch,
+      gameStart,
       switchChange,
       overGame,
       showDownList,
