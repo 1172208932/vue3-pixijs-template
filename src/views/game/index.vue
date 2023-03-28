@@ -26,13 +26,13 @@
     <div class="boox">
       <div class="game-box" id="canvas" ref="canvasRef"></div>
     </div>
-    <div style="position: absolute;bottom: 11px;width: 100%;">
+    <div style="position: absolute;bottom: 5px;width: 100%;">
       <div class="bottomBtns">
         <div class="RANDOM" @click="random">RANDOM</div>
         <div class="Auto RANDOM">
           <img src="@/assets/reflush.png" />
           <n-space>
-            <n-switch size="small" />
+            <n-switch v-model:value="autoSwitch"  @update:value="switchChange" size="small" />
           </n-space>
           <div class="auto">Auto Game</div>
         </div>
@@ -81,7 +81,7 @@
             <input />
           </div>
           <div class="round roundSmall">-</div>
-          <div class="round"><img src="@/assets/moeny.png" /></div>
+          <div class="round"><img class="pc-money-icon" src="@/assets/moeny.png" /></div>
           <div class="round roundSmall">+</div>
         </div>
       </div>
@@ -140,6 +140,8 @@ export default defineComponent({
     let mines = ref<number>(1);
     let usd = ref<number>(1);
     let overlap = ref(false);
+    let autoSwitch = ref(false)
+    let canSetAuto = ref(false)
     const gradeList = Array.from(Array(20), (d, i) => i + 1);
     const state: {
       audioUrl: string;
@@ -193,6 +195,21 @@ export default defineComponent({
         showDown.value = false;
       }, 200);
     };
+    /**
+     * 自动切换
+     */
+    const switchChange = (value: boolean)=>{
+      if(value){
+        state.isDisabled = true;
+        setTimeout(() => {
+          audio.value.play();
+          EventBus.fire('AUTO_SELECT')
+        }, 600);
+      }else{
+        EventBus.fire('AUTO_SELECT_CLOSE')
+        canSetAuto.value = false
+      }
+    }
 
     const getScore = () => {
       state.money = Number((state.money + usd.value).toFixed(2));
@@ -201,6 +218,9 @@ export default defineComponent({
     }
 
     const againGame = () => {
+      if( canSetAuto.value){
+        showPop.value = true
+      }
       // EventBus.fire('AGAIN_GAME')
       // EventBus.fire('OVER_GAME')
     };
@@ -244,9 +264,15 @@ export default defineComponent({
       }
     };
 
+    const setAutoConfig = ()=>{
+      canSetAuto.value = true
+    }
+
     onMounted(async () => {
       EventBus.on("PLAY_SOUND", playSound);
       EventBus.on("GET_STARE", getScore);
+      EventBus.on("CAN_AUTO_SET", setAutoConfig);
+
 
       await PixiEngine.init(836, 648);
       const canvasInfo = PixiEngine.getCanvas();
@@ -264,6 +290,8 @@ export default defineComponent({
       showPop,
       usd,
       overlap,
+      autoSwitch,
+      switchChange,
       overGame,
       showDownList,
       chiceMines,

@@ -7,13 +7,18 @@ import EventBus from '@/utils/eventbus';
 let PixiApp: PIXI.Application;
 let back, front;
 let cardList;
-let isBegin = false
+let isBegin = false;
+let isAutoSelect = false;
 export const PixiEngine = {
     init(width: number, height: number) {
         if (typeof PixiApp !== 'undefined') {
             PixiApp.destroy();
         }
         EventBus.on('BEGIN_GAME', this.beginGame, this)
+        EventBus.on('AUTO_SELECT', this.autoSelect, this)
+        EventBus.on('AUTO_SELECT_CLOSE', this.autoSelectClose, this)
+
+        
         EventBus.on('AGAIN_GAME', this.againGame, this)
         EventBus.on('OVER_GAME', this.gameOver, this)
         EventBus.on('RANDOM', this.randomClick, this)
@@ -67,6 +72,11 @@ export const PixiEngine = {
         }
         isBegin = false
         const [front, back] = card.children;
+        if(isAutoSelect){
+            back.texture = PIXI.utils.TextureCache['mc_selected']
+            isBegin = true
+            return
+        }
         back.texture = PIXI.utils.TextureCache['mc_loading']
         setTimeout(async () => {
             let backCard = await playFlipAnimation(FLIP_TYPE.FRONT, card)
@@ -114,6 +124,17 @@ export const PixiEngine = {
             back.texture = PIXI.utils.TextureCache['mc_unrevealed']
         })
         isBegin = true
+    },
+    autoSelect(){
+        this.beginGame()
+        isAutoSelect = true
+    },
+    autoSelectClose(){
+        cardList.forEach((item, index) => {
+            const [front, back] = item.children;
+            back.texture = PIXI.utils.TextureCache['mc_loading']
+        })
+        isAutoSelect = false
     },
     againGame() {
         cardList.forEach((item) => {

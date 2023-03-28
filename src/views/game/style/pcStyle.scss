@@ -182,15 +182,13 @@
     }
   }
   
-  .mean {
-    width: 29PX;
-    height: 29PX;
-  }
+
   
   .boox {
     display: flex;
     justify-content: center;
-    margin-top: 13vh;
+    margin-top: 10PX;
+    margin-bottom: 180PX;
   
     .game-box {
       width: calc(422PX);
@@ -316,34 +314,52 @@
   
   .round {
     border-radius: 50%;
-    width: 38PX;
-    height: 36PX;
+    width: 24PX;
+    height: 24PX;
     font-size: 20PX;
+    line-height: 25PX;
     color: #fff;
     background-color: #0267a5 !important;
     border: 1PX solid rgba(0, 0, 0, .53);
     box-shadow: inset 1PX 1PX #fff1cd33;
     // margin-right: 14PX;
   }
+
+  .pc-money-icon{
+    width: 20PX !important;
+    height: 20PX !important;
+    position: relative;
+    top: -2PX;
+    left: 1PX;
+  }
   
   .roundSmall {
-    width: 34PX !important;
-    height: 30PX !important;
+    width: 24PX !important;
+    height: 24PX !important;
+  }
+
+  .mean {
+    position: relative;
+    width: 10PX;
+    height: 10PX;
+    top: -2PX;
   }
   
   .bottomPart {
     position: relative;
     display: flex;
     color: #fff;
-  
+    font-size: 12PX;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12PX;
     p {
       display: inline-block;
       color: #ffffff80 !important
     }
   
     .wen {
-      width: 40PX;
-      height: 40PX;
+      width: 18PX;
+      height: 18PX;
       margin: 5PX 0 0 17PX;
     }
   }

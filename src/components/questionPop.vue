@@ -24,6 +24,12 @@ defineComponent({
 </script>
 
 <style scoped>
+.gray{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 740px;
+}
 a {
   color: #42b983;
 }
