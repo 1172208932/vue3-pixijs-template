@@ -1,45 +1,26 @@
 <template>
-  <h1>{{ msg }}</h1>
-
-
-  Recommended IDE setup:
-  <div @click="handleNodeClick">模板项目预览</div>
-  +
-  <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-
-
-  <p>See <code>README.md</code> for more information.</p>
-
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Docs
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
-  </p>
-
-  <button type="button" @click="count++">count is: {{ count }}</button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+  <div class="gray">
+    <div class="popModule">
+      <div class="title">
+        <p>AUTO PLAY</p>
+        <img src="../assets/close.png" alt="">
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router';
+import { ref, defineComponent } from 'vue'
+defineComponent({
+  name: "questionPop",
+  components: {
+    // questionPop
+  },
+})
+// import { useRouter, useRoute } from 'vue-router';
 
-defineProps<{ msg: string }>()
+// defineProps<{ }>()
 
-const router = useRouter();
-const route = useRoute();
-
-const count = ref(0)
-
-// 点击当前节点
-const handleNodeClick = () => {
-  router.replace('/game');
-};
 </script>
 
 <style scoped>

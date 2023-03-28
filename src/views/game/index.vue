@@ -106,10 +106,9 @@
             Who kicks a hole in the sky so the heaven cry over me.
           </div>
         </n-popover>
-
       </div>
     </div>
-    <!-- <question-pop v-if="showPop" :msg=""></question-pop> -->
+    <question-pop v-if="showPop"></question-pop>
   </div>
 </template>
 
@@ -125,14 +124,14 @@ import {
 } from "vue";
 import { SOUND_TYPE } from "./soundEnum";
 import { PixiEngine } from "./systems/engine";
-// import "../../components/questionPop.vue"
+import "@/components/questionPop.vue";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
   components: {
-
+    // questionPop
   },
   setup(props, { emit }: SetupContext) {
     let audio = ref<any>(null);
@@ -140,7 +139,7 @@ export default defineComponent({
     let showPop = ref<boolean>(false);
     let mines = ref<number>(1);
     let usd = ref<number>(1);
-    let overlap = ref(false)
+    let overlap = ref(false);
     const gradeList = Array.from(Array(20), (d, i) => i + 1);
     const state: {
       audioUrl: string;
