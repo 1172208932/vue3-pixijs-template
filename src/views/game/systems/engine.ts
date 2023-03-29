@@ -75,6 +75,7 @@ export const PixiEngine = {
         if(isAutoSelect){
             back.texture = PIXI.utils.TextureCache['mc_selected']
             isBegin = true
+            EventBus.fire('CAN_AUTO_SET')
             return
         }
         back.texture = PIXI.utils.TextureCache['mc_loading']
@@ -126,6 +127,12 @@ export const PixiEngine = {
         isBegin = true
     },
     autoSelect(){
+        cardList.forEach((item) => {
+            item.destroy()
+        });
+        let arr = new Array(22).fill(1).concat(new Array(3).fill(3))
+        cardList = shuffle(arr)
+        this.addCards()
         this.beginGame()
         isAutoSelect = true
     },

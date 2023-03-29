@@ -32,7 +32,7 @@
         <div class="Auto RANDOM">
           <img src="@/assets/reflush.png" />
           <n-space>
-            <n-switch v-model:value="autoSwitch" :disabled="gameStart"  @update:value="switchChange" size="small" />
+            <n-switch v-model:value="autoSwitch" :disabled="isBegin" @update:value="switchChange" size="small" />
           </n-space>
           <div class="auto">Auto Game</div>
         </div>
@@ -91,7 +91,7 @@
           <span class="centered-xy"> Mines</span>
           <img src="../../assets/shapeDown.png" />
         </button>
-        <img class="wen" src="../../assets/wenhao.png" />
+        <img @click="showPopRule" class="wen" src="../../assets/wenhao.png" />
         <div style="position: absolute; right: 68px; bottom: 0">
           2999.53
           <p>USD</p>
@@ -109,6 +109,7 @@
       </div>
     </div>
     <question-pop v-if="showPop"></question-pop>
+    <rule-pop v-if="showRulePop"></rule-pop>
   </div>
 </template>
 
@@ -119,19 +120,21 @@ import {
   toRefs,
   onMounted,
   SetupContext,
-  Ref,
   ref,
 } from "vue";
 import { SOUND_TYPE } from "./soundEnum";
 import { PixiEngine } from "./systems/engine";
 import QuestionPop from "../../components/questionPop.vue";
+import RulePop from "../../components/rulePop.vue";
+
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
   components: {
-    QuestionPop
+    QuestionPop,
+    RulePop
   },
   setup(props, { emit }: SetupContext) {
     let mines = ref<number>(1);
@@ -139,6 +142,9 @@ export default defineComponent({
     let audio = ref<any>(null);
     let showDown = ref<boolean>(false);
     let showPop = ref<boolean>(false);
+    let showRulePop = ref<boolean>(false);
+
+      
     let gameStart = ref<boolean>(false);
     let overlap = ref(false);
     let autoSwitch = ref(false)
@@ -199,14 +205,17 @@ export default defineComponent({
     /**
      * 自动切换
      */
-    const switchChange = (value: boolean)=>{
-      if(value){
+    const switchChange = (value: boolean) => {
+      if(state.isBegin){
+        return
+      }
+      if (value) {
         state.isDisabled = true;
         setTimeout(() => {
           audio.value.play();
           EventBus.fire('AUTO_SELECT')
         }, 600);
-      }else{
+      } else {
         EventBus.fire('AUTO_SELECT_CLOSE')
         state.isDisabled = false
         canSetAuto.value = false
@@ -221,11 +230,9 @@ export default defineComponent({
     }
 
     const againGame = () => {
-      if( canSetAuto.value){
+      if (canSetAuto.value) {
         showPop.value = true
       }
-      // EventBus.fire('AGAIN_GAME')
-      // EventBus.fire('OVER_GAME')
     };
 
     const overGame = () => {
@@ -237,9 +244,9 @@ export default defineComponent({
       state.percentage = 0
       usd.value = 1
       state.isDisabled = true;
-        setTimeout(() => {
-          state.isDisabled = false;
-        }, 600);
+      setTimeout(() => {
+        state.isDisabled = false;
+      }, 600);
     }
 
     const random = throttle(() => {
@@ -269,12 +276,17 @@ export default defineComponent({
       }
     };
 
-    const setAutoConfig = ()=>{
+    const setAutoConfig = () => {
       canSetAuto.value = true
     }
 
-    const closePop = () =>{
+    const closePop = () => {
       showPop.value = false
+      showRulePop.value = false
+    }
+
+    const showPopRule = ()=>{
+      showRulePop.value = true
     }
 
     onMounted(async () => {
@@ -298,10 +310,12 @@ export default defineComponent({
       audio,
       mines,
       showPop,
+      showRulePop,
       usd,
       overlap,
       autoSwitch,
       gameStart,
+      showPopRule,
       switchChange,
       overGame,
       showDownList,
@@ -315,11 +329,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-// @import "./style/common";
-// @import "./style/test";
+@import "./style/common";
 
 @media screen and (max-width: 769px) {
-  @import "./style/common";
+  @import "./style/mobileStyle";
 }
 
 @media screen and (min-width: 769px) {
