@@ -88,6 +88,9 @@ function close() {
 </script>
   
 <style scoped>
+
+@media screen and (max-width: 769px) {
+ 
 .title-rule {
     display: flex;
     justify-content: center;
@@ -118,5 +121,41 @@ function close() {
     text-align: center;
     margin-bottom: 50px;
 }
+}
+
+@media screen and (min-width: 769px) {
+ 
+.title-rule {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20PX;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #fff;
+    margin-top: 20PX;
+    margin-bottom: 20PX;
+}
+.example{
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    margin-bottom: 20PX;
+    margin-left: auto;
+    margin-right: auto;
+    width: 180PX;
+    height: 180PX;
+}
+
+.text{
+    font-size: 13PX;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20PX;
+}
+}
+
 </style>
   
