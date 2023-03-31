@@ -87,10 +87,16 @@
       </div>
 
       <div class="bottomPart">
-        <button class="btn-game" style="height: 25px !important">
+        <n-popover trigger="click" raw :show-arrow="false">
+          <template #trigger>
+            <button class="btn-game" style="height: 25px !important">
           <span class="centered-xy"> Mines</span>
           <img src="../../assets/shapeDown.png" />
         </button>
+          </template>
+            <MinesJump></MinesJump>
+        </n-popover>
+
         <img @click="showPopRule" class="wen" src="../../assets/wenhao.png" />
         <div style="position: absolute; right: 68px; bottom: 0">
           2999.53
@@ -103,7 +109,14 @@
             </div>
           </template>
           <div class="large-text2">
-            Who kicks a hole in the sky so the heaven cry over me.
+            <div _ngcontent-usm-c63="" class="d-flex align-items-center"><span _ngcontent-usm-c63="" class="text-truncate username">demo_46542</span></div>
+            <div class="meau-item">
+              <div class="meau-text">
+                <i _ngcontent-usm-c63="" class="ml-3icon volume"></i>
+                <div _ngcontent-usm-c63="" class="ml-2">Sound</div>
+              </div>
+              <n-switch size="small" />
+            </div>
           </div>
         </n-popover>
       </div>
@@ -126,6 +139,8 @@ import { SOUND_TYPE } from "./soundEnum";
 import { PixiEngine } from "./systems/engine";
 import QuestionPop from "../../components/questionPop.vue";
 import RulePop from "../../components/rulePop.vue";
+import MinesJump from "../../components/minesJump.vue";
+
 
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
@@ -134,7 +149,8 @@ export default defineComponent({
   name: "gameIndex",
   components: {
     QuestionPop,
-    RulePop
+    RulePop,
+    MinesJump
   },
   setup(props, { emit }: SetupContext) {
     let mines = ref<number>(1);

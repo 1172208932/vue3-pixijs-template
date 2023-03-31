@@ -1,6 +1,6 @@
 .large-text2 {
     padding: 0;
-    width: 600PX;
+    width: 300PX;
     border-color: #212226;
     background-color: #212226;
     transform-origin: inherit;
@@ -536,4 +536,37 @@
 
 .disabled{
   pointer-events: none; 
+}
+
+
+
+.large-text2{
+  padding: 10PX;
+  .text-truncate{
+    color: #fff;
+  }
+  .meau-item{
+    background-color: #0003;
+    border-color: #082130;
+    color: #c6d6e0;
+    height: 19PX;
+    line-height: 19PX;
+    justify-content: space-between!important;
+    display: flex!important;
+    
+  }
+  .meau-text{
+    display: flex;
+  }
+  .ml-3icon{
+    display: inline-block;
+    width: 18PX;
+    height: 15PX;
+    margin-top: 1PX;
+    background-image: url('https://turbo.spribegaming.com/icon-volume.51f0459605884b08.svg');
+    margin: 4PX 4PX 2PX 5PX;
+  }
+  .ml-2{
+    line-height: 24PX;
+  }
 }

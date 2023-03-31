@@ -85,7 +85,7 @@ function showbottom(){
 }
 
 function close(){
-  EventBus.fire("CLOSEPOP")
+  EventBus.fire("CLOSEPOP")  
 }
 </script>
 
