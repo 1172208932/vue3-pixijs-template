@@ -570,3 +570,46 @@
     line-height: 24PX;
   }
 }
+
+
+.shadow2 {
+  position: absolute;
+  top: -200PX;
+  right: 124PX;
+  z-index: 999;
+  will-change: transform;
+  transform: translate(0PX, 13PX);
+  height: 225PX;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #c6d6e0;
+  border-color: #082130;
+  background: #032e49;
+  display: grid;
+  grid-column:span 2;
+  grid-template-columns: 140PX 140PX;	
+  border-radius: 9PX !important;
+  min-width: 5rem;
+  padding: 8PX 0;
+
+  li {
+    text-align: center;
+    border: solid 1PX rgba(0, 0, 0, .43);
+    border-radius: 9PX;
+    width: 130PX;
+    font-size: 6PX;
+    background-color: #094164;
+    margin: 0 auto;
+    list-style: none;
+    margin-bottom: 7PX;
+    font-weight: bold;
+  }
+
+  .clickTab {
+    background: #0267a5 !important;
+  }
+}
+
+.item1{
+  grid-column: 1 / 3;
+}

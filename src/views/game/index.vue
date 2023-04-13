@@ -1,6 +1,7 @@
 <template>
   <div class="box">
     <audio ref="audio" :src="audioUrl"></audio>
+    <audio :id="'play'+i" :src="SOUND_LIST[i]" v-for="(item,i) in SOUND_LIST" :key="i" preload="true"></audio>
     <div class="top">
       <!-- 等级 -->
       <button class="btn-game" @click="() => showDownList()">
@@ -81,20 +82,28 @@
             <input />
           </div>
           <div class="round roundSmall">-</div>
-          <div class="round"><img class="pc-money-icon" src="@/assets/moeny.png" /></div>
+          <div @click="showMenusList" class="round"><img class="pc-money-icon" src="@/assets/moeny.png" /></div>
           <div class="round roundSmall">+</div>
         </div>
       </div>
+
+      <!-- 菜单 -->
+      <ul v-if="showMenus" class="shadow2 dropdown-list-number dropdown-menu show">
+        <div class="item1">Bit Usb</div>
+        <li v-for="(item, index) in gradeList2" :key="index" :class="mines === item ? 'clickTab' : ''">
+          {{ item }}
+        </li>
+      </ul>
 
       <div class="bottomPart">
         <n-popover trigger="click" raw :show-arrow="false">
           <template #trigger>
             <button class="btn-game" style="height: 25px !important">
-          <span class="centered-xy"> Mines</span>
-          <img src="../../assets/shapeDown.png" />
-        </button>
+              <span class="centered-xy"> Mines</span>
+              <img src="../../assets/shapeDown.png" />
+            </button>
           </template>
-            <MinesJump></MinesJump>
+          <MinesJump></MinesJump>
         </n-popover>
 
         <img @click="showPopRule" class="wen" src="../../assets/wenhao.png" />
@@ -109,7 +118,8 @@
             </div>
           </template>
           <div class="large-text2">
-            <div _ngcontent-usm-c63="" class="d-flex align-items-center"><span _ngcontent-usm-c63="" class="text-truncate username">demo_46542</span></div>
+            <div _ngcontent-usm-c63="" class="d-flex align-items-center"><span _ngcontent-usm-c63=""
+                class="text-truncate username">demo_46542</span></div>
             <div class="meau-item">
               <div class="meau-text">
                 <i _ngcontent-usm-c63="" class="ml-3icon volume"></i>
@@ -135,7 +145,7 @@ import {
   SetupContext,
   ref,
 } from "vue";
-import { SOUND_TYPE } from "./soundEnum";
+import { SOUND_TYPE,SOUND_LIST } from "./soundEnum";
 import { PixiEngine } from "./systems/engine";
 import QuestionPop from "../../components/questionPop.vue";
 import RulePop from "../../components/rulePop.vue";
@@ -157,15 +167,19 @@ export default defineComponent({
     let usd = ref<number>(1);
     let audio = ref<any>(null);
     let showDown = ref<boolean>(false);
+    let showMenus = ref<boolean>(false);
+
     let showPop = ref<boolean>(false);
     let showRulePop = ref<boolean>(false);
 
-      
+
     let gameStart = ref<boolean>(false);
     let overlap = ref(false);
     let autoSwitch = ref(false)
     let canSetAuto = ref(false)
     const gradeList = Array.from(Array(20), (d, i) => i + 1);
+    const gradeList2 = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.2, 2, 4, 10, 20, 50, 100];
+
     const state: {
       audioUrl: string;
       percentage: number;
@@ -205,8 +219,13 @@ export default defineComponent({
     };
 
     const showDownList = () => {
+      playSound({detail:'mines3'})
       showDown.value = !showDown.value;
     };
+
+    const showMenusList = () => {
+      showMenus.value = !showMenus.value;
+    }
 
     /**
      * 切换
@@ -222,9 +241,11 @@ export default defineComponent({
      * 自动切换
      */
     const switchChange = (value: boolean) => {
-      if(state.isBegin){
+      if (state.isBegin) {
         return
       }
+      playSound({detail:'switch'})
+
       if (value) {
         state.isDisabled = true;
         setTimeout(() => {
@@ -289,6 +310,18 @@ export default defineComponent({
             usd.value = 1
           })
           break
+        case 'mines3':
+        state.audioUrl = SOUND_TYPE.MINES3;
+          nextTick(() => {
+            audio.value.play();
+          });
+          break
+        case 'switch':
+        state.audioUrl = SOUND_TYPE.SWITCH;
+          nextTick(() => {
+            audio.value.play();
+          });
+          break
       }
     };
 
@@ -301,7 +334,7 @@ export default defineComponent({
       showRulePop.value = false
     }
 
-    const showPopRule = ()=>{
+    const showPopRule = () => {
       showRulePop.value = true
     }
 
@@ -310,7 +343,10 @@ export default defineComponent({
       EventBus.on("GET_STARE", getScore);
       EventBus.on("CAN_AUTO_SET", setAutoConfig);
       EventBus.on("CLOSEPOP", closePop);
-
+      // SOUND_LIST.forEach((elm,index) => {
+      //                   this.audio[index] = document.getElementById(`${'play'+index}`)
+      //                   this.audioUrlArr.push(elm)
+      //                });
 
       await PixiEngine.init(836, 648);
       const canvasInfo = PixiEngine.getCanvas();
@@ -321,7 +357,9 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      SOUND_LIST,
       gradeList,
+      gradeList2,
       showDown,
       audio,
       mines,
@@ -331,6 +369,7 @@ export default defineComponent({
       overlap,
       autoSwitch,
       gameStart,
+      showMenus,
       showPopRule,
       switchChange,
       overGame,
@@ -339,6 +378,7 @@ export default defineComponent({
       begin,
       againGame,
       random,
+      showMenusList,
     };
   },
 });
