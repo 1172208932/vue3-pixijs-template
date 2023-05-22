@@ -35,4 +35,7 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+.van-popup{
+    background: none !important;
+}
 </style>
