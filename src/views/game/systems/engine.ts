@@ -3,13 +3,21 @@ import * as TWEEN from "@tweenjs/tween.js";
 import { playFlipAnimation, FLIP_TYPE, playFipAllAnimation } from "./animation";
 import { shuffle } from "./utils"
 import EventBus from '@/utils/eventbus';
+import World from './World';
+import Matter from './Matter';
 
 let PixiApp: PIXI.Application;
 let back, front;
 let cardList;
 let isBegin = false;
 let isAutoSelect = false;
-export const PixiEngine = {
+export default class PixiEngine  {
+    public world: World;
+    public engine: any;
+
+    constructor(width: number, height: number){
+        this.init(width,height)
+    }
     init(width: number, height: number) {
         if (typeof PixiApp !== 'undefined') {
             PixiApp.destroy();
@@ -24,25 +32,55 @@ export const PixiEngine = {
         EventBus.on('RANDOM', this.randomClick, this)
 
         
-        PixiApp = new PIXI.Application({ width, height, backgroundColor: 0x136FCE });
-        function animate(time) {
-            requestAnimationFrame(animate)
-            TWEEN.update(time)
-        }
-        requestAnimationFrame(animate)
+        PixiApp = new PIXI.Application({ width, height, transparent: true });
+        // function animate(time) {
+        //     requestAnimationFrame(animate)
+        //     TWEEN.update(time)
+        // }
+        // requestAnimationFrame(animate)
+        this.engine = Matter.Engine.create();
+        this.engine.gravity.y = 0
+        this.world = new World(this.engine, PixiApp);
+
+        Matter.Engine.run(this.engine);
+
+        const debugRender = Matter.Render.create({
+            element: document.querySelector(".game-box"),
+            engine: this.engine,
+            options: {
+              width: 750,
+              height: 1400,
+              showCollisions: true,
+              showVelocity: true
+            }
+          });
+          Matter.Render.run(debugRender);
+          console.log( document.querySelector(".game-box"))
+          setTimeout(()=>{
+            document.querySelector(".game-box").querySelector(":nth-child(1)").style.opacity = 0.3
+
+          },1000)
+        
         this.initgame()
-    },
+    }
 
     initgame() {
-        let arr = new Array(22).fill(1).concat(new Array(3).fill(3))
-        cardList = shuffle(arr)
+        // let arr = new Array(22).fill(1).concat(new Array(3).fill(3))
+        // cardList = shuffle(arr)
         const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
         const loader = new PIXI.Loader();
-        // `${isTextUrl}bird/mines@2x.json`
-        loader.add(`${isTextUrl}bird/min.json`).load(() => {
-            this.addCards()
+        `${isTextUrl}bird/mines@2x.json`
+        loader.add('barrier',`${isTextUrl}barrier.png`)
+        loader.add('gold',`https://ysupup.oss-cn-hangzhou.aliyuncs.com/gold.png`)
+        // loader.add(`${isTextUrl}bird/min.json`)
+        loader.load(() => {
+            setTimeout(()=>{
+                this.world.addPlayer()
+                this.world.addGold()
+            },2000)
+            // this.addCards()
         })
-    },
+    }
 
     addCards() {
         cardList.forEach((item, index) => {
@@ -65,7 +103,7 @@ export const PixiEngine = {
             });
             PixiApp.stage.addChild(contor);
         })
-    },
+    }
     onCardClick(card) {
         if (!isBegin) {
             return
@@ -94,7 +132,7 @@ export const PixiEngine = {
             }
             isBegin = true
         }, 500)
-    },
+    }
     randomClick(){
         let filerList = cardList.filter((item)=>{
             return item['front'] == false
@@ -118,14 +156,14 @@ export const PixiEngine = {
             isBegin = true
         }, 500)
        
-    },
+    }
     beginGame() {
         cardList.forEach((item, index) => {
             const [front, back] = item.children;
             back.texture = PIXI.utils.TextureCache['mc_unrevealed']
         })
         isBegin = true
-    },
+    }
     autoSelect(){
         cardList.forEach((item) => {
             item.destroy()
@@ -135,14 +173,14 @@ export const PixiEngine = {
         this.addCards()
         this.beginGame()
         isAutoSelect = true
-    },
+    }
     autoSelectClose(){
         cardList.forEach((item, index) => {
             const [front, back] = item.children;
             back.texture = PIXI.utils.TextureCache['mc_loading']
         })
         isAutoSelect = false
-    },
+    }
     againGame() {
         cardList.forEach((item) => {
             item.destroy()
@@ -153,12 +191,12 @@ export const PixiEngine = {
         setTimeout(() => {
             this.beginGame()
         }, 500)
-    },
+    }
 
     gameOver() {
         isBegin = false
         playFipAllAnimation(FLIP_TYPE.FRONT, cardList)
-    },
+    }
     createCard(type) {
         let contor = new PIXI.Container()
         let fornt;
@@ -181,7 +219,7 @@ export const PixiEngine = {
         back.anchor.y = 0.5
         contor.addChild(back)
         return contor
-    },
+    }
 
     get() {
         if (typeof PixiApp === 'undefined') {
@@ -189,8 +227,8 @@ export const PixiEngine = {
         }
 
         return PixiApp;
-    },
+    }
     getCanvas() {
         return PixiApp.view;
-    },
+    }
 };

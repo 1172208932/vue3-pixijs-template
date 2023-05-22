@@ -8,8 +8,17 @@
 	-ms-overflow-style: none;
 }
 
-/*for 0 x 769*/
-.box {
+
+.box{
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	position: absolute;
+	left: 0px;
+	top:0px;
+}
+
+.bg {
 	overflow: hidden;
 	width: 100vw;
 	height: 1624px;
@@ -22,10 +31,24 @@
   }
   
   .rand{
-	background: url(../../../assets/road.png) no-repeat center;
+	background: url('@/assets/road.png') no-repeat center;
 	  background-size: 750px 1280px;
 	width: 750px;
 	height: 1280px;
 	position: absolute;
 	bottom: 0px;
+  }
+
+  .game-box {
+    width: calc(750px);
+	background-color: rgba($color: #000000, $alpha: .5);
+	height: 1334px;
+	position: absolute;
+	bottom: 0px;
+    canvas {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+      width: 100%;
+    }
   }

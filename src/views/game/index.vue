@@ -1,6 +1,8 @@
 <template>
   <div class="box">
+    <div class="bg"></div>
     <div class="rand"></div>
+    <div class="game-box" id="canvas" ref="canvasRef"></div>
   </div>
 </template>
 
@@ -14,7 +16,7 @@ import {
   ref,
 } from "vue";
 import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
-import { PixiEngine } from "./systems/engine";
+import  PixiEngine  from "./systems/engine";
 import QuestionPop from "../../components/questionPop.vue";
 import RulePop from "../../components/rulePop.vue";
 import MinesJump from "../../components/minesJump.vue";
@@ -216,9 +218,9 @@ export default defineComponent({
       // //                   this.audioUrlArr.push(elm)
       // //                });
 
-      // await PixiEngine.init(836, 648);
-      // const canvasInfo = PixiEngine.getCanvas();
-      // document.querySelector("#canvas")!.appendChild(canvasInfo);
+      let PixiEngineObj = new  PixiEngine(750, 1400);
+      const canvasInfo = PixiEngineObj.getCanvas();
+      document.querySelector("#canvas")!.appendChild(canvasInfo);
     });
 
 
