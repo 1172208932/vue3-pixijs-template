@@ -1,5 +1,5 @@
 <template>
-  <van-popup v-model:show="showPopup" closeable position="bottom" title="标题">
+  <van-popup v-model:show="showPopup" position="bottom" title="标题">
     <div class="taskBg">
       <div class="taskList">
         <p class="title">分享活动</p>
@@ -11,22 +11,21 @@
 </template>
   
 <script setup lang="ts">
-import { ref, defineComponent , onMounted, watch} from "vue";
+import { ref, defineComponent, onMounted, watch } from "vue";
 import EventBus from "@/utils/eventbus";
+const props = defineProps({
+  show: Boolean,
+});
 
-export default defineComponent({
-  setup(props, { emit }) {
-    let showPopup = ref<boolean>(false);
+let showPopup = ref<boolean>(false);
 
-
-
-    return {
-      showPopup
-    };
-  },
+watch(props, (newProps) => {
+  console.log(newProps,'--new')
+  showPopup.value = newProps.show;
 });
 
 
+onMounted(() => {});
 </script>
   
 <style scoped>

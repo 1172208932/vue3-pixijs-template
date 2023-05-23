@@ -7,7 +7,7 @@
     </div>
   </div>
   <rule-pop :show="showRulePop"></rule-pop>
-  <task-Pop ref="taskPop" :show="showTaskPop"></task-Pop>
+  <task-Pop v-model:show="showTaskPop" @close="closePop"></task-Pop>
 </template>
 
 <script lang="ts">
@@ -33,7 +33,6 @@ export default defineComponent({
     let showRulePop = ref<boolean>(false);
     let showTaskPop = ref<boolean>(false);
   
-    const taskPop = ref()
     const state: {
     } = reactive({
     });
@@ -43,7 +42,8 @@ export default defineComponent({
     };
 
     const showTask = () => {
-      taskPop.value.showPop()
+      showTaskPop.value = true;
+
     }
 
     const closePop = () => {
