@@ -27,6 +27,7 @@
     "unplugin-auto-import": "^0.9.2",
     "unplugin-vue-components": "^0.21.0",
     "unplugin-vue-define-options": "^0.6.1",
+    "vant": "^4.4.0",
     "vite-plugin-checker": "^0.4.7",
     "vite-plugin-windicss": "^1.8.6",
     "vue": "^3.2.25",
