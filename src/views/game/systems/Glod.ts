@@ -12,9 +12,11 @@ export default class Glod extends PhysicsSprite {
         width: number,
         height: number,
         texture: Texture,
-        num:number
+        num:number,
+        track:number,
+        type
     ) {
-        super(id, engine, category, x, y, width, height, texture);
+        super(id, engine, category, x, y, width, height, texture ,'rectangle',track,num,type);
         this.num = num
     }
 }

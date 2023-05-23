@@ -49,34 +49,28 @@ export default class PhysicsStaticSprite {
 
     private createPhysics = ():  void => {
         let options: any = {
-            frictionAir: 0.2,
-            friction: 1,
-            inertia: Infinity,
-            isSensor: true,
-            label: this._id,
-            mass: 1,
-            restitution: 0,
-            collisionFilter: {
-                mask: this.category
-            }
+            friction: 0.1,
+            frictionAir: 0.1,
+            isSensor: true 
         };
+        // let options: any = {mass: 0, friction: 0, restitution: 0}
 
         if (this.type === 'circle') {
             this._body = Matter.Bodies.circle(this.x, this.y, this.width, options);
         } else {
-            this._body = Matter.Bodies.rectangle(this.x, this.y, this.width, this.height, options);
+            this._body = Matter.Bodies.rectangle(this.x, this.y, this.width, this.height,options);
         }
-        this._body.bodyType = 'glod'
+        this._body.bodyType = 'player'
     }
 
     private createSprite = ():  void => {
         this._sprite = new Sprite(this.texture);
-        this._sprite.anchor.x = 0.5;
-        this._sprite.anchor.y = 0.5;
-        this._sprite.width = 109
-        this._sprite.height = 111
-        this._sprite.scale.x = 0.1
-        this._sprite.scale.y = 0.1
+        this._sprite.anchor.x = 0.3;
+        this._sprite.anchor.y = 0.65;
+        this._sprite.width = 317
+        this._sprite.height = 382
+        this._sprite.position = this._body.position;
+
         }
 
 

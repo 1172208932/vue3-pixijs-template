@@ -1,6 +1,8 @@
 <template>
   <div class="box">
     <div class="bg"></div>
+    <div class="time"></div>
+    <div class="glod"></div>
     <div class="rand"></div>
     <div class="game-box" id="canvas" ref="canvasRef"></div>
   </div>
@@ -17,9 +19,6 @@ import {
 } from "vue";
 import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import  PixiEngine  from "./systems/engine";
-import QuestionPop from "../../components/questionPop.vue";
-import RulePop from "../../components/rulePop.vue";
-import MinesJump from "../../components/minesJump.vue";
 
 
 import EventBus from "@/utils/eventbus";
@@ -27,11 +26,7 @@ import { throttle } from "@/utils/throttle"
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
-  components: {
-    QuestionPop,
-    RulePop,
-    MinesJump
-  },
+
   setup(props, { emit }: SetupContext) {
     let mines = ref<number>(1);
     let usd = ref<number>(1);
