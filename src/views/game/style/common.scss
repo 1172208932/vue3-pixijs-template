@@ -29,10 +29,31 @@
 	// max-width: 375px;
 	// height: 812px;
   }
+
+  .time{
+	background: url('@/assets/count_down.png') no-repeat center;
+	background-size: 139px  140px;
+	width: 139px;
+	height:  140px;
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+  }
+
+  .glod{
+	background: url('@/assets/icon.png') no-repeat center;
+	background-size: 166px  67px;
+	width: 166px;
+	height:  67px;
+	position: fixed;
+	top: 150px;
+	right: 0px;
+  }
   
   .rand{
 	background: url('@/assets/road.png') no-repeat center;
-	  background-size: 750px 1280px;
+	background-size: 750px 1280px;
 	width: 750px;
 	height: 1280px;
 	position: absolute;

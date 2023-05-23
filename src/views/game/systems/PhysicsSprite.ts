@@ -9,6 +9,9 @@ export default class PhysicsSprite {
 
     public x!: number;
     public y!: number;
+    public track: number
+    public num: number
+
 
     public width!: number;
     public height!: number;
@@ -19,10 +22,13 @@ export default class PhysicsSprite {
     public _sprite!: Sprite;
 
     public _body: any;
-
+    bodytype;
     isDestory: false;
     speed: number;
     addSpeed: number
+
+    public glodOffset = [[354,-10],[374,374],[394,754]]
+
 
     constructor(
         id: number | string,
@@ -33,7 +39,10 @@ export default class PhysicsSprite {
         width: number,
         height: number,
         texture: Texture,
-        type: string = 'rectangle'
+        type: string = 'rectangle',
+        track:number,
+        num:number,
+        bodytype
     ) {
         this._id = id;
         this._engine = engine;
@@ -48,6 +57,9 @@ export default class PhysicsSprite {
         this.texture = texture;
         this.type = type;
 
+        this.track = track
+        this.num = num
+        this.bodytype = bodytype
         this.addSpeed = GameConfig.addSpeed
         this.speed = GameConfig.speed
         this.createPhysics()
@@ -71,28 +83,29 @@ export default class PhysicsSprite {
         if (this.type === 'circle') {
             this._body = Matter.Bodies.circle(this.x, this.y, this.width, options);
         } else {
-            this._body = Matter.Bodies.rectangle(this.x, this.y, 109, 111);
+            this._body = Matter.Bodies.rectangle(this.x, this.y, 109, 111,{isSensor:true});
         }
-        this._body.bodyType = 'glod'
+        this._body.bodyType =  this.bodytype 
+        this._body.num = this.num
     }
 
     private createSprite = (): void => {
         this._sprite = new Sprite(this.texture);
         this._sprite.anchor.x = 0.5;
         this._sprite.anchor.y = 0.5;
-        this._sprite.width = 109
-        this._sprite.height = 111
+        // this._sprite.width = 109
+        // this._sprite.height = 111
         this._sprite.scale.x = 0
         this._sprite.scale.y = 0
+        this._sprite.position = this._body.position
     }
 
     setScale = (y) => {
-        // [[354,130][-10, 1230]]
+        //  glodOffset = [[354,-10],[374,374],[394,754]]
         let process = (y - 130) / (1230 - 130);
-        this._body.position.x = 354 - ((354 + 10) * process)
+        this._body.position.x = this.glodOffset[this.track][0]  - ((this.glodOffset[this.track][0] - this.glodOffset[this.track][1] ) * process)
 
         this._sprite.scale.x = this._sprite.scale.y = 1.5 * process
-        console.log(this._body.position.x, this._body.position.y)
 
         this._sprite.position = this._body.position
         this._sprite.rotation = this._body.angle;

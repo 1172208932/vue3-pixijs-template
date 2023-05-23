@@ -2,7 +2,7 @@
   <div class="box">
     <div class="readPage">
       <div class="btns">
-        <span class="run_btn"></span>
+        <span class="run_btn" @click="goGame"></span>
         <span class="read_btn" @click="goRead"></span>
       </div>
     </div>
@@ -39,9 +39,16 @@ export default defineComponent({
       });
     }
 
+    const goGame = () => {
+      router.push({
+        name: "game",
+      });
+    }
+
     return {
       ...toRefs(state),
-      goRead
+      goRead,
+      goGame
     };
   },
 });

@@ -5,12 +5,17 @@ import { shuffle } from "./utils"
 import EventBus from '@/utils/eventbus';
 import World from './World';
 import Matter from './Matter';
+import { throttle } from "@/utils/throttle"
 
 let PixiApp: PIXI.Application;
 let back, front;
 let cardList;
 let isBegin = false;
 let isAutoSelect = false;
+// 定义变量以存储触摸和鼠标事件的初始位置
+let touchStartX = 0;
+let mouseStartX = 0;
+let isMouseDown = false;
 export default class PixiEngine  {
     public world: World;
     public engine: any;
@@ -25,19 +30,17 @@ export default class PixiEngine  {
         EventBus.on('BEGIN_GAME', this.beginGame, this)
         EventBus.on('AUTO_SELECT', this.autoSelect, this)
         EventBus.on('AUTO_SELECT_CLOSE', this.autoSelectClose, this)
-
-        
         EventBus.on('AGAIN_GAME', this.againGame, this)
         EventBus.on('OVER_GAME', this.gameOver, this)
         EventBus.on('RANDOM', this.randomClick, this)
 
         
         PixiApp = new PIXI.Application({ width, height, transparent: true });
-        // function animate(time) {
-        //     requestAnimationFrame(animate)
-        //     TWEEN.update(time)
-        // }
-        // requestAnimationFrame(animate)
+        function animate(time) {
+            requestAnimationFrame(animate)
+            TWEEN.update(time)
+        }
+        requestAnimationFrame(animate)
         this.engine = Matter.Engine.create();
         this.engine.gravity.y = 0
         this.world = new World(this.engine, PixiApp);
@@ -62,7 +65,68 @@ export default class PixiEngine  {
           },1000)
         
         this.initgame()
+        this.addEvent()
     }
+
+    addEvent(){
+        PixiApp.view.addEventListener('touchstart', (event) => {
+            // 获取触摸事件的初始位置
+            touchStartX = event.touches[0].clientX;
+          });
+          PixiApp.view.addEventListener('touchend', (event) => {
+            // 获取触摸事件的结束位置
+            const touchEndX = event.changedTouches[0].clientX;
+          
+            // 计算触摸事件的水平位移
+            const deltaX = touchEndX - touchStartX;
+          
+            // 判断滑动方向
+            if (Math.abs(deltaX) > 50) { // 设置一个阈值，以避免误判
+              if (deltaX > 0) {
+                console.log('向右滑动');
+                this.rightSwitch()
+              } else {
+                this.leftSwitch()
+                console.log('向左滑动');
+              }
+            }
+          });
+          PixiApp.view.addEventListener('mousedown', (event) => {
+            // 获取鼠标事件的初始位置
+            mouseStartX = event.clientX;
+            isMouseDown = true;
+          });
+          PixiApp.view.addEventListener('mouseup', (event) => {
+            if (!isMouseDown) return;
+          
+            // 获取鼠标事件的结束位置
+            const mouseEndX = event.clientX;
+          
+            // 计算鼠标事件的水平位移
+            const deltaX = mouseEndX - mouseStartX;
+          
+            // 判断滑动方向
+            if (Math.abs(deltaX) > 50) { // 设置一个阈值，以避免误判
+              if (deltaX > 0) {
+                console.log('向右滑动');
+                this.rightSwitch()
+              } else {
+                this.leftSwitch()
+                console.log('向左滑动');
+              }
+            }
+            isMouseDown = false;
+          });
+    }
+
+    leftSwitch = throttle(()=>{
+        this.world.playerLeft()
+    },500)
+    rightSwitch= throttle(()=>{
+        this.world.playerRight()
+    },500)
+    
+
 
     initgame() {
         // let arr = new Array(22).fill(1).concat(new Array(3).fill(3))
@@ -71,12 +135,12 @@ export default class PixiEngine  {
         const loader = new PIXI.Loader();
         `${isTextUrl}bird/mines@2x.json`
         loader.add('barrier',`${isTextUrl}barrier.png`)
+        loader.add('ip2',`${isTextUrl}Ip2.png`)
         loader.add('gold',`https://ysupup.oss-cn-hangzhou.aliyuncs.com/gold.png`)
         // loader.add(`${isTextUrl}bird/min.json`)
         loader.load(() => {
             setTimeout(()=>{
-                this.world.addPlayer()
-                this.world.addGold()
+                this.world.addPlayer();
             },2000)
             // this.addCards()
         })
