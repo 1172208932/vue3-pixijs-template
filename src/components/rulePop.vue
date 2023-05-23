@@ -1,5 +1,5 @@
 <template>
-  <van-popup v-model:show="props.show" title="标题">
+  <van-popup v-model:show="showPopup">
     <div class="ruleBg">
 
     </div>
@@ -8,12 +8,17 @@
 </template>
   
 <script setup lang="ts">
-import { ref, defineComponent } from "vue";
+import { ref, watch } from "vue";
 import EventBus from "@/utils/eventbus";
 const props = defineProps({
   show: Boolean,
 });
-console.log(props.show,'-----s')
+
+let showPopup = ref<boolean>(false);
+
+watch(props, (newProps) => {
+  showPopup.value = newProps.show;
+});
 
 function close() {
   EventBus.fire("CLOSEPOP");
@@ -33,7 +38,7 @@ function close() {
 .ruleBg{
     width: 614px;
     height: 884px;
-    background: url('../assets/popup_rules.png') no-repeat top left / 100% 100%;;
+    background: url('../assets/popup_rules.png') no-repeat top left / 100% 100%;
 }
 </style>
   
