@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="homepageFixed">
-      <div class="homePage">
+      <div class="homePage" v-show="begin">
         <canvas id="canvas1"></canvas>
         <img src="../../assets/logo.png" class="titleImg" />
         <span class="rule" @click="showRule"></span>
@@ -26,7 +26,7 @@ import {
 import { useRouter } from "vue-router";
 import { Downloader, Parser, Player } from "svga-web";
 import EventBus from "@/utils/eventbus";
-import RulePop from "../../components/RulePop.vue";
+import RulePop from "@/components/RulePop.vue";
 import TaskPop from "@/components/TaskPop.vue";
 export default defineComponent({
   name: "index",
@@ -38,6 +38,7 @@ export default defineComponent({
     const router = useRouter();
     let showRulePop = ref<boolean>(false);
     let showTaskPop = ref<boolean>(false);
+    let begin = ref<boolean>(false)
 
     const state: {} = reactive({});
 
@@ -77,6 +78,7 @@ export default defineComponent({
         await player.mount(svgaData);
 
         player.start();
+        begin.value = true
       })();
     };
 
@@ -91,6 +93,7 @@ export default defineComponent({
       showTask,
       closePop,
       goGame,
+      begin,
       showRulePop,
       showTaskPop,
     };
