@@ -14,6 +14,7 @@
     </div>
 
   </div>
+<choose-pop v-model:show="showChoosePop"></choose-pop>
 </template>
 
 <script lang="ts">
@@ -27,6 +28,7 @@ import {
 } from "vue";
 import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import  PixiEngine  from "./systems/engine";
+import ChoosePop from "@/components/ChoosePop.vue";
 import { Downloader, Parser, Player } from 'svga-web'
 
 import EventBus from "@/utils/eventbus";
@@ -34,7 +36,9 @@ import { throttle } from "@/utils/throttle"
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
-
+  components: {
+    ChoosePop
+  },
   setup(props, { emit }: SetupContext) {
     let mines = ref<number>(1);
     let usd = ref<number>(1);
@@ -46,7 +50,7 @@ export default defineComponent({
       
 
     let showPop = ref<boolean>(false);
-    let showRulePop = ref<boolean>(false);
+    let showChoosePop = ref<boolean>(true);
     let svgaPath = ref('../../assets/gameTree.svga')
 
     let gameStart = ref<boolean>(false);
@@ -150,12 +154,11 @@ export default defineComponent({
     }
 
     const closePop = () => {
-      showPop.value = false
-      showRulePop.value = false
+      showChoosePop.value = false
     }
 
-    const showPopRule = () => {
-      showRulePop.value = true
+    const showPopChoose = () => {
+      showChoosePop.value = true
     }
     const svgaplayerweb = ()=>{
       const downloader = new Downloader()
@@ -215,7 +218,7 @@ export default defineComponent({
       // //                   this.audio[index] = document.getElementById(`${'play'+index}`)
       // //                   this.audioUrlArr.push(elm)
       // //                });
-
+      EventBus.on("CLOSEPOP", closePop);
       let PixiEngineObj = new  PixiEngine(750, 1400);
       const canvasInfo = PixiEngineObj.getCanvas();
       document.querySelector("#canvas")!.appendChild(canvasInfo);
@@ -229,7 +232,7 @@ export default defineComponent({
       audio,
       mines,
       showPop,
-      showRulePop,
+      showChoosePop,
       usd,
       overlap,
       autoSwitch,
@@ -239,7 +242,7 @@ export default defineComponent({
       showGuid2,
       clickGuid1,
       clickGuid2,
-      showPopRule,
+      showPopChoose,
       begin,
     };
   },
