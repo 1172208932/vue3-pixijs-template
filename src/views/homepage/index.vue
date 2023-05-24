@@ -58,7 +58,7 @@ export default defineComponent({
       router.push({
         name: "game",
       });
-    }
+    };
 
     const svgaplayerweb = () => {
       const downloader = new Downloader();
@@ -121,6 +121,12 @@ export default defineComponent({
   height: 1624px;
   background: url("../../assets/homepage.png") no-repeat top left / 100% 100%;
   position: relative;
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    margin-top: 30px;
+  }
 }
 .rule {
   width: 98px;
@@ -154,11 +160,6 @@ export default defineComponent({
 .img-dialog {
   width: 300px;
   height: 300px;
-}
-canvas {
-  width: 100%;
-  height: 100%;
-  margin-top: 30px;
 }
 .titleImg {
   width: 225px;
