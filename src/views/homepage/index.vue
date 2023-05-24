@@ -6,7 +6,7 @@
         <img src="../../assets/logo.png" class="titleImg" />
         <span class="rule" @click="showRule"></span>
         <span class="task" @click="showTask"></span>
-        <span class="go_btn"></span>
+        <span class="go_btn" @click="goGame"></span>
       </div>
     </div>
   </div>
@@ -54,6 +54,12 @@ export default defineComponent({
       showTaskPop.value = false;
     };
 
+    const goGame = () => {
+      router.push({
+        name: "game",
+      });
+    }
+
     const svgaplayerweb = () => {
       const downloader = new Downloader();
       const parser = new Parser();
@@ -84,6 +90,7 @@ export default defineComponent({
       showRule,
       showTask,
       closePop,
+      goGame,
       showRulePop,
       showTaskPop,
     };
