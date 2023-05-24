@@ -2,8 +2,8 @@
   <div class="box">
     <div class="bg">
       <!-- <div class="rand"></div> -->
-      <canvas v-show="showSvga" id="canvastop"></canvas>
-      <canvas v-show="showSvga" id="canvas2"></canvas>
+      <canvas id="canvastop"></canvas>
+      <canvas id="canvas2"></canvas>
       <div class="game-box" id="canvas" ref="canvasRef"></div>
     </div>
     <div class="time"><span>{{ timenum }}</span><span class="timenum2">s</span></div>
@@ -45,8 +45,6 @@ export default defineComponent({
     let audio = ref<any>(null);
     let showGuid1 = ref<boolean>(true);
     let showGuid2 = ref<boolean>(false);
-
-    let showSvga = ref<boolean>(false);
 
     let showPop = ref<boolean>(false);
     let showChoosePop = ref<boolean>(false);
@@ -203,7 +201,6 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      showSvga.value = true
       setTimeout(()=>{
         svgaplayerweb();
         svgaplayerweb1();
@@ -230,7 +227,6 @@ export default defineComponent({
       SOUND_LIST,
       audio,
       showPop,
-      showSvga,
       showChoosePop,
       usd,
       overlap,
