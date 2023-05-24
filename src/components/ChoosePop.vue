@@ -12,7 +12,7 @@ const props = defineProps({
   show: Boolean,
 });
 
-let showPopup = ref<boolean>(false);
+let showPopup = ref<boolean>(true);
 
 watch(props, (newProps) => {
   showPopup.value = newProps.show;
@@ -35,8 +35,8 @@ function close() {
 }
 .ruleBg{
     width: 614px;
-    height: 884px;
-    background: url('../assets/popup_rules.png') no-repeat top left / 100% 100%;
+    height: 1023px;
+    background: url('../assets/choose.jpg') no-repeat top left / 100% 100%;
 }
 </style>
   

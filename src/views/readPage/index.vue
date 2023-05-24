@@ -41,7 +41,7 @@ export default defineComponent({
 
     const goGame = () => {
       router.push({
-        name: "game",
+        name: "homepage",
       });
     }
 

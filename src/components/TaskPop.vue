@@ -7,21 +7,26 @@
         <span class="taskBtn"></span>
       </div>
     </div>
+    <img src="../assets/close.png" class="close" @click="close" alt="" />
   </van-popup>
 </template>
   
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
+import EventBus from "@/utils/eventbus";
 const props = defineProps({
   show: Boolean,
 });
 
 let showPopup = ref<boolean>(false);
 
-watch(props, (newProps:any) => {
+function close() {
+  EventBus.fire("CLOSEPOP");
+}
+
+watch(props, (newProps: any) => {
   showPopup.value = newProps.show;
 });
-
 
 onMounted(() => {});
 </script>
@@ -31,6 +36,9 @@ onMounted(() => {});
   width: 53px;
   height: 53px;
   margin-top: 45px;
+  position: absolute;
+  top: 60px;
+  right: 11px;
 }
 .taskBg {
   width: 750px;
