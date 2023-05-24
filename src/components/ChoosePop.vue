@@ -36,7 +36,7 @@ function close() {
 .ruleBg{
     width: 614px;
     height: 1023px;
-    background: url('../assets/choose.jpg') no-repeat top left / 100% 100%;
+    background: url('../assets/popup_frame.png') no-repeat top left / 100% 100%;
 }
 </style>
   

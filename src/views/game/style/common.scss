@@ -66,6 +66,14 @@
 	top: 20px;
 	left: 50%;
 	transform: translateX(-50%);
+	text-align: center;
+	color: #f7874f;
+	font-size: 47px;
+	line-height: 150px;
+	font-weight: bold;
+	.timenum2{
+		font-size: 24px;
+	}
   }
 
   .glod{
@@ -76,6 +84,14 @@
 	position: fixed;
 	top: 150px;
 	right: 0px;
+	font-size: 30px;
+	line-height: 67px;
+	color: #ffffff;
+	font-weight: bold;
+	text-align: center;
+	span{
+		margin-left: 50px;
+	}
   }
   
   .rand{
@@ -92,6 +108,7 @@
 	height: 100%;
 	background: url('@/assets/mask.png') no-repeat center;
 	background-size: 750px 1624px;
+	position: absolute;
 	img{
 		width: 315px;
 		height: 215px;

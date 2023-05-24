@@ -146,6 +146,12 @@ export default class PixiEngine {
         })
     }
 
+    beginGame() {
+        this.world.gameOver = false
+        this.world.player.ani.play()
+    }
+
+
     addCards() {
         cardList.forEach((item, index) => {
             let contor = this.createCard(item);
@@ -221,13 +227,7 @@ export default class PixiEngine {
         }, 500)
 
     }
-    beginGame() {
-        cardList.forEach((item, index) => {
-            const [front, back] = item.children;
-            back.texture = PIXI.utils.TextureCache['mc_unrevealed']
-        })
-        isBegin = true
-    }
+
     autoSelect() {
         cardList.forEach((item) => {
             item.destroy()

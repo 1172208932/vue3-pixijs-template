@@ -20,8 +20,8 @@ export default class PhysicsStaticSprite {
     public _sprite!: Sprite;
 
     public _body: any;
-
-    app
+    anim1;
+    app;
 
     constructor(
         id: number | string,
@@ -70,12 +70,12 @@ export default class PhysicsStaticSprite {
 
     private createSprite = ():  void => {
         const animationManager = new AnimationManager(this.app);
-        let anim1 = animationManager.parseAnimation({
+        this.anim1 = animationManager.parseAnimation({
             infinite: true,
             keyframes: Ip,
             autoStart:false
           });
-        this._sprite = anim1.group //new Sprite();
+        this._sprite = this.anim1.group //new Sprite();
         // this._sprite.addChild(anim1.group) ;
         // this._sprite.anchor.x = 0.3;
         // this._sprite.anchor.y = 0.65;
@@ -105,6 +105,10 @@ export default class PhysicsStaticSprite {
     }
     set body(newBody: any) {
         this._body = newBody;
+    }
+
+    get ani():any {
+        return this.anim1
     }
 
     get sprite(): Sprite {

@@ -4,6 +4,8 @@ import * as Matter from 'matter-js';
 import Glod from './Glod';
 import Player from './Player'
 import * as TWEEN from "@tweenjs/tween.js";
+import EventBus from '@/utils/eventbus';
+
 let trackTime = 5;
 
 export default class World {
@@ -67,6 +69,8 @@ export default class World {
 
     gameOverFn() {
         this.gameOver = true
+        this.player.ani.pause()
+        EventBus.fire('GAME_OVER')
         this.glodList.forEach(glod => {
             glod.destroy()
             glod._sprite.destroy()
