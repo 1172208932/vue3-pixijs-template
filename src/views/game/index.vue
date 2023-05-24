@@ -2,19 +2,18 @@
   <div class="box">
     <div class="bg">
       <!-- <div class="rand"></div> -->
-      <canvas id="canvas1"></canvas>
-      <canvas id="canvas2"></canvas>
+      <canvas v-show="showSvga" id="canvastop"></canvas>
+      <canvas v-show="showSvga" id="canvas2"></canvas>
       <div class="game-box" id="canvas" ref="canvasRef"></div>
     </div>
     <div class="time"><span>{{ timenum }}</span><span class="timenum2">s</span></div>
     <div class="glod"><span>{{ glodNum }}</span></div>
     <div class="guid1" v-if="showGuid1" @click="clickGuid1"></div>
     <div class="guid2" v-if="showGuid2" @click="clickGuid2">
-      <img src="../../assets/guid2.png" alt="">
+      <img src="../../assets/guid2.png" alt="" />
     </div>
-
   </div>
-  <choose-pop v-model:show="showChoosePop"></choose-pop>
+  <choose-pop v-model:show="showChoosePop" :chooesList="chooesList"></choose-pop>
 </template>
 
 <script lang="ts">
@@ -29,15 +28,15 @@ import {
 import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import PixiEngine from "./systems/engine";
 import ChoosePop from "@/components/ChoosePop.vue";
-import { Downloader, Parser, Player } from 'svga-web'
+import { Downloader, Parser, Player } from "svga-web";
 
 import EventBus from "@/utils/eventbus";
-import { throttle } from "@/utils/throttle"
+import { throttle } from "@/utils/throttle";
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
   components: {
-    ChoosePop
+    ChoosePop,
   },
   setup(props, { emit }: SetupContext) {
     let timenum = ref<number>(60);
@@ -47,9 +46,11 @@ export default defineComponent({
     let showGuid1 = ref<boolean>(true);
     let showGuid2 = ref<boolean>(false);
 
+    let showSvga = ref<boolean>(false);
+
     let showPop = ref<boolean>(false);
-    let showChoosePop = ref<boolean>(true);
-    let svgaPath = ref('../../assets/gameTree.svga')
+    let showChoosePop = ref<boolean>(false);
+    let svgaPath = ref("../../assets/gameTree.svga");
 
     let gameStart = ref<boolean>(false);
     let overlap = ref(false);
@@ -62,8 +63,9 @@ export default defineComponent({
       isDisabled: boolean;
       isBegin: boolean;
       money: number;
+      chooesList: any;
     } = reactive({
-      swperList2: [],
+      chooesList: ['选项1','选项2','选项3','选项4'],
       worksList: [],
       audioUrl: SOUND_TYPE.BEGIN,
       percentage: 0,
@@ -110,34 +112,34 @@ export default defineComponent({
           state.audioUrl = SOUND_TYPE.BOMB;
           nextTick(() => {
             audio.value.play();
-            state.isBegin = false
-            state.money = 0
-            state.percentage = 0
-            usd.value = 1
-          })
-          break
-        case 'mines3':
+            state.isBegin = false;
+            state.money = 0;
+            state.percentage = 0;
+            usd.value = 1;
+          });
+          break;
+        case "mines3":
           state.audioUrl = SOUND_TYPE.MINES3;
           nextTick(() => {
             audio.value.play();
           });
-          break
-        case 'switch':
+          break;
+        case "switch":
           state.audioUrl = SOUND_TYPE.SWITCH;
           nextTick(() => {
             audio.value.play();
           });
-          break
+          break;
       }
     };
 
     const setAutoConfig = () => {
-      canSetAuto.value = true
-    }
+      canSetAuto.value = true;
+    };
 
     const closePop = () => {
-      showChoosePop.value = false
-    }
+      showChoosePop.value = false;
+    };
 
     const showPopChoose = () => {
       showChoosePop.value = true
@@ -148,8 +150,10 @@ export default defineComponent({
       playerTree = new Player('#canvas2');
 
       (async () => {
-        const fileData = await downloader.get('../../../src/assets/gameTree.svga')
-        const svgaData = await parser.do(fileData)
+        const fileData = await downloader.get(
+          "../../../src/assets/gameTree.svga"
+        );
+        const svgaData = await parser.do(fileData);
 
         playerTree.set({
           loop: 1,
@@ -170,8 +174,8 @@ export default defineComponent({
         // player.pause()
         // player.stop()
         // player.clear()
-      })()
-    }
+      })();
+    };
 
     const gameOver = () =>{
       playerTree.set({
@@ -184,21 +188,28 @@ export default defineComponent({
     const svgaplayerweb1 = () => {
       const downloader = new Downloader()
       const parser = new Parser()
-      const player = new Player('#canvas1');
+      const player = new Player('#canvastop');
       (async () => {
-        const fileData = await downloader.get('../../../src/assets/game_yun.svga')
-        const svgaData = await parser.do(fileData)
+        const fileData = await downloader.get(
+          "../../../src/assets/game_yun.svga"
+        );
+        const svgaData = await parser.do(fileData);
         player.set({
-          loop: 0,
-        })
-        await player.mount(svgaData)
-        player.start()
-      })()
-    }
+          loop: true,
+        });
+        await player.mount(svgaData);
+        player.start();
+      })();
+    };
 
     onMounted(async () => {
-      svgaplayerweb()
-      svgaplayerweb1()
+      showSvga.value = true
+      setTimeout(()=>{
+        svgaplayerweb();
+        svgaplayerweb1();
+      },200)
+
+ 
 
       EventBus.on("PLAY_SOUND", playSound);
       EventBus.on("GET_STARE", getScore);
@@ -214,13 +225,12 @@ export default defineComponent({
       document.querySelector("#canvas")!.appendChild(canvasInfo);
     });
 
-
-
     return {
       ...toRefs(state),
       SOUND_LIST,
       audio,
       showPop,
+      showSvga,
       showChoosePop,
       usd,
       overlap,
@@ -240,6 +250,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./style/common.scss";
 </style>
