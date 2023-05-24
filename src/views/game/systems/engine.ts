@@ -16,12 +16,12 @@ let isAutoSelect = false;
 let touchStartX = 0;
 let mouseStartX = 0;
 let isMouseDown = false;
-export default class PixiEngine  {
+export default class PixiEngine {
     public world: World;
     public engine: any;
 
-    constructor(width: number, height: number){
-        this.init(width,height)
+    constructor(width: number, height: number) {
+        this.init(width, height)
     }
     init(width: number, height: number) {
         if (typeof PixiApp !== 'undefined') {
@@ -34,7 +34,7 @@ export default class PixiEngine  {
         EventBus.on('OVER_GAME', this.gameOver, this)
         EventBus.on('RANDOM', this.randomClick, this)
 
-        
+
         PixiApp = new PIXI.Application({ width, height, transparent: true });
         function animate(time) {
             requestAnimationFrame(animate)
@@ -47,85 +47,85 @@ export default class PixiEngine  {
 
         Matter.Engine.run(this.engine);
 
-        const debugRender = Matter.Render.create({
-            element: document.querySelector(".game-box"),
-            engine: this.engine,
-            options: {
-              width: 750,
-              height: 1400,
-              showCollisions: true,
-              showVelocity: true
-            }
-          });
-          Matter.Render.run(debugRender);
-          console.log( document.querySelector(".game-box"))
-          setTimeout(()=>{
-            document.querySelector(".game-box").querySelector(":nth-child(1)").style.opacity = 0.3
+        // const debugRender = Matter.Render.create({
+        //     element: document.querySelector(".game-box"),
+        //     engine: this.engine,
+        //     options: {
+        //         width: 750,
+        //         height: 1400,
+        //         showCollisions: true,
+        //         showVelocity: true
+        //     }
+        // });
+        // Matter.Render.run(debugRender);
+        // console.log(document.querySelector(".game-box"))
+        // setTimeout(() => {
+        //     document.querySelector(".game-box").querySelector(":nth-child(1)").style.opacity = 0.3
 
-          },1000)
-        
+        // }, 1000)
+
         this.initgame()
         this.addEvent()
     }
 
-    addEvent(){
+    addEvent() {
         PixiApp.view.addEventListener('touchstart', (event) => {
             // 获取触摸事件的初始位置
             touchStartX = event.touches[0].clientX;
-          });
-          PixiApp.view.addEventListener('touchend', (event) => {
+        });
+        PixiApp.view.addEventListener('touchend', (event) => {
             // 获取触摸事件的结束位置
             const touchEndX = event.changedTouches[0].clientX;
-          
+
             // 计算触摸事件的水平位移
             const deltaX = touchEndX - touchStartX;
-          
+
             // 判断滑动方向
             if (Math.abs(deltaX) > 50) { // 设置一个阈值，以避免误判
-              if (deltaX > 0) {
-                console.log('向右滑动');
-                this.rightSwitch()
-              } else {
-                this.leftSwitch()
-                console.log('向左滑动');
-              }
+                if (deltaX > 0) {
+                    console.log('向右滑动');
+                    this.rightSwitch()
+                } else {
+                    this.leftSwitch()
+                    console.log('向左滑动');
+                }
             }
-          });
-          PixiApp.view.addEventListener('mousedown', (event) => {
+        });
+        PixiApp.view.addEventListener('mousedown', (event) => {
             // 获取鼠标事件的初始位置
             mouseStartX = event.clientX;
             isMouseDown = true;
-          });
-          PixiApp.view.addEventListener('mouseup', (event) => {
+        });
+        PixiApp.view.addEventListener('mouseup', (event) => {
             if (!isMouseDown) return;
-          
+
             // 获取鼠标事件的结束位置
             const mouseEndX = event.clientX;
-          
+
             // 计算鼠标事件的水平位移
             const deltaX = mouseEndX - mouseStartX;
-          
+
             // 判断滑动方向
             if (Math.abs(deltaX) > 50) { // 设置一个阈值，以避免误判
-              if (deltaX > 0) {
-                console.log('向右滑动');
-                this.rightSwitch()
-              } else {
-                this.leftSwitch()
-                console.log('向左滑动');
-              }
+                if (deltaX > 0) {
+                    console.log('向右滑动');
+                    this.rightSwitch()
+                } else {
+                    this.leftSwitch()
+                    console.log('向左滑动');
+                }
             }
             isMouseDown = false;
-          });
+        });
     }
 
-    leftSwitch = throttle(()=>{
+    leftSwitch = throttle(() => {
         this.world.playerLeft()
-    },500)
-    rightSwitch= throttle(()=>{
+    }, 500)
+    rightSwitch = throttle(() => {
         this.world.playerRight()
-    },500)
-    
+    }, 500)
+
 
 
     initgame() {
@@ -134,14 +134,14 @@ export default class PixiEngine  {
         const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
         const loader = new PIXI.Loader();
         `${isTextUrl}bird/mines@2x.json`
-        loader.add('barrier',`${isTextUrl}barrier.png`)
-        loader.add('ip2',`${isTextUrl}Ip2.png`)
-        loader.add('gold',`https://ysupup.oss-cn-hangzhou.aliyuncs.com/gold.png`)
+        loader.add('barrier', `${isTextUrl}barrier.png`)
+        loader.add('ip2', `${isTextUrl}Ip2.png`)
+        loader.add('gold', `https://ysupup.oss-cn-hangzhou.aliyuncs.com/gold.png`)
         // loader.add(`${isTextUrl}bird/min.json`)
         loader.load(() => {
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.world.addPlayer();
-            },2000)
+            }, 2000)
             // this.addCards()
         })
     }
@@ -162,7 +162,7 @@ export default class PixiEngine  {
             cardList[index] = contor
 
             contor.on('pointerdown', () => {
-                if(contor['front']){return}
+                if (contor['front']) { return }
                 this.onCardClick(contor)
             });
             PixiApp.stage.addChild(contor);
@@ -174,7 +174,7 @@ export default class PixiEngine  {
         }
         isBegin = false
         const [front, back] = card.children;
-        if(isAutoSelect){
+        if (isAutoSelect) {
             back.texture = PIXI.utils.TextureCache['mc_selected']
             isBegin = true
             EventBus.fire('CAN_AUTO_SET')
@@ -197,11 +197,11 @@ export default class PixiEngine  {
             isBegin = true
         }, 500)
     }
-    randomClick(){
-        let filerList = cardList.filter((item)=>{
+    randomClick() {
+        let filerList = cardList.filter((item) => {
             return item['front'] == false
         })
-        let randomCard = filerList[Math.floor(Math.random()* filerList.length)] 
+        let randomCard = filerList[Math.floor(Math.random() * filerList.length)]
         isBegin = false
         const [front, back] = randomCard.children;
         back.texture = PIXI.utils.TextureCache['mc_loading']
@@ -219,7 +219,7 @@ export default class PixiEngine  {
             }
             isBegin = true
         }, 500)
-       
+
     }
     beginGame() {
         cardList.forEach((item, index) => {
@@ -228,7 +228,7 @@ export default class PixiEngine  {
         })
         isBegin = true
     }
-    autoSelect(){
+    autoSelect() {
         cardList.forEach((item) => {
             item.destroy()
         });
@@ -238,7 +238,7 @@ export default class PixiEngine  {
         this.beginGame()
         isAutoSelect = true
     }
-    autoSelectClose(){
+    autoSelectClose() {
         cardList.forEach((item, index) => {
             const [front, back] = item.children;
             back.texture = PIXI.utils.TextureCache['mc_loading']

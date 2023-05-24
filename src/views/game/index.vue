@@ -8,6 +8,11 @@
     </div>
     <div class="time"></div>
     <div class="glod"></div>
+    <div class="guid1" v-if="showGuid1" @click="clickGuid1"></div>
+    <div class="guid2" v-if="showGuid2" @click="clickGuid2">
+      <img src="../../assets/guid2.png" alt="">
+    </div>
+
   </div>
 </template>
 
@@ -34,8 +39,11 @@ export default defineComponent({
     let mines = ref<number>(1);
     let usd = ref<number>(1);
     let audio = ref<any>(null);
-    let showDown = ref<boolean>(false);
-    let showMenus = ref<boolean>(false);
+    let showGuid1 = ref<boolean>(true);
+      let showGuid2 = ref<boolean>(false);
+
+      
+      
 
     let showPop = ref<boolean>(false);
     let showRulePop = ref<boolean>(false);
@@ -45,8 +53,6 @@ export default defineComponent({
     let overlap = ref(false);
     let autoSwitch = ref(false)
     let canSetAuto = ref(false)
-    const gradeList = Array.from(Array(20), (d, i) => i + 1);
-    const gradeList2 = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.2, 2, 4, 10, 20, 50, 100];
 
     const state: {
       audioUrl: string;
@@ -64,6 +70,14 @@ export default defineComponent({
       money: 0,
     });
 
+    const clickGuid1 = ()=>{
+      showGuid1.value = false
+      showGuid2.value = true
+    }
+    const clickGuid2 = ()=>{
+      showGuid2.value = false
+    }
+ 
     const begin = () => {
       if (isFirst) {
         state.isDisabled = true;
@@ -86,46 +100,7 @@ export default defineComponent({
       }
     };
 
-    const showDownList = () => {
-      playSound({ detail: 'mines3' })
-      showDown.value = !showDown.value;
-    };
 
-    const showMenusList = () => {
-      showMenus.value = !showMenus.value;
-    }
-
-    /**
-     * 切换
-     */
-    const chiceMines = (e: number) => {
-      mines.value = e;
-      usd.value = e;
-      setTimeout(() => {
-        showDown.value = false;
-      }, 200);
-    };
-    /**
-     * 自动切换
-     */
-    const switchChange = (value: boolean) => {
-      if (state.isBegin) {
-        return
-      }
-      playSound({ detail: 'switch' })
-
-      if (value) {
-        state.isDisabled = true;
-        setTimeout(() => {
-          audio.value.play();
-          EventBus.fire('AUTO_SELECT')
-        }, 600);
-      } else {
-        EventBus.fire('AUTO_SELECT_CLOSE')
-        state.isDisabled = false
-        canSetAuto.value = false
-      }
-    }
 
     const getScore = () => {
       gameStart.value = true;
@@ -134,31 +109,8 @@ export default defineComponent({
       state.percentage = state.money / 22 * 100
     }
 
-    const againGame = () => {
-      if (canSetAuto.value) {
-        showPop.value = true
-      }
-    };
 
-    const overGame = () => {
-      EventBus.fire('OVER_GAME')
-      // 游戏结束后把auto的disable取消
-      gameStart.value = false
-      state.isBegin = false
-      state.money = 0
-      state.percentage = 0
-      usd.value = 1
-      state.isDisabled = true;
-      setTimeout(() => {
-        state.isDisabled = false;
-      }, 600);
-    }
 
-    const random = throttle(() => {
-      if (state.isBegin) {
-        EventBus.fire("RANDOM");
-      }
-    }, 2000)
 
     const playSound = (res) => {
       switch (res.detail) {
@@ -236,8 +188,25 @@ export default defineComponent({
       })()
     }
 
+    const svgaplayerweb1 = ()=>{
+      const downloader = new Downloader()
+      const parser = new Parser()
+      const player = new Player('#canvas1');
+      (async () => {
+        const fileData = await downloader.get('../../../src/assets/game_yun.svga')
+        const svgaData = await parser.do(fileData)
+        player.set({
+          loop: 0,
+        })
+        await player.mount(svgaData)
+        player.start()
+      })()
+    }
+
     onMounted(async () => {
       svgaplayerweb()
+      svgaplayerweb1()
+
       // EventBus.on("PLAY_SOUND", playSound);
       // EventBus.on("GET_STARE", getScore);
       // EventBus.on("CAN_AUTO_SET", setAutoConfig);
@@ -257,9 +226,6 @@ export default defineComponent({
     return {
       ...toRefs(state),
       SOUND_LIST,
-      gradeList,
-      gradeList2,
-      showDown,
       audio,
       mines,
       showPop,
@@ -268,17 +234,13 @@ export default defineComponent({
       overlap,
       autoSwitch,
       gameStart,
-      showMenus,
       svgaPath,
+      showGuid1,
+      showGuid2,
+      clickGuid1,
+      clickGuid2,
       showPopRule,
-      switchChange,
-      overGame,
-      showDownList,
-      chiceMines,
       begin,
-      againGame,
-      random,
-      showMenusList,
     };
   },
 });

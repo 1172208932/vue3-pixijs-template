@@ -1,5 +1,7 @@
 import { Texture, Sprite } from 'pixi.js';
 import Matter from '../Matter';
+import { AnimationManager   } from 'lottie-pixi';
+import Ip from '../ip.json'
 
 export default class PhysicsStaticSprite {
     public _id: number | string;
@@ -19,6 +21,8 @@ export default class PhysicsStaticSprite {
 
     public _body: any;
 
+    app
+
     constructor(
         id: number | string,
         engine: any,
@@ -28,7 +32,8 @@ export default class PhysicsStaticSprite {
         width: number,
         height: number,
         texture: Texture,
-        type: string = 'rectangle'
+        type: string = 'rectangle',
+        app
     ) {
         this._id = id;
         this._engine = engine;
@@ -42,7 +47,7 @@ export default class PhysicsStaticSprite {
 
         this.texture = texture;
         this.type = type;
-
+        this.app = app
         this.createPhysics()
         this.createSprite();
     }
@@ -64,19 +69,29 @@ export default class PhysicsStaticSprite {
     }
 
     private createSprite = ():  void => {
-        this._sprite = new Sprite(this.texture);
-        this._sprite.anchor.x = 0.3;
-        this._sprite.anchor.y = 0.65;
-        this._sprite.width = 317
-        this._sprite.height = 382
-        this._sprite.position = this._body.position;
+        const animationManager = new AnimationManager(this.app);
+        let anim1 = animationManager.parseAnimation({
+            infinite: true,
+            keyframes: Ip,
+            autoStart:false
+          });
+        this._sprite = anim1.group //new Sprite();
+        // this._sprite.addChild(anim1.group) ;
+        // this._sprite.anchor.x = 0.3;
+        // this._sprite.anchor.y = 0.65;
+        // this._sprite.width = 317
+        // this._sprite.height = 382
+        this._sprite.position.x = this._body.position.x -100;
+        this._sprite.position.y = this._body.position.y -150;
+
 
         }
 
 
     public update = (): void => {
         if (this._body) {
-            this._sprite.position = this._body.position;
+            this._sprite.position.x = this._body.position.x -100;
+            this._sprite.position.y = this._body.position.y -150;
             this._sprite.rotation = this._body.angle;
         }
     }

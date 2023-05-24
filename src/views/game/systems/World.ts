@@ -102,7 +102,7 @@ export default class World {
     //  [50,375,700]
     addPlayer() {
         let playerTexture: Texture = Texture.from('ip2');
-        this.player = new Player('player', this._engine, 0x001, 375, 1020, 117, 182, playerTexture);
+        this.player = new Player('player', this._engine, 0x001, 375, 930, 117, 182, playerTexture,this.app);
         // Matter.Body.setStatic(this.player.body, true);
 
         Matter.World.addBody(this._engine.world, this.player.body);

@@ -11,7 +11,8 @@ export default class Player extends PhysicsStaticSprite {
         width: number,
         height: number,
         texture: Texture,
+        app
     ) {
-        super(id, engine, category, x, y, width, height, texture);
+        super(id, engine, category, x, y, width, height, texture,'rectangle',app);
     }
 }
