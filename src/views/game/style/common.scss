@@ -9,6 +9,13 @@
 }
 
 
+#canvas2{
+	width: 750px;
+	position: absolute;
+	top: 300px;
+	left: 0px;
+}
+
 .box{
 	width: 100vw;
 	height: 100vh;
@@ -19,6 +26,9 @@
 }
 
 .bg {
+	background: url('@/assets/gameBg.png') no-repeat center;
+	background-size: 750px 1624px;
+
 	overflow: hidden;
 	width: 100vw;
 	height: 1624px;
@@ -52,12 +62,12 @@
   }
   
   .rand{
-	background: url('@/assets/road.png') no-repeat center;
-	background-size: 750px 1280px;
+	background: url('@/assets/gameBg.png') no-repeat center;
+	background-size: 750px 1624px;
 	width: 750px;
-	height: 1280px;
+	height: 1624px;
 	position: absolute;
-	bottom: 0px;
+	top: 0px;
   }
 
   .game-box {

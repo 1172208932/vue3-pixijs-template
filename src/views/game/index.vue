@@ -1,10 +1,13 @@
 <template>
   <div class="box">
-    <div class="bg"></div>
+    <div class="bg">
+      <!-- <div class="rand"></div> -->
+      <canvas id="canvas1"></canvas>
+      <canvas id="canvas2"></canvas>
+      <div class="game-box" id="canvas" ref="canvasRef"></div>
+    </div>
     <div class="time"></div>
     <div class="glod"></div>
-    <div class="rand"></div>
-    <div class="game-box" id="canvas" ref="canvasRef"></div>
   </div>
 </template>
 
@@ -19,7 +22,7 @@ import {
 } from "vue";
 import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import  PixiEngine  from "./systems/engine";
-
+import { Downloader, Parser, Player } from 'svga-web'
 
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
@@ -36,7 +39,7 @@ export default defineComponent({
 
     let showPop = ref<boolean>(false);
     let showRulePop = ref<boolean>(false);
-
+    let svgaPath = ref('../../assets/gameTree.svga')
 
     let gameStart = ref<boolean>(false);
     let overlap = ref(false);
@@ -202,8 +205,39 @@ export default defineComponent({
     const showPopRule = () => {
       showRulePop.value = true
     }
+    const svgaplayerweb = ()=>{
+      const downloader = new Downloader()
+      const parser = new Parser()
+      const player = new Player('#canvas2');
+      (async () => {
+        const fileData = await downloader.get('../../../src/assets/gameTree.svga')
+        const svgaData = await parser.do(fileData)
+
+        player.set({
+          loop: 1,
+          endFrame:1
+        })
+
+        await player.mount(svgaData)
+
+
+        player.start()
+
+        // setTimeout(()=>{
+        //   player.set({
+        //   loop: 0,
+        //   endFrame:0
+        // })
+        // player.start()
+        // },2000)
+        // player.pause()
+        // player.stop()
+        // player.clear()
+      })()
+    }
 
     onMounted(async () => {
+      svgaplayerweb()
       // EventBus.on("PLAY_SOUND", playSound);
       // EventBus.on("GET_STARE", getScore);
       // EventBus.on("CAN_AUTO_SET", setAutoConfig);
@@ -235,6 +269,7 @@ export default defineComponent({
       autoSwitch,
       gameStart,
       showMenus,
+      svgaPath,
       showPopRule,
       switchChange,
       overGame,

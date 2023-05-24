@@ -24,6 +24,8 @@ specifiers:
   postcss-px-to-viewport: ^1.1.1
   qs: ^6.11.0
   sass: 1.53.0
+  svga-web: ^2.2.0
+  svgaplayerweb: ^2.3.2
   typescript: ^4.7.4
   unplugin-auto-import: ^0.9.2
   unplugin-vue-components: ^0.21.0
@@ -38,6 +40,7 @@ specifiers:
   vue-router: ^4.0.16
   vue-tsc: ^0.39.5
   vue-waterfall2: ^1.10.1
+  vue3-svga-player: ^0.0.3
   vuedraggable: ^2.24.3
   vuex: ^4.0.2
 
@@ -58,6 +61,8 @@ dependencies:
   node-sass: registry.npmmirror.com/node-sass/7.0.3
   pixi.js: registry.npmmirror.com/pixi.js/6.5.9
   qs: registry.npmmirror.com/qs/6.11.2
+  svga-web: registry.npmmirror.com/svga-web/2.2.0
+  svgaplayerweb: registry.npmmirror.com/svgaplayerweb/2.3.2
   unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.9.5_tz26lugnys4zsg624icbm2tdye
   unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.21.2_vite@2.9.15+vue@3.3.4
   unplugin-vue-define-options: registry.npmmirror.com/unplugin-vue-define-options/0.6.2_vite@2.9.15+vue@3.3.4
@@ -68,6 +73,7 @@ dependencies:
   vue-masonry: registry.npmmirror.com/vue-masonry/0.16.0_vue@3.3.4
   vue-router: registry.npmmirror.com/vue-router/4.2.1_vue@3.3.4
   vue-waterfall2: registry.npmmirror.com/vue-waterfall2/1.10.6
+  vue3-svga-player: registry.npmmirror.com/vue3-svga-player/0.0.3
   vuedraggable: registry.npmmirror.com/vuedraggable/2.24.3
   vuex: registry.npmmirror.com/vuex/4.1.0_vue@3.3.4
 
@@ -5289,6 +5295,18 @@ packages:
     version: 1.0.0
     dev: false
 
+  registry.npmmirror.com/svga-web/2.2.0:
+    resolution: {integrity: sha512-XiO+e7urllb6idprFx5qsvw7Y/65/R86RnVXiZmx6xMxXr1oplhvkTEFo8wvkNOLvNUWx5RdHJVMmpGyWJxwvw==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/svga-web/-/svga-web-2.2.0.tgz}
+    name: svga-web
+    version: 2.2.0
+    dev: false
+
+  registry.npmmirror.com/svgaplayerweb/2.3.2:
+    resolution: {integrity: sha512-QuTvNIgy3W6Mi4h74SczEHUtAwb8m3ax7Ai7xRLUuN6hjJh49RGtWOWq1IuF2I7ECcl0HAYn8FcTn99UDz9UiQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/svgaplayerweb/-/svgaplayerweb-2.3.2.tgz}
+    name: svgaplayerweb
+    version: 2.3.2
+    dev: false
+
   registry.npmmirror.com/systemjs/6.14.1:
     resolution: {integrity: sha512-8ftwWd+XnQtZ/aGbatrN4QFNGrKJzmbtixW+ODpci7pyoTajg4sonPP8aFLESAcuVxaC1FyDESt+SpfFCH9rZQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/systemjs/-/systemjs-6.14.1.tgz}
     name: systemjs
@@ -6024,6 +6042,15 @@ packages:
       '@vue/runtime-dom': registry.npmmirror.com/@vue/runtime-dom/3.3.4
       '@vue/server-renderer': registry.npmmirror.com/@vue/server-renderer/3.3.4_vue@3.3.4
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.3.4
+
+  registry.npmmirror.com/vue3-svga-player/0.0.3:
+    resolution: {integrity: sha512-HVieVxM+rfpu/Lpln+uIQNnJZMf3naxiEZTdmE3kfBn+gTzyqfbH95roGA+830OLQUDVSWVdDh2LjbOAuQcybQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue3-svga-player/-/vue3-svga-player-0.0.3.tgz}
+    name: vue3-svga-player
+    version: 0.0.3
+    dependencies:
+      svgaplayerweb: registry.npmmirror.com/svgaplayerweb/2.3.2
+      vue: registry.npmmirror.com/vue/3.3.4
+    dev: false
 
   registry.npmmirror.com/vuedraggable/2.24.3:
     resolution: {integrity: sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vuedraggable/-/vuedraggable-2.24.3.tgz}
