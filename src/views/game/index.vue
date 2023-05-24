@@ -199,7 +199,6 @@ export default defineComponent({
     onMounted(async () => {
       svgaplayerweb()
       svgaplayerweb1()
-
       EventBus.on("PLAY_SOUND", playSound);
       EventBus.on("GET_STARE", getScore);
       EventBus.on("GAME_OVER", gameOver);
