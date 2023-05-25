@@ -12,6 +12,7 @@ const snsUrl = import.meta.env.VITE_API_URL as string; // 后台域名
 const APIPath = {
   getInfo: `${snsUrl}act-gateway/act-core/act/1/parkour/index`, // 获取首页信息
   completeGuide: `${snsUrl}act-gateway/act-core/act/1/parkour/completeGuide`, // 完成新手引导
+  gameStart: `${snsUrl}act-gateway/act-core/act/1/parkour/start`,
 };
 
 
@@ -33,6 +34,18 @@ export const getInfo = <T = any>(): Promise<BaseResponse<T>> => {
 export const completeGuide = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.completeGuide, { },{})
+      .then((res) => {
+        resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const gameStart = <T = any>(): Promise<BaseResponse<T>> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.gameStart, { },{})
       .then((res) => {
         resolve(res.data);
     })

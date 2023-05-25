@@ -139,9 +139,7 @@ export default class PixiEngine {
         loader.add('gold', `https://ysupup.oss-cn-hangzhou.aliyuncs.com/gold.png`)
         // loader.add(`${isTextUrl}bird/min.json`)
         loader.load(() => {
-            setTimeout(() => {
                 this.world.addPlayer();
-            }, 2000)
             // this.addCards()
         })
     }

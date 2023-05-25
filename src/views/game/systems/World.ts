@@ -22,6 +22,8 @@ export default class World {
     public distance: number = 0;
     public player
     public gameOver = true
+    public glodEatNum:number = 0;
+    public maxGlodNum:number = 50
 
     constructor(
         engine: any,
@@ -44,12 +46,13 @@ export default class World {
                 if ((pair.bodyA?.bodyType == 'glod' && pair.bodyB === this.player.body) || (pair.bodyA === this.player.body && pair.bodyB?.bodyType == 'glod')) {
                     if (pair.bodyA?.bodyType == 'glod') {
                         console.log(pair.bodyA, '1')
-                        this.removeGlod(pair.bodyB?.num)
+                        this.removeGlod(pair.bodyA?.num)
                     }
                     if (pair.bodyB?.bodyType == 'glod') {
                         console.log(pair.bodyB, '12')
                         this.removeGlod(pair.bodyB?.num)
                     }
+                    EventBus.fire('GET_STARE')
                 }
 
                 if ((pair.bodyA?.bodyType == 'barrier' && pair.bodyB === this.player.body) || (pair.bodyA === this.player.body && pair.bodyB?.bodyType == 'barrier')) {
@@ -135,6 +138,8 @@ export default class World {
     }
     // [[354,130][-10, 1230]]  [374   374]    [ 754]
     addGold(track) {
+        this.glodEatNum ++ 
+        if(this.glodEatNum>= this.maxGlodNum + 1){ return }
         let goldTexture: Texture = Texture.from('gold');
         let player = new Glod('glod', this._engine, 0x001, 394, 130, 40, 40, goldTexture, this.glodId, track, 'glod');
         // Matter.Body.setStatic(player.body, true);

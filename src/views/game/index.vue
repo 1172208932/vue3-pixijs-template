@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <audio ref="audio" preload="true" src="src/assets/glod.mp3"></audio>
     <div class="bg">
       <!-- <div class="rand"></div> -->
       <canvas id="canvas1"></canvas>
@@ -30,7 +31,7 @@ import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import PixiEngine from "./systems/engine";
 import ChoosePop from "@/components/ChoosePop.vue";
 import { Downloader, Parser, Player } from 'svga-web'
-import {getInfo} from "@/api/resource"
+import { completeGuide } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 let isFirst = true;
@@ -55,9 +56,11 @@ export default defineComponent({
     let overlap = ref(false);
     let autoSwitch = ref(false)
     let canSetAuto = ref(false)
+
+    
+    
     let playerTree
     const state: {
-      audioUrl: string;
       percentage: number;
       isDisabled: boolean;
       isBegin: boolean;
@@ -65,7 +68,6 @@ export default defineComponent({
     } = reactive({
       swperList2: [],
       worksList: [],
-      audioUrl: SOUND_TYPE.BEGIN,
       percentage: 0,
       isDisabled: false,
       isBegin: false,
@@ -76,10 +78,17 @@ export default defineComponent({
       showGuid1.value = false
       showGuid2.value = true
     }
-    const clickGuid2 = () => {
-      showGuid2.value = false
+    const clickGuid2 = async () => {
+      showGuid2.value = false;
+      completeGuideApi()
       begin()
     }
+
+    const completeGuideApi = ()=>{
+      completeGuide()
+    }
+
+    let timer
 
     const begin = () => {
       playerTree.set({
@@ -88,48 +97,31 @@ export default defineComponent({
       playerTree.start()
 
       EventBus.fire("BEGIN_GAME");
+
+      timer = setInterval(()=>{
+        timenum.value --;
+        if(timenum.value == 0){
+          clearInterval(timer)
+          gameOver()
+        }
+      },1000)
       // EventBus.fire("AGAIN_GAME");
     };
 
     const getScore = () => {
-      gameStart.value = true;
-      state.money = Number((state.money + usd.value).toFixed(2));
-      usd.value = Number((usd.value + 0.2).toFixed(2));
-      state.percentage = state.money / 22 * 100
+      audio.value.currentTime = 0; // 重新播放
+      audio.value.play();
+      glodNum.value ++
+      // gameStart.value = true;
+      // state.money = Number((state.money + usd.value).toFixed(2));
+      // usd.value = Number((usd.value + 0.2).toFixed(2));
+      // state.percentage = state.money / 22 * 100
     }
 
-    const playSound = (res) => {
-      switch (res.detail) {
-        case "win":
-          state.audioUrl = SOUND_TYPE.WIN;
-          nextTick(() => {
-            audio.value.play();
-          });
-          break;
-        case "bomb":
-          state.audioUrl = SOUND_TYPE.BOMB;
-          nextTick(() => {
-            audio.value.play();
-            state.isBegin = false
-            state.money = 0
-            state.percentage = 0
-            usd.value = 1
-          })
-          break
-        case 'mines3':
-          state.audioUrl = SOUND_TYPE.MINES3;
-          nextTick(() => {
-            audio.value.play();
-          });
-          break
-        case 'switch':
-          state.audioUrl = SOUND_TYPE.SWITCH;
-          nextTick(() => {
-            audio.value.play();
-          });
-          break
-      }
-    };
+    const initGameData = ()=>{
+      glodNum.value = 0;
+      timenum.value = 60;
+    }
 
     const setAutoConfig = () => {
       canSetAuto.value = true
@@ -160,16 +152,6 @@ export default defineComponent({
 
         playerTree.start()
 
-        // setTimeout(()=>{
-        //   player.set({
-        //   loop: 0,
-        //   endFrame:0
-        // })
-        // player.start()
-        // },2000)
-        // player.pause()
-        // player.stop()
-        // player.clear()
       })()
     }
 
@@ -179,6 +161,7 @@ export default defineComponent({
           endFrame: 1
         })
         playerTree.start()
+        clearInterval(timer)
     }
 
     const svgaplayerweb1 = () => {
@@ -199,7 +182,6 @@ export default defineComponent({
     onMounted(async () => {
       svgaplayerweb()
       svgaplayerweb1()
-      EventBus.on("PLAY_SOUND", playSound);
       EventBus.on("GET_STARE", getScore);
       EventBus.on("GAME_OVER", gameOver);
       // EventBus.on("CLOSEPOP", closePop);
