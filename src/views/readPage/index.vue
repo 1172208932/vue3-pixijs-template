@@ -19,62 +19,84 @@ import {
   ref,
 } from "vue";
 import { useRouter } from "vue-router";
+import { healthInfoIndex } from "@/api/resource";
+import { useStore } from "vuex";
 import EventBus from "@/utils/eventbus";
 export default defineComponent({
   name: "index",
-  components: {
-  },
+  components: {},
   setup(props, { emit }: SetupContext) {
     const router = useRouter();
+    const store = useStore();
     const state: {
+      healthInfo: any
     } = reactive({
+      healthInfo: {}
     });
 
     onMounted(async () => {
+      getHealthInfo();
     });
 
     const goRead = () => {
       router.push({
         name: "detailPage",
       });
-    }
+    };
+
+    const getHealthInfo = async() => {
+      let res = await healthInfoIndex();
+      const { index } = store.state;
+      store.commit("setHealthInfo", res)
+      console.log(index.healthInfo.actEndTime,'------ss',)
+      // if (res?.success) {
+      //   healthInfo = res.data;
+      //   if (res.data.readRewardCoin) {
+      //     modalStore.pushPop("Success_modal", {
+      //       coinCount: res.data.readRewardCoin,
+      //     });
+      //   }
+      // }
+    };
 
     const goGame = () => {
       router.push({
         name: "homepage",
       });
-    }
+    };
 
     return {
       ...toRefs(state),
       goRead,
-      goGame
+      goGame,
+      getHealthInfo,
     };
   },
 });
 </script>
 
 <style lang="scss">
-.readPage{
+.readPage {
   width: 750px;
   height: 1624px;
-  background: url('../../assets/xiaobaozhuanqu.png') no-repeat top left / 100% 100%;
+  background: url("../../assets/xiaobaozhuanqu.png") no-repeat top left / 100%
+    100%;
   position: fixed;
-  .btns{
+  .btns {
     padding-top: 688px;
   }
 }
-.run_btn{
+.run_btn {
   width: 489px;
   height: 150px;
-  background: url('../../assets/btn_run.png') no-repeat top left / 100% 100%;
+  background: url("../../assets/btn_run.png") no-repeat top left / 100% 100%;
   display: flex;
   margin: 0 auto 88px auto;
 }
-.read_btn{
+.read_btn {
   width: 489px;
   height: 150px;
-  background: url('../../assets/btn_read.png') no-repeat top left / 100% 100%;
+  background: url("../../assets/btn_read.png") no-repeat top left / 100% 100%;
   display: flex;
   margin: 0 auto;
 }
