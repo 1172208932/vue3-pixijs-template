@@ -1,4 +1,5 @@
 import NbRequest from "./index";
+import { addMock }from './mock/index'
 interface BaseResponse<T = any> {
   code: number;
   data: T;
@@ -9,27 +10,16 @@ const dhudongUrl = import.meta.env.VITE_D_URL as string;
 const snsUrl = import.meta.env.VITE_API_URL as string; // 后台域名
 
 const APIPath = {
-  getInfo: `${snsUrl}api/v3/videos-activity/info`, // 获取页面信息
-  getIndexInfo: `${snsUrl}api/v3/videos-activity/signList`, // 获取页面信息
-  getHomeInfo: `${dhudongUrl}media/latest`, // 获取页面信息
-  // https://dhudong.cztv.com/media/latest?category_id=107&channel_id=1&sort=0&size=10&page=1 
+  getInfo: `${snsUrl}act-gateway/act-core/act/1/parkour/index`, // 获取首页信息
+  completeGuide: `${snsUrl}act-gateway/act-core/act/1/parkour/completeGuide`, // 完成新手引导
 };
 
-export const getInfo = <T = any>(activityId): Promise<BaseResponse<T>> => {
-  return new Promise((resolve, reject) => {
-    NbRequest.get(APIPath.getInfo, { activityId },{})
-      .then((res) => {
-        resolve(res.data);
-    })
-      .catch((err) => {
-        reject(err);
-    });
-  });
-};
 
-export const getIndexInfo = <T = any>(param): Promise<BaseResponse<T>> => {
+addMock(APIPath);
+
+export const getInfo = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
-    NbRequest.get(APIPath.getIndexInfo, param ,{})
+    NbRequest.get(APIPath.getInfo, { },{})
       .then((res) => {
         resolve(res.data);
     })
@@ -40,9 +30,9 @@ export const getIndexInfo = <T = any>(param): Promise<BaseResponse<T>> => {
 };
 
 
-export const getHomeInfo = <T = any>(param): Promise<BaseResponse<T>> => {
+export const completeGuide = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
-    NbRequest.get(APIPath.getHomeInfo, param ,{},false,'json','json',30000,{baseURL:'/api'})
+    NbRequest.get(APIPath.completeGuide, { },{})
       .then((res) => {
         resolve(res.data);
     })

@@ -17,6 +17,7 @@
     "ali-oss": "^6.17.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
+    "axios-mock-adapter": "^1.21.4",
     "cross-env": "^7.0.3",
     "esbuild-windows-64": "^0.15.6",
     "lodash-es": "^4.17.21",
@@ -26,7 +27,6 @@
     "pixi.js": "^6.5.2",
     "qs": "^6.11.0",
     "svga-web": "^2.2.0",
-    "svgaplayerweb": "^2.3.2",
     "unplugin-auto-import": "^0.9.2",
     "unplugin-vue-components": "^0.21.0",
     "unplugin-vue-define-options": "^0.6.1",
@@ -37,7 +37,6 @@
     "vue-masonry": "^0.16.0",
     "vue-router": "^4.0.16",
     "vue-waterfall2": "^1.10.1",
-    "vue3-svga-player": "^0.0.3",
     "vuedraggable": "^2.24.3",
     "vuex": "^4.0.2"
   },

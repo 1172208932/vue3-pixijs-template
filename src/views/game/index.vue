@@ -30,7 +30,7 @@ import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import PixiEngine from "./systems/engine";
 import ChoosePop from "@/components/ChoosePop.vue";
 import { Downloader, Parser, Player } from 'svga-web'
-
+import {getInfo} from "@/api/resource"
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 let isFirst = true;
@@ -211,6 +211,7 @@ export default defineComponent({
       let PixiEngineObj = new PixiEngine(750, 1400);
       const canvasInfo = PixiEngineObj.getCanvas();
       document.querySelector("#canvas")!.appendChild(canvasInfo);
+
     });
 
 
