@@ -20,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/detailPage",
     name: "detailPage",
     component: () => import("../views/detailPage/index.vue"),
+  },
+  {
+    path: "/picPage",
+    name: "picPage",
+    component: () => import("../views/long_pic_page/index.vue"),
   }
 ];
 

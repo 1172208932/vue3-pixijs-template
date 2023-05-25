@@ -3,7 +3,12 @@
     <div class="detailPage"></div>
     <div class="detailList">
       <div class="lists">
-        <div v-for="(item, index) in readList" :key="index" class="list">
+        <div
+          v-for="(item, index) in list"
+          :key="index"
+          class="list"
+          @click="handleJump2LongPicPage(item)"
+        >
           <div>
             <p>{{ item.time }}</p>
             <p class="title">{{ item.text }}</p>
@@ -29,17 +34,44 @@ import {
   ref,
 } from "vue";
 import { readList } from "../../components/static";
+import { healthInfoComplete, healthInfoDetail } from "@/api/resource";
+import { throttle } from "@/utils/throttle";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import EventBus from "@/utils/eventbus";
 export default defineComponent({
   name: "index",
   components: {},
   setup(props, { emit }: SetupContext) {
-    const state: {} = reactive({});
+    const store = useStore();
+    const router = useRouter();
+    const state: {
+      list: any;
+    } = reactive({
+      list: [],
+    });
 
-    onMounted(async () => {});
+    const handleJump2LongPicPage = throttle (async(item: any) => {
+      const res = await healthInfoDetail({
+        healInfoId: item.id,
+      });
+      if (res) {
+        router.push({
+          name: "picPage",
+          params: { healInfoId: item.id, userImg: item.userImg as string },
+        });
+      }
+    });
+
+    onMounted(async () => {
+      const { index } = store.state;
+      state.list = index.healthInfo.healthInfoList;
+    });
 
     return {
       ...toRefs(state),
       readList,
+      handleJump2LongPicPage,
     };
   },
 });
