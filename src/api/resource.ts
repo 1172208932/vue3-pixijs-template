@@ -20,7 +20,7 @@ const APIPath = {
 };
 
 
-addMock(APIPath);
+// addMock(APIPath);
 
 export const healthInfoIndex = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
