@@ -1,6 +1,7 @@
 <template>
   <div class="picBox">
     <img v-if="userImg" :src="userImg" class="pic" />
+    <guid-pop v-model:show="showBackPop" ></guid-pop>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { healthInfoComplete } from "../../api/resource";
 import { showSuccessToast } from "vant";
+import BackPop from "@/components/backPop.vue"
 export default defineComponent({
   name: "picPage",
   components: {},
@@ -29,6 +31,9 @@ export default defineComponent({
     let userImg = ref<any>("");
     let healInfoId = ref<string>("")
     const state: {} = reactive({});
+    
+    let showBackPop = ref<boolean>(true);
+
 
     onMounted(async () => {
       timer = setInterval(() => {
@@ -58,6 +63,7 @@ export default defineComponent({
       userImg,
       healInfoId,
       readList,
+      showBackPop
     };
   },
 });
