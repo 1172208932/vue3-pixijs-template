@@ -6,7 +6,10 @@
         <img src="../../assets/logo.png" class="titleImg" />
         <span class="rule" @click="showRule"></span>
         <span class="task" @click="showTask"></span>
-        <span class="go_btn" @click="goGame"></span>
+        <div class="btns">
+          <p>剩余次数{{ healthInfo.remainGameTimes || "--" }}</p>
+          <span class="go_btn" @click="goGame"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -41,12 +44,15 @@ export default defineComponent({
     const router = useRouter();
     let showRulePop = ref<boolean>(false);
     let showTaskPop = ref<boolean>(false);
-    let begin = ref<boolean>(false)
+    let begin = ref<boolean>(false);
 
     const store = useStore();
 
-
-    const state: {} = reactive({});
+    const state: {
+      healthInfo: any;
+    } = reactive({
+      healthInfo: {},
+    });
 
     const showRule = () => {
       showRulePop.value = true;
@@ -62,11 +68,11 @@ export default defineComponent({
     };
 
     const goGame = async () => {
-      let res =  await gameStart()
+      let res = await gameStart();
 
-      store.commit("setGameId", res['startId'] +'')
-      if(res['startId']){
-          router.push({
+      store.commit("setGameId", res["startId"] + "");
+      if (res["startId"]) {
+        router.push({
           name: "game",
         });
       }
@@ -89,13 +95,15 @@ export default defineComponent({
         await player.mount(svgaData);
 
         player.start();
-        begin.value = true
+        begin.value = true;
       })();
     };
 
     onMounted(async () => {
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
+      const { index } = store.state;
+      state.healthInfo = index.healthInfo;
     });
 
     return {
@@ -141,6 +149,18 @@ export default defineComponent({
     height: 100%;
     margin-top: 30px;
   }
+  .times {
+    width: 192px;
+    height: 54px;
+  }
+  .btns{
+    position: relative;
+    p{
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
 }
 .rule {
   width: 98px;
@@ -169,15 +189,15 @@ export default defineComponent({
   // right: 36px;
   bottom: 150px;
   left: 28%;
-  animation: myBreath 1s linear infinite;
+  animation: myBreath1 1s linear infinite;
 }
 .img-dialog {
   width: 300px;
   height: 300px;
 }
 .titleImg {
-  width: 225px;
-  height: 59px;
+  width: 332px;
+  height: 45px;
   display: flex;
   // margin-top: 140px;
   position: absolute;
@@ -185,7 +205,7 @@ export default defineComponent({
   left: 50%;
   transform: translateX(-50%);
 }
-@keyframes myBreath {
+@keyframes myBreath1 {
   0% {
     transform: scale(0.88);
   }

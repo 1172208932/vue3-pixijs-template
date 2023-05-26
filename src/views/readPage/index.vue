@@ -29,9 +29,9 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const state: {
-      healthInfo: any
+      healthInfo: any;
     } = reactive({
-      healthInfo: {}
+      healthInfo: {},
     });
 
     onMounted(async () => {
@@ -44,11 +44,15 @@ export default defineComponent({
       });
     };
 
-    const getHealthInfo = async() => {
+    const getHealthInfo = async () => {
       let res = await healthInfoIndex();
-      const { index } = store.state;
-      store.commit("setHealthInfo", res)
-      console.log(index.healthInfo.actEndTime,'------ss',)
+      if (res) {
+        // const { index } = store.state;
+        store.commit("setHealthInfo", res);
+        state.healthInfo = res;
+        // console.log(index.healthInfo.actEndTime, "------ss");
+      }
+
       // if (res?.success) {
       //   healthInfo = res.data;
       //   if (res.data.readRewardCoin) {
