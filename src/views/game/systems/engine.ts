@@ -130,10 +130,9 @@ export default class PixiEngine {
         // cardList = shuffle(arr)
         const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
         const loader = new PIXI.Loader();
-        `${isTextUrl}bird/mines@2x.json`
         loader.add('barrier', `${isTextUrl}barrier.png`)
         loader.add('ip2', `${isTextUrl}Ip2.png`)
-        loader.add('gold', `https://ysupup.oss-cn-hangzhou.aliyuncs.com/gold.png`)
+        loader.add('gold', `${isTextUrl}gold.png`)
         // loader.add(`${isTextUrl}bird/min.json`)
         loader.load(() => {
                 this.world.addPlayer();

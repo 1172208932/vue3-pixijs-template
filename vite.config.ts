@@ -105,6 +105,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           drop_debugger: true, // 生产环境去除debugger
         },
       },
+      outDir: 'dist/running',
       rollupOptions: {
         input: {
           main: resolve(__dirname, "index.html"),

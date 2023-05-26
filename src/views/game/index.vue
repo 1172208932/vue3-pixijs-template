@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <audio ref="audio" preload="true" src="src/assets/glod.mp3"></audio>
+    <audio ref="audio" preload="true" :src="mp3Path"></audio>
     <div class="bg">
       <!-- <div class="rand"></div> -->
       <canvas id="canvas1"></canvas>
@@ -13,10 +13,16 @@
     <div class="guid2" v-if="showGuid2" @click="clickGuid2">
       <img src="../../assets/guid2.png" alt="">
     </div>
+    <div class="down-time" v-if="showDownTime">
+      <div class="down-title">倒计时</div>
+      <div class="down-num">{{ downTimeNum }}</div>
+    </div>
 
   </div>
   <choose-pop v-model:show="showChoosePop"></choose-pop>
   <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="resurgenceGame"></over-pop>
+  <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
+
 </template>
 
 <script lang="ts">
@@ -32,6 +38,8 @@ import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import PixiEngine from "./systems/engine";
 import ChoosePop from "@/components/ChoosePop.vue";
 import OverPop from "@/components/overPop.vue";
+import GuidPop from "@/components/guidPop.vue";
+
 import { Downloader, Parser, Player } from 'svga-web'
 import { completeGuide } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
@@ -43,22 +51,28 @@ export default defineComponent({
   name: "gameIndex",
   components: {
     ChoosePop,
-    OverPop
+    OverPop,
+    GuidPop
   },
   setup(props, { emit }: SetupContext) {
-    let timenum = ref<number>(60);
+    let timenum = ref<number>(60);  // 游戏倒计时
+    let downTimeNum = ref<number>(3); // 新手引导倒计时
     let glodNum = ref<number>(0);
     let usd = ref<number>(1);
     let audio = ref<any>(null);
-    let showGuid1 = ref<boolean>(true);
+    let showGuid1 = ref<boolean>(false);
     let showGuid2 = ref<boolean>(false);
+    let showDownTime = ref<boolean>(false); // 倒计时
 
+      
     let showPop = ref<boolean>(false);
     let showChoosePop = ref<boolean>(true);
     let showOverPop = ref<boolean>(false);
+    let showguidPop = ref<boolean>(false);
 
-      
-    let svgaPath = ref('../../assets/gameTree.svga')
+
+    const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
+    let mp3Path = ref(`${isTextUrl}glod.mp3`)
 
     let gameStart = ref<boolean>(false);
     let overlap = ref(false);
@@ -87,14 +101,41 @@ export default defineComponent({
       money: 0,
     });
 
+    const init = ()=>{
+      const { index } = store.state;
+      console.log(index.healthInfo.guidStatus,'------ss',)
+      if(index.healthInfo.guidStatus == 0){
+        showGuid1.value = true
+      }else{
+        guid3Over()
+      }
+    }
+
     const clickGuid1 = () => {
       showGuid1.value = false
       showGuid2.value = true
     }
     const clickGuid2 = async () => {
       showGuid2.value = false;
-      completeGuideApi()
-      begin()
+      showguidPop.value = true
+    }
+
+    const guid3Over = async ()=>{
+      showguidPop.value = false
+      showDownTime.value = true;
+
+      let timerGuid = setInterval(()=>{
+        if(downTimeNum.value  == 1){
+          clearInterval(timerGuid)
+          showDownTime.value = false
+          downTimeNum.value = 3
+          completeGuideApi()
+          begin()
+          return
+        }
+        downTimeNum.value --
+      },1000)
+
     }
 
     const completeGuideApi = ()=>{
@@ -158,9 +199,9 @@ export default defineComponent({
       const downloader = new Downloader()
       const parser = new Parser()
       playerTree = new Player('#canvas2');
-
+     
       (async () => {
-        const fileData = await downloader.get('../../../src/assets/gameTree.svga')
+        const fileData = await downloader.get(`${isTextUrl}gameTree.svga`)
         const svgaData = await parser.do(fileData)
 
         playerTree.set({
@@ -191,8 +232,9 @@ export default defineComponent({
       const downloader = new Downloader()
       const parser = new Parser()
       const player = new Player('#canvas1');
+
       (async () => {
-        const fileData = await downloader.get('../../../src/assets/game_yun.svga')
+        const fileData = await downloader.get(`${isTextUrl}game_yun.svga`)
         const svgaData = await parser.do(fileData)
         player.set({
           loop: 0,
@@ -216,6 +258,8 @@ export default defineComponent({
       let PixiEngineObj = new PixiEngine(750, 1400);
       const canvasInfo = PixiEngineObj.getCanvas();
       document.querySelector("#canvas")!.appendChild(canvasInfo);
+      init()
+
 
     });
 
@@ -227,21 +271,25 @@ export default defineComponent({
       audio,
       showPop,
       showOverPop,
+      showguidPop,
+      showDownTime,
       showChoosePop,
       usd,
       overlap,
       autoSwitch,
       gameStart,
-      svgaPath,
+      mp3Path,
       showGuid1,
       showGuid2,
       timenum,
       glodNum,
+      downTimeNum,
       clickGuid1,
       clickGuid2,
       showPopChoose,
       begin,
-      resurgenceGame
+      resurgenceGame,
+      guid3Over
     };
   },
 });

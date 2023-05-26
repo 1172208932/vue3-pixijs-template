@@ -76,9 +76,10 @@ export default defineComponent({
       const downloader = new Downloader();
       const parser = new Parser();
       const player = new Player("#canvas1");
+      const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
       (async () => {
         const fileData = await downloader.get(
-          "../../../src/assets/homepage.svga"
+          `${isTextUrl}homepage.svga`
         );
         const svgaData = await parser.do(fileData);
 
