@@ -27,7 +27,7 @@ export default class PhysicsSprite {
     speed: number;
     addSpeed: number
 
-    public glodOffset = [[354,-10],[374,374],[394,754]]
+    public glodOffset = [[354,-40],[374,374],[394,784]]
 
 
     constructor(
@@ -105,7 +105,7 @@ export default class PhysicsSprite {
         let process = (y - 130) / (1230 - 130);
         this._body.position.x = this.glodOffset[this.track][0]  - ((this.glodOffset[this.track][0] - this.glodOffset[this.track][1] ) * process)
 
-        this._sprite.scale.x = this._sprite.scale.y = 2 * process
+        this._sprite.scale.x = this._sprite.scale.y = 2.5 * process
 
         this._sprite.position = this._body.position
         this._sprite.rotation = this._body.angle;
