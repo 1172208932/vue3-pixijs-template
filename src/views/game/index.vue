@@ -16,6 +16,7 @@
 
   </div>
   <choose-pop v-model:show="showChoosePop"></choose-pop>
+  <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="resurgenceGame"></over-pop>
 </template>
 
 <script lang="ts">
@@ -30,15 +31,19 @@ import {
 import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import PixiEngine from "./systems/engine";
 import ChoosePop from "@/components/ChoosePop.vue";
+import OverPop from "@/components/overPop.vue";
 import { Downloader, Parser, Player } from 'svga-web'
 import { completeGuide } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
+import { useStore } from "vuex";
+
 let isFirst = true;
 export default defineComponent({
   name: "gameIndex",
   components: {
-    ChoosePop
+    ChoosePop,
+    OverPop
   },
   setup(props, { emit }: SetupContext) {
     let timenum = ref<number>(60);
@@ -50,6 +55,9 @@ export default defineComponent({
 
     let showPop = ref<boolean>(false);
     let showChoosePop = ref<boolean>(true);
+    let showOverPop = ref<boolean>(false);
+
+      
     let svgaPath = ref('../../assets/gameTree.svga')
 
     let gameStart = ref<boolean>(false);
@@ -58,8 +66,13 @@ export default defineComponent({
     let canSetAuto = ref(false)
 
     
-    
+    let isOverOne = false
     let playerTree
+    const store = useStore();
+    const { index } = store.state;
+
+    console.log(index.gameId,'------ss',)
+
     const state: {
       percentage: number;
       isDisabled: boolean;
@@ -86,6 +99,13 @@ export default defineComponent({
 
     const completeGuideApi = ()=>{
       completeGuide()
+    }
+
+    const resurgenceGame = ()=>{
+      showOverPop.value = false
+      timenum.value = 30
+
+      begin()
     }
 
     let timer
@@ -162,6 +182,9 @@ export default defineComponent({
         })
         playerTree.start()
         clearInterval(timer)
+        if(!isOverOne){
+          showOverPop.value = true
+        }
     }
 
     const svgaplayerweb1 = () => {
@@ -203,6 +226,7 @@ export default defineComponent({
       SOUND_LIST,
       audio,
       showPop,
+      showOverPop,
       showChoosePop,
       usd,
       overlap,
@@ -217,6 +241,7 @@ export default defineComponent({
       clickGuid2,
       showPopChoose,
       begin,
+      resurgenceGame
     };
   },
 });

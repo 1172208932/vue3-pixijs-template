@@ -28,6 +28,9 @@ import { Downloader, Parser, Player } from "svga-web";
 import EventBus from "@/utils/eventbus";
 import RulePop from "@/components/RulePop.vue";
 import TaskPop from "@/components/TaskPop.vue";
+import { gameStart } from "@/api/resource";
+import { useStore } from "vuex";
+
 export default defineComponent({
   name: "index",
   components: {
@@ -39,6 +42,9 @@ export default defineComponent({
     let showRulePop = ref<boolean>(false);
     let showTaskPop = ref<boolean>(false);
     let begin = ref<boolean>(false)
+
+    const store = useStore();
+
 
     const state: {} = reactive({});
 
@@ -55,10 +61,15 @@ export default defineComponent({
       showTaskPop.value = false;
     };
 
-    const goGame = () => {
-      router.push({
-        name: "game",
-      });
+    const goGame = async () => {
+      let res =  await gameStart()
+
+      store.commit("setGameId", res['startId'] +'')
+      if(res['startId']){
+          router.push({
+          name: "game",
+        });
+      }
     };
 
     const svgaplayerweb = () => {

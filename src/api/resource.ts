@@ -13,6 +13,8 @@ const APIPath = {
   healthInfoIndex: `${snsUrl}act-gateway/act-core/act/1/parkour/index`, // 获取首页信息
   completeGuide: `${snsUrl}act-gateway/act-core/act/1/parkour/completeGuide`, // 完成新手引导
   gameStart: `${snsUrl}act-gateway/act-core/act/1/parkour/start`,
+  gameSubmit:  `${snsUrl}act-gateway/act-core/act/1/parkour/submit`,
+  gameReborn: `${snsUrl}act-gateway/act-core/act/1/parkour/reborn`,
   detail: `${snsUrl}act-gateway/act-core/act/1/parkour/detail`, // 文章详情
   complete: `${snsUrl}act-gateway/act-core/act/1/parkour/complete`, // 阅读完成
 };
@@ -60,6 +62,31 @@ export const healthInfoDetail = <T = any>(params:any): Promise<BaseResponse<T>> 
 export const gameStart = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.gameStart, { },{})
+      .then((res) => {
+        resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+
+export const gameSubmit = <T = any>(id,score): Promise<BaseResponse<T>> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.gameSubmit, { },{})
+      .then((res) => {
+        resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const gameReborn = <T = any>(id): Promise<BaseResponse<T>> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.gameReborn, { },{})
       .then((res) => {
         resolve(res.data);
     })

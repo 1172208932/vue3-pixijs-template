@@ -7,7 +7,7 @@ import * as TWEEN from "@tweenjs/tween.js";
 import EventBus from '@/utils/eventbus';
 
 let trackTime = 5;
-
+let timerOut
 export default class World {
     private _engine: any;
 
@@ -57,7 +57,7 @@ export default class World {
 
                 if ((pair.bodyA?.bodyType == 'barrier' && pair.bodyB === this.player.body) || (pair.bodyA === this.player.body && pair.bodyB?.bodyType == 'barrier')) {
                     if (pair.bodyA?.bodyType == 'barrier') {
-                        this.removeGlod(pair.bodyB?.num)
+                        this.removeGlod(pair.bodyA?.num)
                         this.gameOverFn()
                     }
                     if (pair.bodyB?.bodyType == 'barrier') {
@@ -71,14 +71,19 @@ export default class World {
     }
 
     gameOverFn() {
+        clearTimeout(timerOut);
+        trackTime = 5
+
         this.gameOver = true
         this.player.ani.pause()
         EventBus.fire('GAME_OVER')
+        console.log(this.glodList,'this.glodListthis.glodList')
         this.glodList.forEach(glod => {
             glod.destroy()
             glod._sprite.destroy()
             this.glodList.delete(glod.num)
         })
+        console.log(this.glodList,'this.glodListthis.glodList')
     }
 
     removeGlod(num) {
@@ -121,7 +126,7 @@ export default class World {
     }
 
     addGoldTrack(track) {
-        setTimeout(() => {
+            timerOut =  setTimeout(() => {
             trackTime--;
             if (trackTime == 0) {
                 this.addBarrier(track)
