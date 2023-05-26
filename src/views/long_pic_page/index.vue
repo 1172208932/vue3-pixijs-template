@@ -1,7 +1,7 @@
 <template>
   <div class="picBox">
     <img v-if="userImg" :src="userImg" class="pic" />
-    <guid-pop v-model:show="showBackPop" ></guid-pop>
+    <back-pop v-model:show="showBackPop" ></back-pop>
   </div>
 </template>
 
@@ -32,8 +32,7 @@ export default defineComponent({
     let healInfoId = ref<string>("")
     const state: {} = reactive({});
     
-    let showBackPop = ref<boolean>(true);
-
+    let showBackPop = ref<boolean>(false);
 
     onMounted(async () => {
       timer = setInterval(() => {

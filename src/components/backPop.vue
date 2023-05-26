@@ -1,12 +1,7 @@
 <template>
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
-      <div class="title">健康币收集</div>
-      <div class="begin-game"  @click="$emit('closeGuid')">开始游戏</div>
-
-      <div class="begin-t1">新手引导结束</div>
-      <div class="begin-t2">开始游戏吧</div>
-
+      <div class="back-btn"  @click="close">返回阅读</div>
     </div>
     <img src="../assets/close.png" class="close" @click="$emit('closeGuid')" alt="" />
 
@@ -91,17 +86,10 @@ function close() {
 }
 
 
-.overBg {
-  width: 614px;
-  height: 735px;
-  background: url("../assets/guild3.png") no-repeat top left / 100% 100%;
-  position: relative;
-}
-
-.begin-game{
+.back-btn{
   width: 280px;
   height:  92px;
-  top: 450px;
+  top: 670px;
   background: url("../assets/btn.png") no-repeat top left / 100% 100%;
   position: absolute;
   color: #ffffff;
@@ -111,6 +99,12 @@ function close() {
   text-align: center;
   font-weight: bold;
   line-height: 92px;
+}
+.overBg {
+  width: 614px;
+  height: 876px;
+  background: url("../assets/backBg.png") no-repeat top left / 100% 100%;
+  position: relative;
 }
 
 
