@@ -10,11 +10,11 @@
           @click="handleJump2LongPicPage(item)"
         >
           <div>
-            <p>{{ item.time }}</p>
+            <!-- <p>{{ item.time }}</p> -->
             <p class="title">{{ item.text }}</p>
             <span class="bottomtext">
-              <p class="read">阅读{{ item.read }}</p>
-              <p>赞{{ item.good }}</p>
+              <p class="read">阅读{{ item.dailyClickCount }}</p>
+              <!-- <p>赞{{ item.good }}</p> -->
             </span>
           </div>
           <img src="../../assets/icon.png" alt="" />
@@ -51,17 +51,18 @@ export default defineComponent({
       list: [],
     });
 
-    const handleJump2LongPicPage = throttle (async(item: any) => {
+    const handleJump2LongPicPage = async (item: any) => {
       const res = await healthInfoDetail({
         healInfoId: item.id,
       });
       if (res) {
+        let temp: any = item.id + "&" + item.userImg;
         router.push({
           name: "picPage",
-          params: { healInfoId: item.id, userImg: item.userImg as string },
+          params: { info: temp },
         });
       }
-    });
+    };
 
     onMounted(async () => {
       const { index } = store.state;
@@ -125,6 +126,12 @@ export default defineComponent({
       font-size: 30px !important;
       font-weight: bold !important;
       color: #404040 !important;
+      width: 67%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 3;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
     }
     .read {
       margin-right: 39px;
@@ -132,6 +139,8 @@ export default defineComponent({
     img {
       width: 159px;
       height: 168px;
+      position: absolute;
+      right: 79px;
     }
   }
 }

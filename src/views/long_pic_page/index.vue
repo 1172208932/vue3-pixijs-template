@@ -18,7 +18,7 @@ import { readList } from "../../components/static";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { healthInfoComplete } from "../../api/resource";
-import { Toast } from "vant";
+import { showSuccessToast } from "vant";
 import BackPop from "@/components/backPop.vue"
 export default defineComponent({
   name: "index",
@@ -27,8 +27,9 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     let timer: any;
-    let countdown = ref<number>(5);
+    let countdown = ref<number>(10);
     let userImg = ref<any>("");
+    let healInfoId = ref<string>("")
     const state: {} = reactive({});
     
     let showBackPop = ref<boolean>(true);
@@ -43,22 +44,24 @@ export default defineComponent({
         }
         countdown.value--;
       }, 1000);
-      console.log(route.params,'userImg')
-      userImg.value = route.params.userImg;
+      const { info } = route.params
+      userImg.value = info.toString().split('&')[1];
+      healInfoId.value = info.toString().split('&')[1];
     });
 
     const complete = async () => {
       let res = await healthInfoComplete({
-        healInfoId: route.params.healInfoId,
+        healInfoId,
       });
       if (res) {
-        Toast.success("阅读成功");
+        showSuccessToast("阅读成功");
       }
     };
 
     return {
       ...toRefs(state),
       userImg,
+      healInfoId,
       readList,
       showBackPop
     };

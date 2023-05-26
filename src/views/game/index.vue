@@ -20,7 +20,7 @@
 
   </div>
   <choose-pop v-model:show="showChoosePop"></choose-pop>
-  <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="resurgenceGame"></over-pop>
+  <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
 
 </template>
@@ -41,7 +41,7 @@ import OverPop from "@/components/overPop.vue";
 import GuidPop from "@/components/guidPop.vue";
 
 import { Downloader, Parser, Player } from 'svga-web'
-import { completeGuide } from "@/api/resource";
+import { completeGuide, getQuestion } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
@@ -85,15 +85,14 @@ export default defineComponent({
     const store = useStore();
     const { index } = store.state;
 
-    console.log(index.gameId,'------ss',)
-
     const state: {
       percentage: number;
       isDisabled: boolean;
       isBegin: boolean;
       money: number;
+      question:any
     } = reactive({
-      swperList2: [],
+      question: [],
       worksList: [],
       percentage: 0,
       isDisabled: false,
@@ -142,6 +141,9 @@ export default defineComponent({
       completeGuide()
     }
 
+    /**
+     * 点击答题成功复活
+     */
     const resurgenceGame = ()=>{
       showOverPop.value = false
       timenum.value = 30
@@ -244,16 +246,29 @@ export default defineComponent({
       })()
     }
 
+    /**
+     * 获取题目
+     */
+    const getQuestionList = async() =>{
+      const { index } = store.state
+      console.log(index,'index')
+      let res = await getQuestion({gameStartId: index.startId})
+      if(res){
+        showChoosePop.value = true;
+        // state.question = res.question;
+      }
+    }
+
     onMounted(async () => {
       svgaplayerweb()
       svgaplayerweb1()
       EventBus.on("GET_STARE", getScore);
       EventBus.on("GAME_OVER", gameOver);
-      // EventBus.on("CLOSEPOP", closePop);
       // // SOUND_LIST.forEach((elm,index) => {
       // //                   this.audio[index] = document.getElementById(`${'play'+index}`)
       // //                   this.audioUrlArr.push(elm)
       // //                });
+
       EventBus.on("CLOSEPOP", closePop);
       let PixiEngineObj = new PixiEngine(750, 1400);
       const canvasInfo = PixiEngineObj.getCanvas();
@@ -289,6 +304,7 @@ export default defineComponent({
       showPopChoose,
       begin,
       resurgenceGame,
+      getQuestionList,
       guid3Over
     };
   },

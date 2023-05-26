@@ -6,7 +6,12 @@
         <img src="../../assets/logo.png" class="titleImg" />
         <span class="rule" @click="showRule"></span>
         <span class="task" @click="showTask"></span>
-        <span class="go_btn" @click="goGame"></span>
+        <div class="btns">
+          <span class="times"
+            >剩余次数{{ healthInfo.remainGameTimes || "--" }}</span
+          >
+          <span class="go_btn" @click="goGame"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -41,12 +46,15 @@ export default defineComponent({
     const router = useRouter();
     let showRulePop = ref<boolean>(false);
     let showTaskPop = ref<boolean>(false);
-    let begin = ref<boolean>(false)
+    let begin = ref<boolean>(false);
 
     const store = useStore();
 
-
-    const state: {} = reactive({});
+    const state: {
+      healthInfo: any;
+    } = reactive({
+      healthInfo: {},
+    });
 
     const showRule = () => {
       showRulePop.value = true;
@@ -62,11 +70,11 @@ export default defineComponent({
     };
 
     const goGame = async () => {
-      let res =  await gameStart()
+      let res = await gameStart();
 
-      store.commit("setGameId", res['startId'] +'')
-      if(res['startId']){
-          router.push({
+      store.commit("setGameId", res["startId"] + "");
+      if (res["startId"]) {
+        router.push({
           name: "game",
         });
       }
@@ -78,9 +86,7 @@ export default defineComponent({
       const player = new Player("#canvas1");
       const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
       (async () => {
-        const fileData = await downloader.get(
-          `${isTextUrl}homepage.svga`
-        );
+        const fileData = await downloader.get(`${isTextUrl}homepage.svga`);
         const svgaData = await parser.do(fileData);
 
         player.set({
@@ -90,13 +96,15 @@ export default defineComponent({
         await player.mount(svgaData);
 
         player.start();
-        begin.value = true
+        begin.value = true;
       })();
     };
 
     onMounted(async () => {
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
+      const { index } = store.state;
+      state.healthInfo = index.healthInfo;
     });
 
     return {
@@ -142,6 +150,46 @@ export default defineComponent({
     height: 100%;
     margin-top: 30px;
   }
+  .btns {
+    position: relative;
+    bottom: 21%;
+    width: 100%;
+    .times {
+      width: 192px;
+      height: 54px;
+      position: absolute;
+      background: url("../../assets/times.png") no-repeat top left / 100% 100%;
+      left: 20%;
+      top: -15%;
+      z-index: 999;
+      font-weight: bold;
+      color: #983b26;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .go_btn {
+      width: 362px;
+      height: 135px;
+      background: url("../../assets/btn_2.png") no-repeat top left / 100% 100%;
+      display: inline-block;
+      animation: myBreath1 1s linear infinite;
+    }
+  }
+
+  @keyframes myBreath1 {
+    0% {
+      transform: scale(0.88);
+    }
+    50% {
+      transform: scale(100%);
+    }
+    100% {
+      transform: scale(0.88);
+    }
+  }
 }
 .rule {
   width: 98px;
@@ -161,40 +209,18 @@ export default defineComponent({
   right: 36px;
   top: 1133px;
 }
-.go_btn {
-  width: 362px;
-  height: 135px;
-  background: url("../../assets/btn_2.png") no-repeat top left / 100% 100%;
-  display: inline-block;
-  position: absolute;
-  // right: 36px;
-  bottom: 150px;
-  left: 28%;
-  animation: myBreath 1s linear infinite;
-}
 .img-dialog {
   width: 300px;
   height: 300px;
 }
 .titleImg {
-  width: 225px;
-  height: 59px;
+  width: 332px;
+  height: 45px;
   display: flex;
   // margin-top: 140px;
   position: absolute;
   top: 170px;
   left: 50%;
   transform: translateX(-50%);
-}
-@keyframes myBreath {
-  0% {
-    transform: scale(0.88);
-  }
-  50% {
-    transform: scale(100%);
-  }
-  100% {
-    transform: scale(0.88);
-  }
 }
 </style>

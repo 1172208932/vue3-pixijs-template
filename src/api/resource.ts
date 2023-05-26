@@ -17,6 +17,7 @@ const APIPath = {
   gameReborn: `${snsUrl}act-gateway/act-core/act/1/parkour/reborn`,
   detail: `${snsUrl}act-gateway/act-core/act/1/parkour/detail`, // 文章详情
   complete: `${snsUrl}act-gateway/act-core/act/1/parkour/complete`, // 阅读完成
+  getQuestion: `${snsUrl}act-gateway/act-core/act/1/parkour/getQuestion`, // 获取题目
 };
 
 
@@ -100,6 +101,18 @@ export const gameReborn = <T = any>(id): Promise<BaseResponse<T>> => {
 export const healthInfoComplete = <T = any>(params:any): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.complete, params,{})
+      .then((res) => {
+        resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const getQuestion = <T = any>(params:any): Promise<BaseResponse<T>> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.getQuestion, params,{})
       .then((res) => {
         resolve(res.data);
     })
