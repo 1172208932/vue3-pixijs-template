@@ -7,7 +7,9 @@
         <span class="rule" @click="showRule"></span>
         <span class="task" @click="showTask"></span>
         <div class="btns">
-          <p>剩余次数{{ healthInfo.remainGameTimes || "--" }}</p>
+          <span class="times"
+            >剩余次数{{ healthInfo.remainGameTimes || "--" }}</span
+          >
           <span class="go_btn" @click="goGame"></span>
         </div>
       </div>
@@ -84,9 +86,7 @@ export default defineComponent({
       const player = new Player("#canvas1");
       const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
       (async () => {
-        const fileData = await downloader.get(
-          `${isTextUrl}homepage.svga`
-        );
+        const fileData = await downloader.get(`${isTextUrl}homepage.svga`);
         const svgaData = await parser.do(fileData);
 
         player.set({
@@ -150,16 +150,44 @@ export default defineComponent({
     height: 100%;
     margin-top: 30px;
   }
-  .times {
-    width: 192px;
-    height: 54px;
-  }
-  .btns{
+  .btns {
     position: relative;
-    p{
+    bottom: 21%;
+    width: 100%;
+    .times {
+      width: 192px;
+      height: 54px;
       position: absolute;
-      right: 0;
-      top: 0;
+      background: url("../../assets/times.png") no-repeat top left / 100% 100%;
+      left: 20%;
+      top: -15%;
+      z-index: 999;
+      font-weight: bold;
+      color: #983b26;
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .go_btn {
+      width: 362px;
+      height: 135px;
+      background: url("../../assets/btn_2.png") no-repeat top left / 100% 100%;
+      display: inline-block;
+      animation: myBreath1 1s linear infinite;
+    }
+  }
+
+  @keyframes myBreath1 {
+    0% {
+      transform: scale(0.88);
+    }
+    50% {
+      transform: scale(100%);
+    }
+    100% {
+      transform: scale(0.88);
     }
   }
 }
@@ -181,17 +209,6 @@ export default defineComponent({
   right: 36px;
   top: 1133px;
 }
-.go_btn {
-  width: 362px;
-  height: 135px;
-  background: url("../../assets/btn_2.png") no-repeat top left / 100% 100%;
-  display: inline-block;
-  position: absolute;
-  // right: 36px;
-  bottom: 150px;
-  left: 28%;
-  animation: myBreath1 1s linear infinite;
-}
 .img-dialog {
   width: 300px;
   height: 300px;
@@ -205,16 +222,5 @@ export default defineComponent({
   top: 170px;
   left: 50%;
   transform: translateX(-50%);
-}
-@keyframes myBreath1 {
-  0% {
-    transform: scale(0.88);
-  }
-  50% {
-    transform: scale(100%);
-  }
-  100% {
-    transform: scale(0.88);
-  }
 }
 </style>

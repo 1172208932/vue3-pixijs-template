@@ -48,7 +48,7 @@ function close() {
   width: 80%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 15px;
+  font-size: 25px;
   line-height: 40px;
   height: 60%;
   overflow-y: scroll;

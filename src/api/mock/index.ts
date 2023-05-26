@@ -5,6 +5,7 @@ import completeGuide from './completeGuide';
 import gameStart from './gameStart';
 import gameSubmit from './gameSubmit';
 import gameReborn from './gameReborn';
+import getQuestion from './getQuestion';
 
 
 import healthInfoDetail from './healthInfoDetail';
@@ -21,5 +22,6 @@ export const addMock = (APIPath :any) => {
 
     mock.onGet(APIPath.healthInfoDetail).reply(200, healthInfoDetail);
     mock.onGet(APIPath.healthInfoComplete).reply(200, healthInfoComplete);
+    mock.onGet(APIPath.getQuestion).reply(200, getQuestion);
 
 }
