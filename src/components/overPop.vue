@@ -8,7 +8,6 @@
       <div class="glod_num">{{ glodNum }}</div>
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
-
   </van-popup>
 </template>
   
