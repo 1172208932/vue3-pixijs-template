@@ -40,7 +40,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import EventBus from "@/utils/eventbus";
 export default defineComponent({
-  name: "index",
+  name: "detailPage",
   components: {},
   setup(props, { emit }: SetupContext) {
     const store = useStore();

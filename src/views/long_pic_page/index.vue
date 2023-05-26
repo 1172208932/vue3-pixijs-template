@@ -21,8 +21,8 @@ import { healthInfoComplete } from "../../api/resource";
 import { showSuccessToast } from "vant";
 import BackPop from "@/components/backPop.vue"
 export default defineComponent({
-  name: "index",
-  components: { BackPop },
+  name: "picPage",
+  components: {},
   setup(props, { emit }: SetupContext) {
     const store = useStore();
     const route = useRoute();

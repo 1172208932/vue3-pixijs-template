@@ -4,6 +4,7 @@ export default {
     "message": "",
     "data": {
         "guidStatus": 1,
+        "remainGameTimes":2,
         "actStartTime": "活动开始时间，long类型，时间戳",
         "actEndTime": "活动结束时间，long类型，时间戳",
         "currentTime": "当前时间，long类型，时间戳"

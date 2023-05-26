@@ -8,7 +8,7 @@
         <span class="task" @click="showTask"></span>
         <div class="btns">
           <span class="times"
-            >剩余次数{{ healthInfo.remainGameTimes || "--" }}</span
+            >剩余次数：{{ healthInfo.remainGameTimes || "--" }}</span
           >
           <span class="go_btn" @click="goGame"></span>
         </div>
@@ -37,7 +37,7 @@ import { gameStart } from "@/api/resource";
 import { useStore } from "vuex";
 
 export default defineComponent({
-  name: "index",
+  name: "homeIndex",
   components: {
     RulePop,
     TaskPop,
