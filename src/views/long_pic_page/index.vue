@@ -19,7 +19,7 @@ import { useStore } from "vuex";
 import { healthInfoComplete } from "../../api/resource";
 import { showSuccessToast } from "vant";
 export default defineComponent({
-  name: "index",
+  name: "picPage",
   components: {},
   setup(props, { emit }: SetupContext) {
     const store = useStore();

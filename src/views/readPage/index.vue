@@ -23,7 +23,7 @@ import { healthInfoIndex } from "@/api/resource";
 import { useStore } from "vuex";
 import EventBus from "@/utils/eventbus";
 export default defineComponent({
-  name: "index",
+  name: "readPage",
   components: {},
   setup(props, { emit }: SetupContext) {
     const router = useRouter();

@@ -1,16 +1,33 @@
 <template>
   <van-popup v-model:show="showPopup">
     <div class="chooseBg">
+      <p class="title">{{ state.question?.title }}</p>
       <div class="chooseItems">
         <div
-          v-for="(item, index) in props.chooesList"
+          v-for="(item, index) in state.questionList"
           :key="index"
-          :class="(judgeRight === '1' && tab === index) ? 'chooseItem right' : (judgeRight === '2' && tab === index) ? 'chooseItem wrong' : 'chooseItem'"
+          :class="
+            right === index + 1 && tab === index
+              ? 'chooseItem right'
+              : wrong === index + 1 && tab === index
+              ? 'chooseItem wrong'
+              : 'chooseItem'
+          "
           @click="judge(index)"
         >
           <p>{{ item }}</p>
-          <img v-if="judgeRight === '1' && tab === index" src="../assets/yes.png" alt="" class="yes">
-          <img v-if="judgeRight === '2' && tab === index" src="../assets/no.png" alt="" class="no">
+          <img
+            v-if="right === index + 1 && tab === index"
+            src="../assets/yes.png"
+            alt=""
+            class="yes"
+          />
+          <img
+            v-if="wrong === index + 1 && tab === index"
+            src="../assets/no.png"
+            alt=""
+            class="no"
+          />
         </div>
       </div>
     </div>
@@ -20,31 +37,60 @@
   
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { submit } from "@/api/resource";
+import { showSuccessToast } from "vant";
 import EventBus from "@/utils/eventbus";
 const props = defineProps({
   show: Boolean,
-  chooesList: Array,
+  chooesList: Object,
+});
+const state: {
+  question: any;
+  questionList: any;
+} = reactive({
+  question: {},
+  questionList: [],
 });
 
 let showPopup = ref<boolean>(false);
-let judgeRight = ref<string>('0'); //1正确 2错误
+let right = ref<number>(0); //1正确 2错误
+let wrong = ref<number>(0); //1正确 2错误
 let tab = ref<Number>(0);
 
 watch(props, (newProps) => {
   showPopup.value = newProps.show;
+  const { chooesList } = newProps;
+  if (chooesList) {
+    state.question = chooesList.question;
+    state.questionList = chooesList.question.options.split("||");
+  }
 });
 
-function judge(index: Number){
+const judge = async (index: number) => {
   tab.value = index;
-  judgeRight.value = '2'
-}
+  let res = await submit({
+    startId: state.question.startId,
+    choose: index + 1,
+  });
+  console.log(res,'res------')
+  if (res) {
+    if (res.correct) {
+      right.value = index;
+      // TODO 回答正确
+    } else {
+      // TODO 回答错误
+      wrong.value = index;
+      right.value = res.rightOption;
+    }
+  }
+};
 
 function close() {
   EventBus.fire("CLOSEPOP");
 }
 </script>
   
-<style scoped>
+<style scoped lang="scss">
 .van-popup {
   background: none !important;
 }
@@ -60,6 +106,20 @@ function close() {
   height: 1023px;
   background: url("../assets/popup_frame.png") no-repeat top left / 100% 100%;
   position: relative;
+  .title {
+    font-size: 30px;
+    font-weight: bold;
+    position: relative;
+    top: 22%;
+    width: 90%;
+    height: 140px;
+    margin: 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
 }
 .chooseItem {
   width: 493px;
@@ -71,29 +131,29 @@ function close() {
   justify-content: center;
   margin-bottom: 44px;
 }
-.chooseItems{
+.chooseItems {
   position: absolute;
   top: 380px;
   left: 50%;
   transform: translateX(-50%);
 }
-.yes{
+.yes {
   width: 53px;
   height: 37px;
   position: absolute;
   right: 30px;
 }
 
-.no{
+.no {
   width: 40px;
   height: 40px;
   position: absolute;
   right: 30px;
 }
-.right{
+.right {
   background: #39ebc7 !important;
 }
-.wrong{
+.wrong {
   background: #dc654e !important;
 }
 </style>

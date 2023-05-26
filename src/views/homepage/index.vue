@@ -37,7 +37,7 @@ import { gameStart } from "@/api/resource";
 import { useStore } from "vuex";
 
 export default defineComponent({
-  name: "index",
+  name: "homeIndex",
   components: {
     RulePop,
     TaskPop,

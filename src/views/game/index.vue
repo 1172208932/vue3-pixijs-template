@@ -19,7 +19,7 @@
     </div>
 
   </div>
-  <choose-pop v-model:show="showChoosePop"></choose-pop>
+  <choose-pop v-model:show="showChoosePop" :chooesList = question></choose-pop>
   <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
 
@@ -66,7 +66,7 @@ export default defineComponent({
 
       
     let showPop = ref<boolean>(false);
-    let showChoosePop = ref<boolean>(true);
+    let showChoosePop = ref<boolean>(false);
     let showOverPop = ref<boolean>(false);
     let showguidPop = ref<boolean>(false);
 
@@ -251,11 +251,14 @@ export default defineComponent({
      */
     const getQuestionList = async() =>{
       const { index } = store.state
-      console.log(index,'index')
       let res = await getQuestion({gameStartId: index.startId})
+      console.log(index,'index',res)
+
       if(res){
+        // const { question } = res
+        showOverPop.value = false;
         showChoosePop.value = true;
-        // state.question = res.question;
+        state.question = res;
       }
     }
 
