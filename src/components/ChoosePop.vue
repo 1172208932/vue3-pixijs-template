@@ -40,6 +40,8 @@ import { ref, watch } from "vue";
 import { chooseSubmit } from "@/api/resource";
 import { showSuccessToast } from "vant";
 import EventBus from "@/utils/eventbus";
+
+const emit = defineEmits(['answer'])
 const props = defineProps({
   show: Boolean,
   chooesList: Object,
@@ -66,7 +68,7 @@ watch(props, (newProps) => {
   }
 });
 
-const judge = async (index: number) => {
+const judge = async ( index: number) => {
   tab.value = index;
   let res = await chooseSubmit({
     startId: state.question.startId,
@@ -74,16 +76,24 @@ const judge = async (index: number) => {
   });
   console.log(res,'res------')
   if (res) {
-  console.log(res['correct'],'res------')
-
     if (res['correct']) {
       right.value = index + 1;
-      // TODO 回答正确
-      
+      // 回答正确
+      setTimeout(()=>{
+        emit('answer',[],true)
+      },500)
     } else {
-      // TODO 回答错误
+      // 回答错误
       wrong.value = index + 1;
-      right.value = res['rightOption'];
+      console.log(res['rightOption'],typeof(res['rightOption']))
+      right.value = res['rightOpion'];
+      let item = state.questionList.filter((i, key, arr) => {
+        return key + 1 === res['rightOption']
+      })
+      console.log(item,'item11')
+      setTimeout(()=>{
+        emit('answer', item[0],false)
+      },500)
     }
   }
 };

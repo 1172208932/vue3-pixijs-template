@@ -2,9 +2,11 @@
   <div class="picBox">
     <img v-if="userImg" :src="userImg" class="pic" />
     <img src="../../assets/back.png" class="back" alt="" @click="back">
+    <img  v-if="countdown>=0" src="../../assets/down_time_bg.png" class="down_time_bg" alt="" @click="back">
+    <div class="blackNum left-top" v-if="countdown > 3"><span>{{countdown}}</span><span>s</span></div>
+    <div class="redNum left-top" v-if="countdown <= 3 && countdown >=0"><span>{{countdown}}</span><span>s</span></div>
     <back-pop v-model:show="showBackPop" @closePop="backPopCall"></back-pop>
     <read-pop :readGlodNum="readGlodNum" v-model:show="showReadPop"></read-pop>
-
   </div>
 </template>
 
@@ -94,6 +96,7 @@ export default defineComponent({
       healInfoId,
       readList,
       showBackPop,
+      countdown,
       backPopCall
     };
   },
@@ -109,6 +112,33 @@ export default defineComponent({
   img {
     width: 100%;
     height: 100%;
+  }
+
+  .down_time_bg{
+    width: calc(164px/2) ;
+    height:  calc(199px/2);
+    position: fixed;
+    left:  10px;
+    top: 200px;
+  }
+
+  .left-top{
+    width: calc(164px/2) ;
+    height:  calc(199px/2);
+    position: fixed;
+    left:  10px;
+    top: 205px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: calc(199px/2);
+  }
+
+  .blackNum{
+    color: black;
+  }
+  .redNum{
+    color: red;
   }
 
   .back {

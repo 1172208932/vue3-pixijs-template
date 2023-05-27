@@ -8,10 +8,7 @@ import Matter from './Matter';
 import { throttle } from "@/utils/throttle"
 
 let PixiApp: PIXI.Application;
-let back, front;
 let cardList;
-let isBegin = false;
-let isAutoSelect = false;
 // 定义变量以存储触摸和鼠标事件的初始位置
 let touchStartX = 0;
 let mouseStartX = 0;
@@ -28,8 +25,7 @@ export default class PixiEngine {
             PixiApp.destroy();
         }
         EventBus.on('BEGIN_GAME', this.beginGame, this)
-        EventBus.on('AGAIN_GAME', this.againGame, this)
-        EventBus.on('OVER_GAME', this.gameOver, this)
+        EventBus.on('GAME_OVER_WORLD', this.gameOver, this)
 
 
         PixiApp = new PIXI.Application({ width, height, transparent: true });
@@ -126,17 +122,13 @@ export default class PixiEngine {
 
 
     initgame() {
-        // let arr = new Array(22).fill(1).concat(new Array(3).fill(3))
-        // cardList = shuffle(arr)
         const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
         const loader = new PIXI.Loader();
         loader.add('barrier', `${isTextUrl}barrier.png`)
         loader.add('ip2', `${isTextUrl}Ip2.png`)
         loader.add('gold', `${isTextUrl}gold.png`)
-        // loader.add(`${isTextUrl}bird/min.json`)
         loader.load(() => {
                 this.world.addPlayer();
-            // this.addCards()
         })
     }
 
@@ -145,21 +137,14 @@ export default class PixiEngine {
         this.world.player.ani.play()
     }
 
-    againGame() {
-
+    gameOver(){
+        this.world.gameOverFn()
     }
-
-    gameOver() {
-        isBegin = false
-        playFipAllAnimation(FLIP_TYPE.FRONT, cardList)
-    }
-  
 
     get() {
         if (typeof PixiApp === 'undefined') {
             throw new Error('Run PixiEngine.init first');
         }
-
         return PixiApp;
     }
     getCanvas() {

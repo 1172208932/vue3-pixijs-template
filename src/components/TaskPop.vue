@@ -4,7 +4,7 @@
       <div class="taskList">
         <p class="title">分享活动</p>
         <p class="text">每日三次，游戏次数+1</p>
-        <span class="taskBtn"></span>
+        <span class="taskBtn" @click="share"></span>
       </div>
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
@@ -12,16 +12,33 @@
 </template>
   
 <script setup lang="ts">
+
+import { showShareGuide } from '@/utils/show-share-guide/index';
+import { completeTask } from "@/api/resource";
+
 import { ref, onMounted, watch } from "vue";
 import EventBus from "@/utils/eventbus";
 const props = defineProps({
   show: Boolean,
 });
+const emit = defineEmits(['getHealthInfo'])
 
 let showPopup = ref<boolean>(false);
 
+
 function close() {
   EventBus.fire("CLOSEPOP");
+}
+
+function share (){
+  EventBus.fire("CLOSEPOP");
+  let res = completeTask()
+  if(res['success']){
+    emit('getHealthInfo')
+  }
+  showShareGuide('点击...分享哦', 0.7, 0, () => {
+        // getTask()
+      })
 }
 
 watch(props, (newProps: any) => {

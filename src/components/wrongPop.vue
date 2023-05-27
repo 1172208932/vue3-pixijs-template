@@ -1,7 +1,7 @@
 <template>
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
-      <div class="read-title">正确答案：{{ readGlodNum || 20 }}</div>
+      <div class="read-title">正确答案：{{ showWrontTitle }}</div>
 
       <div class="back-btn" @click="close">再试一次</div>
     </div>
@@ -17,7 +17,8 @@ const router = useRouter();
 
 const props = defineProps({
   show: Boolean,
-  readGlodNum: Number
+  readGlodNum: Number,
+  showWrontTitle:String
 });
 
 let showPopup = ref<boolean>(false);
@@ -27,7 +28,10 @@ watch(props, (newProps) => {
 });
 
 function close() {
-  showPopup.value = false
+  showPopup.value = false;
+  router.push({
+          name: "homepage",
+        });
 }
 </script>
   

@@ -5,7 +5,7 @@
         <img src="../../assets/back.png" class="back" alt="" @click="back">
         <canvas id="canvas1"></canvas>
         <img src="../../assets/logo.png" class="titleImg" />
-        <span class="rule" @click="showRule"></span>
+        <!-- <span class="rule" @click="showRule"></span> -->
         <span class="task" @click="showTask"></span>
         <div class="btns">
           <span class="times"
@@ -17,7 +17,7 @@
     </div>
   </div>
   <rule-pop v-model:show="showRulePop"></rule-pop>
-  <task-Pop v-model:show="showTaskPop"></task-Pop>
+  <task-Pop v-model:show="showTaskPop"  @getHealthInfo="getHealthInfo"></task-Pop>
 </template>
 
 <script lang="ts">
@@ -36,6 +36,7 @@ import RulePop from "@/components/RulePop.vue";
 import TaskPop from "@/components/TaskPop.vue";
 import { gameStart } from "@/api/resource";
 import { useStore } from "vuex";
+import { healthInfoIndex } from "@/api/resource";
 
 export default defineComponent({
   name: "homeIndex",
@@ -104,6 +105,25 @@ export default defineComponent({
         begin.value = true;
       })();
     };
+    const getHealthInfo = async () => {
+      let res = await healthInfoIndex();
+      if (res) {
+        // const { index } = store.state;
+        store.commit("setHealthInfo", res);
+        state.healthInfo = res;
+        // console.log(index.healthInfo.actEndTime, "------ss");
+      }
+
+      // if (res?.success) {
+      //   healthInfo = res.data;
+      //   if (res.data.readRewardCoin) {
+      //     modalStore.pushPop("Success_modal", {
+      //       coinCount: res.data.readRewardCoin,
+      //     });
+      //   }
+      // }
+    };
+
 
     onMounted(async () => {
       svgaplayerweb();
@@ -122,6 +142,7 @@ export default defineComponent({
       begin,
       showRulePop,
       showTaskPop,
+      getHealthInfo
     };
   },
 });

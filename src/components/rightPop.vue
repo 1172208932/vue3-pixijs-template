@@ -1,9 +1,7 @@
 <template>
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
-      <div class="read-title">获得健康币X{{ readGlodNum || 20 }}</div>
-
-      <div class="back-btn" @click="close">开心收下</div>
+      <div class="back-btn" @click="close">立即开始</div>
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
 
@@ -19,6 +17,7 @@ const props = defineProps({
   show: Boolean,
   readGlodNum: Number
 });
+const emit = defineEmits(['resurgenceGame'])
 
 let showPopup = ref<boolean>(false);
 
@@ -28,6 +27,7 @@ watch(props, (newProps) => {
 
 function close() {
   showPopup.value = false
+  emit('resurgenceGame')
 }
 </script>
   
@@ -91,7 +91,7 @@ function close() {
 .back-btn {
   width: 280px;
   height: 92px;
-  top: 750px;
+  top: 580px;
   background: url("../assets/btn.png") no-repeat top left / 100% 100%;
   position: absolute;
   color: #ffffff;
@@ -105,8 +105,8 @@ function close() {
 
 .overBg {
   width: 614px;
-  height: 956px;
-  background: url("../assets/read_over.png") no-repeat top left / 100% 100%;
+  height: 843px;
+  background: url("../assets/true_1.png") no-repeat top left / 100% 100%;
   position: relative;
 }
 

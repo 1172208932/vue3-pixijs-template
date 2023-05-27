@@ -2,8 +2,10 @@
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
       <div class="title">健康币收集</div>
-      <img src="../assets/overebtn_1.png" @click="close" class="right_btn" alt="" />
-      <img src="../assets/overebtn_2.png" @click="$emit('resurgence')" class="left_btn" alt="" />
+      <img v-if="isFirst" src="../assets/overebtn_1.png" @click="close" class="right_btn" alt="" />
+      <img v-if="isFirst" src="../assets/overebtn_2.png" @click="$emit('resurgence')" class="left_btn" alt="" />
+      <div v-if="!isFirst" class="back-btn" @click="close">返回首页</div>
+      <div class="over_tip">每局游戏只能通过答题复活1次</div>
       <img src="../assets/glod_little.png" class="glod_icon" alt="" />
       <div class="glod_num">{{ glodNum }}</div>
     </div>
@@ -18,7 +20,8 @@ const router = useRouter();
 
 const props = defineProps({
   show: Boolean,
-  glodNum:Number
+  glodNum:Number,
+  isFirst:Boolean
 });
 
 let showPopup = ref<boolean>(false);
@@ -39,6 +42,17 @@ function close() {
   background: none !important;
 }
 
+.over_tip{
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 680px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 23px;
+  color: #148c85;
+}
+
 .close {
   width: 53px;
   height: 53px;
@@ -49,7 +63,7 @@ function close() {
   width: 220px;
   height: 72px;
   position: absolute;
-  top: 700px;
+  top: 730px;
   left: 330px;
 }
 
@@ -85,7 +99,7 @@ function close() {
   width: 220px;
   height: 72px;
   position: absolute;
-  top: 700px;
+  top: 730px;
   left: 60px;
 }
 
@@ -106,6 +120,20 @@ function close() {
   line-height: 40px;
   height: 60%;
   overflow-y: scroll;
+}
+.back-btn {
+  width: 280px;
+  height: 92px;
+  top: 740px;
+  background: url("../assets/btn.png") no-repeat top left / 100% 100%;
+  position: absolute;
+  color: #ffffff;
+  font-size: 40px;
+  transform: translateX(-50%);
+  left: 50%;
+  text-align: center;
+  font-weight: bold;
+  line-height: 92px;
 }
 </style>
   

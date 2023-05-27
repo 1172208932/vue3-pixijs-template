@@ -19,11 +19,11 @@
     </div>
 
   </div>
-  <choose-pop v-model:show="showChoosePop" :chooesList=question></choose-pop>
-  <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
+  <choose-pop v-model:show="showChoosePop" :chooesList=question @answer="answerFn"></choose-pop>
+  <over-pop v-model:show="showOverPop" :isFirst="isFirst" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
-  <wrong-pop v-model:show="showWrongPop" @closeGuid="guid3Over"></wrong-pop>
-  <right-pop v-model:show="showRightPop" @closeGuid="guid3Over"></right-pop>
+  <wrong-pop :showWrontTitle="showWrontTitle" v-model:show="showWrongPop" @closeGuid="guid3Over"></wrong-pop>
+  <right-pop @resurgenceGame='resurgenceGame' v-model:show="showRightPop" @closeGuid="guid3Over"></right-pop>
 </template>
 
 <script lang="ts">
@@ -46,12 +46,11 @@ import RightPop from "@/components/rightPop.vue";
 
 
 import { Downloader, Parser, Player } from 'svga-web'
-import { completeGuide, getQuestion, gameSubmit } from "@/api/resource";
+import { completeGuide, getQuestion, gameSubmit,gameReborn } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
 
-let isFirst = true;
 let firstGlofNum: number = 0;
 
 export default defineComponent({
@@ -64,7 +63,6 @@ export default defineComponent({
     WrongPop
   },
   setup(props, { emit }: SetupContext) {
-
     let timenum = ref<number>(60);  // 游戏倒计时
     let downTimeNum = ref<number>(3); // 新手引导倒计时
     let glodNum = ref<number>(0);
@@ -74,24 +72,19 @@ export default defineComponent({
     let showGuid2 = ref<boolean>(false);
     let showDownTime = ref<boolean>(false); // 倒计时
 
-
     let showPop = ref<boolean>(false);
     let showChoosePop = ref<boolean>(false);
     let showOverPop = ref<boolean>(false);
     let showguidPop = ref<boolean>(false);
     let showWrongPop = ref<boolean>(false);
+    let showWrontTitle = ref<string>('');
     let showRightPop = ref<boolean>(false);
 
-
+    let isFirst = ref<boolean>(true);
 
 
     const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
     let mp3Path = ref(`${isTextUrl}glod.mp3`)
-
-    let gameStart = ref<boolean>(false);
-    let overlap = ref(false);
-    let autoSwitch = ref(false)
-    let canSetAuto = ref(false)
 
 
     let playerTree
@@ -122,6 +115,7 @@ export default defineComponent({
         guid3Over()
       }
     }
+    
 
     const clickGuid1 = () => {
       showGuid1.value = false
@@ -154,14 +148,30 @@ export default defineComponent({
       completeGuide()
     }
 
+    const answerFn = (item, isTrue) => {
+      console.log(item, isTrue)
+      showChoosePop.value = false
+      if (isTrue) {
+        showRightPop.value = true
+      } else {
+        showWrontTitle.value = item
+        showWrongPop.value = true
+      }
+    }
+
     /**
      * 点击答题成功复活
      */
-    const resurgenceGame = () => {
-      showOverPop.value = false
-      timenum.value = 30
-
-      begin()
+    const resurgenceGame = async () => {
+      const { index } = store.state;
+      let res = await gameReborn(index.gameId)
+      if(res.success){
+        store.commit("setGameId", res.data.startId);
+        showOverPop.value = false
+        timenum.value = 30
+        isFirst.value = false
+        guid3Over()
+      }
     }
 
     let timer
@@ -178,7 +188,8 @@ export default defineComponent({
         timenum.value--;
         if (timenum.value == 0) {
           clearInterval(timer)
-          gameOver()
+          // gameOver()
+          EventBus.fire('GAME_OVER_WORLD')
         }
       }, 1000)
       // EventBus.fire("AGAIN_GAME");
@@ -188,7 +199,6 @@ export default defineComponent({
       audio.value.currentTime = 0; // 重新播放
       audio.value.play();
       glodNum.value++
-      // gameStart.value = true;
       // state.money = Number((state.money + usd.value).toFixed(2));
       // usd.value = Number((usd.value + 0.2).toFixed(2));
       // state.percentage = state.money / 22 * 100
@@ -197,10 +207,6 @@ export default defineComponent({
     const initGameData = () => {
       glodNum.value = 0;
       timenum.value = 60;
-    }
-
-    const setAutoConfig = () => {
-      canSetAuto.value = true
     }
 
     const closePop = () => {
@@ -233,14 +239,17 @@ export default defineComponent({
 
     const gameOver = async () => {
       const { index } = store.state;
-      // console.log(index.healthInfo.actEndTime, "------ss");
-      if (isFirst) {
+      if (isFirst.value) {
         let res = await gameSubmit(index.gameId, glodNum.value)
-        firstGlofNum = glodNum.value
-        isFirst = false
-        showOverPop.value = true
+        if (res?.success) {
+          firstGlofNum = glodNum.value
+          showOverPop.value = true
+        }
       } else {
-
+        let res = await gameSubmit(index.gameId, glodNum.value - firstGlofNum)
+        if (res?.success) {
+          showOverPop.value = true
+        }
       }
 
       playerTree.set({
@@ -284,8 +293,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      showWrongPop.value = true
-      return
+
       svgaplayerweb()
       svgaplayerweb1()
       EventBus.on("GET_STARE", getScore);
@@ -318,22 +326,22 @@ export default defineComponent({
       showDownTime,
       showChoosePop,
       usd,
-      overlap,
-      autoSwitch,
-      gameStart,
       mp3Path,
       showGuid1,
       showGuid2,
       timenum,
       glodNum,
       downTimeNum,
+      showWrontTitle,
       clickGuid1,
       clickGuid2,
       showPopChoose,
       begin,
       resurgenceGame,
       getQuestionList,
-      guid3Over
+      guid3Over,
+      answerFn,
+      isFirst
     };
   },
 });

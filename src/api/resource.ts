@@ -19,6 +19,8 @@ const APIPath = {
   complete: `${snsUrl}act-gateway/act-core/act/1/healthInfo/complete`, // 阅读完成
   getQuestion: `${snsUrl}act-gateway/act-core/act/1/parkourAnswer/getQuestion`, // 获取题目
   chooseSubmit: `${snsUrl}act-gateway/act-core/act/1/parkourAnswer/submit`, // 获取题目提交答案
+  taskList: `${snsUrl}act-gateway/act-core/act/1/task_2/queryTasks`, // 任务列表
+  completeTask: `${snsUrl}act-gateway/act-core/act/1/task_2/completeTask`, // 任务列表
 };
 
 
@@ -74,11 +76,11 @@ export const gameStart = <T = any>(): Promise<BaseResponse<T>> => {
 };
 
 
-export const gameSubmit = <T = any>(id,score): Promise<BaseResponse<T>> => {
+export const gameSubmit = <T = any>(id,score): Promise<any> => {
   return new Promise((resolve, reject) => {
-    NbRequest.get(APIPath.gameSubmit, { },{})
+    NbRequest.get(APIPath.gameSubmit, {startId: id, score:score},{})
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
     })
       .catch((err) => {
         reject(err);
@@ -86,11 +88,11 @@ export const gameSubmit = <T = any>(id,score): Promise<BaseResponse<T>> => {
   });
 };
 
-export const gameReborn = <T = any>(id): Promise<BaseResponse<T>> => {
+export const gameReborn = <T = any>(id): Promise<any> => {
   return new Promise((resolve, reject) => {
-    NbRequest.get(APIPath.gameReborn, { },{})
+    NbRequest.get(APIPath.gameReborn, {startId: id },{})
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
     })
       .catch((err) => {
         reject(err);
@@ -128,6 +130,30 @@ export const chooseSubmit = <T = any>(params:any): Promise<BaseResponse<T>> => {
     NbRequest.get(APIPath.chooseSubmit, params,{})
       .then((res) => {
         resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const completeTask = <T = any>(): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.completeTask, {taskCode: 'share'},{})
+      .then((res) => {
+        resolve(res);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const taskList = <T = any>(): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.taskList, {},{})
+      .then((res) => {
+        resolve(res);
     })
       .catch((err) => {
         reject(err);
