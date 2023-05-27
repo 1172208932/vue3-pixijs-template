@@ -37,7 +37,7 @@
   
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { submit } from "@/api/resource";
+import { chooseSubmit } from "@/api/resource";
 import { showSuccessToast } from "vant";
 import EventBus from "@/utils/eventbus";
 const props = defineProps({
@@ -62,25 +62,28 @@ watch(props, (newProps) => {
   const { chooesList } = newProps;
   if (chooesList) {
     state.question = chooesList.question;
-    state.questionList = chooesList.question.options.split("||");
+    state.questionList = chooesList.question.options?.split("||") || [];
   }
 });
 
 const judge = async (index: number) => {
   tab.value = index;
-  let res = await submit({
+  let res = await chooseSubmit({
     startId: state.question.startId,
     choose: index + 1,
   });
   console.log(res,'res------')
   if (res) {
-    if (res.correct) {
-      right.value = index;
+  console.log(res['correct'],'res------')
+
+    if (res['correct']) {
+      right.value = index + 1;
       // TODO 回答正确
+      
     } else {
       // TODO 回答错误
-      wrong.value = index;
-      right.value = res.rightOption;
+      wrong.value = index + 1;
+      right.value = res['rightOption'];
     }
   }
 };

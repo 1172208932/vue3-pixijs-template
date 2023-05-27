@@ -2,6 +2,7 @@
   <div class="box">
     <div class="homepageFixed">
       <div class="homePage" v-show="begin">
+        <img src="../../assets/back.png" class="back" alt="" @click="back">
         <canvas id="canvas1"></canvas>
         <img src="../../assets/logo.png" class="titleImg" />
         <span class="rule" @click="showRule"></span>
@@ -71,14 +72,18 @@ export default defineComponent({
 
     const goGame = async () => {
       let res = await gameStart();
-
+      console.log(res)
       store.commit("setGameId", res["startId"] + "");
-      if (res["startId"]) {
+      // if (res["startId"]) {
         router.push({
           name: "game",
         });
-      }
+      // }
     };
+
+    const back = () =>{
+      router.back();
+    }
 
     const svgaplayerweb = () => {
       const downloader = new Downloader();
@@ -113,6 +118,7 @@ export default defineComponent({
       showTask,
       closePop,
       goGame,
+      back,
       begin,
       showRulePop,
       showTaskPop,
@@ -149,6 +155,13 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     margin-top: 30px;
+  }
+  .back{
+    width: 127px;
+    height: 60px;
+    position: absolute;
+    left: 0%;
+    top: 15%;
   }
   .btns {
     position: relative;

@@ -15,10 +15,10 @@ const APIPath = {
   gameStart: `${snsUrl}act-gateway/act-core/act/1/parkour/start`,
   gameSubmit:  `${snsUrl}act-gateway/act-core/act/1/parkour/submit`,
   gameReborn: `${snsUrl}act-gateway/act-core/act/1/parkour/reborn`,
-  detail: `${snsUrl}act-gateway/act-core/act/1/parkour/detail`, // 文章详情
-  complete: `${snsUrl}act-gateway/act-core/act/1/parkour/complete`, // 阅读完成
-  getQuestion: `${snsUrl}act-gateway/act-core/act/1/parkour/getQuestion`, // 获取题目
-  submit: `${snsUrl}act-gateway/act-core/act/1/parkour/submit`, // 获取题目提交答案
+  detail: `${snsUrl}act-gateway/act-core/act/1/healthInfo/detail`, // 文章详情
+  complete: `${snsUrl}act-gateway/act-core/act/1/healthInfo/complete`, // 阅读完成
+  getQuestion: `${snsUrl}act-gateway/act-core/act/1/parkourAnswer/getQuestion`, // 获取题目
+  chooseSubmit: `${snsUrl}act-gateway/act-core/act/1/parkourAnswer/submit`, // 获取题目提交答案
 };
 
 
@@ -123,9 +123,9 @@ export const getQuestion = <T = any>(params:any): Promise<BaseResponse<T>> => {
   });
 };
 
-export const submit = <T = any>(params:any): Promise<BaseResponse<T>> => {
+export const chooseSubmit = <T = any>(params:any): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
-    NbRequest.get(APIPath.submit, params,{})
+    NbRequest.get(APIPath.chooseSubmit, params,{})
       .then((res) => {
         resolve(res.data);
     })

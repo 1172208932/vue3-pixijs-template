@@ -1,6 +1,7 @@
 <template>
   <div class="box">
     <div class="readPage">
+      <img src="../../assets/back.png" class="back" alt="" @click="backHome">
       <div class="btns">
         <span class="run_btn" @click="goGame"></span>
         <span class="read_btn" @click="goRead"></span>
@@ -69,11 +70,16 @@ export default defineComponent({
       });
     };
 
+    const backHome = ()=>{
+      window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+    }
+
     return {
       ...toRefs(state),
       goRead,
       goGame,
       getHealthInfo,
+      backHome
     };
   },
 });
@@ -88,6 +94,13 @@ export default defineComponent({
   position: fixed;
   .btns {
     padding-top: 688px;
+  }
+  .back{
+    width: 127px;
+    height: 60px;
+    position: absolute;
+    left: 0%;
+    top: 6%;
   }
 }
 .run_btn {

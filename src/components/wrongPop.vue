@@ -1,9 +1,11 @@
 <template>
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
-      <div class="back-btn"  @click="$emit('closePop')">返回阅读</div>
+      <div class="read-title">正确答案：{{ readGlodNum || 20 }}</div>
+
+      <div class="back-btn" @click="close">再试一次</div>
     </div>
-    <img src="../assets/close.png" class="close" @click="$emit('closePop')" alt="" />
+    <img src="../assets/close.png" class="close" @click="close" alt="" />
 
   </van-popup>
 </template>
@@ -15,6 +17,7 @@ const router = useRouter();
 
 const props = defineProps({
   show: Boolean,
+  readGlodNum: Number
 });
 
 let showPopup = ref<boolean>(false);
@@ -24,10 +27,8 @@ watch(props, (newProps) => {
 });
 
 function close() {
-        router.push({
-          name: "homepage",
-        });
-      }
+  showPopup.value = false
+}
 </script>
   
 <style scoped>
@@ -41,7 +42,7 @@ function close() {
   margin-top: 45px;
 }
 
-.right_btn{
+.right_btn {
   width: 220px;
   height: 72px;
   position: absolute;
@@ -49,7 +50,7 @@ function close() {
   left: 330px;
 }
 
-.glod_icon{
+.glod_icon {
   width: 33px;
   height: 33px;
   position: absolute;
@@ -57,7 +58,7 @@ function close() {
   left: 260px;
 }
 
-.title{
+.title {
   width: 100%;
   text-align: center;
   position: absolute;
@@ -66,7 +67,8 @@ function close() {
   font-weight: 700;
   color: #148c85;
 }
-.glod_num{
+
+.glod_num {
   width: 200px;
   text-align: left;
   position: absolute;
@@ -77,7 +79,7 @@ function close() {
   color: #148c85;
 }
 
-.left_btn{
+.left_btn {
   width: 220px;
   height: 72px;
   position: absolute;
@@ -86,10 +88,10 @@ function close() {
 }
 
 
-.back-btn{
+.back-btn {
   width: 280px;
-  height:  92px;
-  top: 670px;
+  height: 92px;
+  top: 560px;
   background: url("../assets/btn.png") no-repeat top left / 100% 100%;
   position: absolute;
   color: #ffffff;
@@ -100,17 +102,18 @@ function close() {
   font-weight: bold;
   line-height: 92px;
 }
+
 .overBg {
   width: 614px;
-  height: 876px;
-  background: url("../assets/backBg.png") no-repeat top left / 100% 100%;
+  height: 795px;
+  background: url("../assets/wrong_1.png") no-repeat top left / 100% 100%;
   position: relative;
 }
 
 
-.begin-t2{
+.begin-t2 {
   width: 100%;
-  height:  92px;
+  height: 92px;
   top: 320px;
   position: absolute;
   color: #36604b;
@@ -122,9 +125,9 @@ function close() {
   line-height: 92px;
 }
 
-.begin-t1{
+.begin-t1 {
   width: 100%;
-  height:  92px;
+  height: 92px;
   top: 230px;
   position: absolute;
   color: #36604b;
@@ -146,6 +149,19 @@ function close() {
   line-height: 40px;
   height: 60%;
   overflow-y: scroll;
+}
+
+.read-title {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 393px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
 }
 </style>
   

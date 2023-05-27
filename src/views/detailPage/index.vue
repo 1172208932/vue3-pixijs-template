@@ -1,6 +1,7 @@
 <template>
   <div class="detailPageBox">
     <div class="detailPage"></div>
+    <img src="../../assets/back.png" class="back" alt="" @click="back">
     <div class="detailList">
       <div class="lists">
         <div
@@ -56,13 +57,18 @@ export default defineComponent({
         healInfoId: item.id,
       });
       if (res) {
-        let temp: any = item.id + "&" + item.userImg;
+        let temp: number = item.id;
+        store.commit("setGameId", item.userImg);
         router.push({
           name: "picPage",
           params: { info: temp },
         });
       }
     };
+
+    const back = () =>{
+      router.back();
+    }
 
     onMounted(async () => {
       const { index } = store.state;
@@ -72,6 +78,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       readList,
+      back,
       handleJump2LongPicPage,
     };
   },
@@ -83,6 +90,14 @@ export default defineComponent({
   width: 750px;
   height: 100vh;
   position: relative;
+  
+  .back{
+    width: 127px;
+    height: 60px;
+    position: absolute;
+    left: 0%;
+    top: 6%;
+  }
 }
 .detailPage {
   width: 750px;

@@ -19,10 +19,11 @@
     </div>
 
   </div>
-  <choose-pop v-model:show="showChoosePop" :chooesList = question></choose-pop>
+  <choose-pop v-model:show="showChoosePop" :chooesList=question></choose-pop>
   <over-pop v-model:show="showOverPop" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
-
+  <wrong-pop v-model:show="showWrongPop" @closeGuid="guid3Over"></wrong-pop>
+  <right-pop v-model:show="showRightPop" @closeGuid="guid3Over"></right-pop>
 </template>
 
 <script lang="ts">
@@ -40,21 +41,30 @@ import ChoosePop from "@/components/ChoosePop.vue";
 import OverPop from "@/components/overPop.vue";
 import GuidPop from "@/components/guidPop.vue";
 
+import WrongPop from "@/components/wrongPop.vue";
+import RightPop from "@/components/rightPop.vue";
+
+
 import { Downloader, Parser, Player } from 'svga-web'
-import { completeGuide, getQuestion } from "@/api/resource";
+import { completeGuide, getQuestion, gameSubmit } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
 
 let isFirst = true;
+let firstGlofNum: number = 0;
+
 export default defineComponent({
   name: "gameIndex",
   components: {
     ChoosePop,
     OverPop,
-    GuidPop
+    GuidPop,
+    RightPop,
+    WrongPop
   },
   setup(props, { emit }: SetupContext) {
+
     let timenum = ref<number>(60);  // 游戏倒计时
     let downTimeNum = ref<number>(3); // 新手引导倒计时
     let glodNum = ref<number>(0);
@@ -64,11 +74,15 @@ export default defineComponent({
     let showGuid2 = ref<boolean>(false);
     let showDownTime = ref<boolean>(false); // 倒计时
 
-      
+
     let showPop = ref<boolean>(false);
     let showChoosePop = ref<boolean>(false);
     let showOverPop = ref<boolean>(false);
     let showguidPop = ref<boolean>(false);
+    let showWrongPop = ref<boolean>(false);
+    let showRightPop = ref<boolean>(false);
+
+
 
 
     const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
@@ -79,8 +93,7 @@ export default defineComponent({
     let autoSwitch = ref(false)
     let canSetAuto = ref(false)
 
-    
-    let isOverOne = false
+
     let playerTree
     const store = useStore();
     const { index } = store.state;
@@ -90,7 +103,7 @@ export default defineComponent({
       isDisabled: boolean;
       isBegin: boolean;
       money: number;
-      question:any
+      question: any
     } = reactive({
       question: [],
       worksList: [],
@@ -100,12 +113,12 @@ export default defineComponent({
       money: 0,
     });
 
-    const init = ()=>{
+    const init = () => {
       const { index } = store.state;
-      console.log(index.healthInfo.guidStatus,'------ss',)
-      if(index.healthInfo.guidStatus == 0){
+      console.log(index.healthInfo.guidStatus, '------ss',)
+      if (index.healthInfo.guidStatus == 0) {
         showGuid1.value = true
-      }else{
+      } else {
         guid3Over()
       }
     }
@@ -119,12 +132,12 @@ export default defineComponent({
       showguidPop.value = true
     }
 
-    const guid3Over = async ()=>{
+    const guid3Over = async () => {
       showguidPop.value = false
       showDownTime.value = true;
 
-      let timerGuid = setInterval(()=>{
-        if(downTimeNum.value  == 1){
+      let timerGuid = setInterval(() => {
+        if (downTimeNum.value == 1) {
           clearInterval(timerGuid)
           showDownTime.value = false
           downTimeNum.value = 3
@@ -132,19 +145,19 @@ export default defineComponent({
           begin()
           return
         }
-        downTimeNum.value --
-      },1000)
+        downTimeNum.value--
+      }, 1000)
 
     }
 
-    const completeGuideApi = ()=>{
+    const completeGuideApi = () => {
       completeGuide()
     }
 
     /**
      * 点击答题成功复活
      */
-    const resurgenceGame = ()=>{
+    const resurgenceGame = () => {
       showOverPop.value = false
       timenum.value = 30
 
@@ -161,27 +174,27 @@ export default defineComponent({
 
       EventBus.fire("BEGIN_GAME");
 
-      timer = setInterval(()=>{
-        timenum.value --;
-        if(timenum.value == 0){
+      timer = setInterval(() => {
+        timenum.value--;
+        if (timenum.value == 0) {
           clearInterval(timer)
           gameOver()
         }
-      },1000)
+      }, 1000)
       // EventBus.fire("AGAIN_GAME");
     };
 
     const getScore = () => {
       audio.value.currentTime = 0; // 重新播放
       audio.value.play();
-      glodNum.value ++
+      glodNum.value++
       // gameStart.value = true;
       // state.money = Number((state.money + usd.value).toFixed(2));
       // usd.value = Number((usd.value + 0.2).toFixed(2));
       // state.percentage = state.money / 22 * 100
     }
 
-    const initGameData = ()=>{
+    const initGameData = () => {
       glodNum.value = 0;
       timenum.value = 60;
     }
@@ -201,7 +214,7 @@ export default defineComponent({
       const downloader = new Downloader()
       const parser = new Parser()
       playerTree = new Player('#canvas2');
-     
+
       (async () => {
         const fileData = await downloader.get(`${isTextUrl}gameTree.svga`)
         const svgaData = await parser.do(fileData)
@@ -218,16 +231,24 @@ export default defineComponent({
       })()
     }
 
-    const gameOver = () =>{
+    const gameOver = async () => {
+      const { index } = store.state;
+      // console.log(index.healthInfo.actEndTime, "------ss");
+      if (isFirst) {
+        let res = await gameSubmit(index.gameId, glodNum.value)
+        firstGlofNum = glodNum.value
+        isFirst = false
+        showOverPop.value = true
+      } else {
+
+      }
+
       playerTree.set({
-          loop: 1,
-          endFrame: 1
-        })
-        playerTree.start()
-        clearInterval(timer)
-        if(!isOverOne){
-          showOverPop.value = true
-        }
+        loop: 1,
+        endFrame: 1
+      })
+      playerTree.start()
+      clearInterval(timer)
     }
 
     const svgaplayerweb1 = () => {
@@ -249,12 +270,12 @@ export default defineComponent({
     /**
      * 获取题目
      */
-    const getQuestionList = async() =>{
+    const getQuestionList = async () => {
       const { index } = store.state
-      let res = await getQuestion({gameStartId: index.startId})
-      console.log(index,'index',res)
+      let res = await getQuestion({ gameStartId: index.startId })
+      console.log(index, 'index', res)
 
-      if(res){
+      if (res) {
         // const { question } = res
         showOverPop.value = false;
         showChoosePop.value = true;
@@ -263,6 +284,8 @@ export default defineComponent({
     }
 
     onMounted(async () => {
+      showWrongPop.value = true
+      return
       svgaplayerweb()
       svgaplayerweb1()
       EventBus.on("GET_STARE", getScore);
@@ -290,6 +313,8 @@ export default defineComponent({
       showPop,
       showOverPop,
       showguidPop,
+      showRightPop,
+      showWrongPop,
       showDownTime,
       showChoosePop,
       usd,

@@ -3,7 +3,7 @@ export default {
     "code": "200",
     "message": "",
     "data":{
-        "rightOption":"1",
-        "correct":"true"
+        "rightOption":1,
+        "correct":true
         }
 }
