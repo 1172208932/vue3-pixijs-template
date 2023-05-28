@@ -106,7 +106,7 @@ export default defineComponent({
 <style lang="scss">
 .picBox {
   width: 750px;
-  height: 100vh;
+  // height: 100vh;
   position: relative;
 
   img {
@@ -144,7 +144,7 @@ export default defineComponent({
   .back {
     width: 127px;
     height: 60px;
-    position: absolute;
+    position: fixed;
     left: 0%;
     top: 6%;
   }

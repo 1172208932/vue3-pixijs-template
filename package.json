@@ -7,7 +7,8 @@
     "build": "vite build",
     "build:test": "vue-tsc --noEmit --skipLibCheck && vite build --mode test",
     "scp": " scp -r ./dist/* root@139.198.127.38:/usr/local/nginx/html/china_life_hi_fun_playground_rungame",
-    "ossup": "cd nodejs && node upload.js"
+    "ossup": "cd nodejs && node upload.js",
+    "ossdel": "cd nodejs && node delOss.js"
   },
   "dependencies": {
     "@pixi/filter-shockwave": "^4.2.0",

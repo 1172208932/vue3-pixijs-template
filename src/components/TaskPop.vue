@@ -30,22 +30,21 @@ function close() {
   EventBus.fire("CLOSEPOP");
 }
 
-function share (){
+const share = async () => {
   EventBus.fire("CLOSEPOP");
-  let res = completeTask()
-  if(res['success']){
-    emit('getHealthInfo')
-  }
-  showShareGuide('点击...分享哦', 0.7, 0, () => {
-        // getTask()
-      })
+  showShareGuide('点击...分享哦', 0.7, 0, async () => {
+    let res = await completeTask()
+    if (res['success']) {
+      emit('getHealthInfo')
+    }
+  })
 }
 
 watch(props, (newProps: any) => {
   showPopup.value = newProps.show;
 });
 
-onMounted(() => {});
+onMounted(() => { });
 </script>
   
 <style scoped>
@@ -57,12 +56,14 @@ onMounted(() => {});
   top: 60px;
   right: 11px;
 }
+
 .taskBg {
   width: 750px;
   height: 973px;
   background: url("../assets/bankground.png") no-repeat top left / 100% 100%;
   position: relative;
 }
+
 .taskList {
   width: 677px;
   height: 116px;
@@ -72,6 +73,7 @@ onMounted(() => {});
   left: 50%;
   transform: translateX(-50%);
 }
+
 .title {
   font-size: 29px;
   color: #396459;
@@ -79,6 +81,7 @@ onMounted(() => {});
   margin: 20px 0 9px 155px;
   text-align: start;
 }
+
 .text {
   text-align: start;
   margin-left: 155px;
@@ -86,6 +89,7 @@ onMounted(() => {});
   color: #396459;
   font-weight: normal;
 }
+
 .taskBtn {
   width: 226px;
   height: 84px;
@@ -95,6 +99,5 @@ onMounted(() => {});
   right: 0;
   top: 60%;
   transform: translateY(-50%);
-}
-</style>
+}</style>
   

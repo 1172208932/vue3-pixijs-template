@@ -19,7 +19,7 @@
     </div>
 
   </div>
-  <choose-pop v-model:show="showChoosePop" :chooesList=question @answer="answerFn"></choose-pop>
+  <choose-pop v-model:show="showChoosePop" :startId="questionStartId" :chooesList=question @answer="answerFn"></choose-pop>
   <over-pop v-model:show="showOverPop" :isFirst="isFirst" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
   <wrong-pop :showWrontTitle="showWrontTitle" v-model:show="showWrongPop" @closeGuid="guid3Over"></wrong-pop>
@@ -96,7 +96,8 @@ export default defineComponent({
       isDisabled: boolean;
       isBegin: boolean;
       money: number;
-      question: any
+      question: any,
+      questionStartId: number
     } = reactive({
       question: [],
       worksList: [],
@@ -104,6 +105,7 @@ export default defineComponent({
       isDisabled: false,
       isBegin: false,
       money: 0,
+      questionStartId:0
     });
 
     const init = () => {
@@ -281,7 +283,7 @@ export default defineComponent({
      */
     const getQuestionList = async () => {
       const { index } = store.state
-      let res = await getQuestion({ gameStartId: index.startId })
+      let res = await getQuestion({ gameStartId: index.gameId })
       console.log(index, 'index', res)
 
       if (res) {
@@ -289,6 +291,7 @@ export default defineComponent({
         showOverPop.value = false;
         showChoosePop.value = true;
         state.question = res;
+        state.questionStartId = res['startId']
       }
     }
 

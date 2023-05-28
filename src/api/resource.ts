@@ -15,20 +15,34 @@ const APIPath = {
   gameStart: `${snsUrl}act-gateway/act-core/act/1/parkour/start`,
   gameSubmit:  `${snsUrl}act-gateway/act-core/act/1/parkour/submit`,
   gameReborn: `${snsUrl}act-gateway/act-core/act/1/parkour/reborn`,
-  detail: `${snsUrl}act-gateway/act-core/act/1/healthInfo/detail`, // 文章详情
-  complete: `${snsUrl}act-gateway/act-core/act/1/healthInfo/complete`, // 阅读完成
+  detail: `${snsUrl}act-gateway/act-core/act/1/parkourRead/detail`, // 文章详情
+  complete: `${snsUrl}act-gateway/act-core/act/1/parkourRead/complete`, // 阅读完成
   getQuestion: `${snsUrl}act-gateway/act-core/act/1/parkourAnswer/getQuestion`, // 获取题目
   chooseSubmit: `${snsUrl}act-gateway/act-core/act/1/parkourAnswer/submit`, // 获取题目提交答案
   taskList: `${snsUrl}act-gateway/act-core/act/1/task_2/queryTasks`, // 任务列表
   completeTask: `${snsUrl}act-gateway/act-core/act/1/task_2/completeTask`, // 任务列表
+  readIndex: `${snsUrl}act-gateway/act-core/act/1/parkourRead/index`, // 获取消保快乐学
+
 };
-
-
-addMock(APIPath);
+if(import.meta.env.VITE_APP_EN === "development"){
+  addMock(APIPath);
+}
 
 export const healthInfoIndex = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.healthInfoIndex, { },{})
+      .then((res) => {
+        resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const readIndex = <T = any>(): Promise<BaseResponse<T>> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.readIndex, { },{})
       .then((res) => {
         resolve(res.data);
     })

@@ -9,6 +9,8 @@ import getQuestion from './getQuestion';
 import chooseSubmit from './chooseSubmit';
 import completeTask from './completeTask';
 import taskList from './taskList';
+import readIndex from './readIndex';
+
 
 
 
@@ -26,12 +28,14 @@ export const addMock = (APIPath :any) => {
     mock.onGet(APIPath.gameSubmit).reply(200, gameSubmit);
     mock.onGet(APIPath.gameReborn).reply(200, gameReborn);
 
-    mock.onGet(APIPath.healthInfoDetail).reply(200, healthInfoDetail);
+    mock.onGet(APIPath.detail).reply(200, healthInfoDetail);
     mock.onGet(APIPath.healthInfoComplete).reply(200, healthInfoComplete);
 
 
     mock.onGet(APIPath.taskList).reply(200, taskList);
     mock.onGet(APIPath.completeTask).reply(200, completeTask);
+    mock.onGet(APIPath.readIndex).reply(200, readIndex);
 
+    
 
 }

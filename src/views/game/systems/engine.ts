@@ -40,6 +40,8 @@ export default class PixiEngine {
 
         Matter.Engine.run(this.engine);
 
+        // 物理调试runder
+
         // const debugRender = Matter.Render.create({
         //     element: document.querySelector(".game-box"),
         //     engine: this.engine,

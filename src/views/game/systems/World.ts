@@ -96,18 +96,25 @@ export default class World {
     playerLeft() {
         if (this.gameOver) { return }
         if (this.nowPlayTrack == 1) { return }
-        const Player = new TWEEN.Tween(this.player._body.position);
-        console.log(this.trackList[this.nowPlayTrack - 2])
+        // this.nowPlayTrack -= 1
+
+        const Player = new TWEEN.Tween(this.player.body.position);
         Player.to({ x: this.trackList[this.nowPlayTrack - 2] }, 500).start().onComplete(() => {
-            this.nowPlayTrack -= 1
+        this.nowPlayTrack -= 1
+
+            // Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack - 2],y:this.player._body.position.y});
         });
     }
     playerRight() {
         if (this.gameOver) { return }
         if (this.nowPlayTrack == 3) { return }
-        const Player = new TWEEN.Tween(this.player._body.position);
+
+        const Player = new TWEEN.Tween(this.player.body.position);
+        console.log(this.trackList[this.nowPlayTrack],'this.trackList[this.nowPlayTrack]')
         Player.to({ x: this.trackList[this.nowPlayTrack] }, 500).start().onComplete(() => {
             this.nowPlayTrack += 1
+
+        //  Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack],y:this.player._body.position.y});
         });
     }
 
@@ -116,8 +123,10 @@ export default class World {
         let playerTexture: Texture = Texture.from('ip2');
         this.player = new Player('player', this._engine, 0x001, 375, 930, 117, 182, playerTexture,this.app);
         // Matter.Body.setStatic(this.player.body, true);
+        // Matter.Body.setInertia(this.player.body,0.5)
 
         Matter.World.addBody(this._engine.world, this.player.body);
+
         this.app.stage.addChild(this.player.sprite);
     }
 
@@ -172,9 +181,11 @@ export default class World {
         if (this.player?.update && this.player) {
             this.player?.update();
             this.distance++;
-            if (this.distance == 400) {
-                this.distance = 0
+            if (this.distance == 1) {
                 this.addGoldTrack(Math.floor(Math.random()*3))
+            }
+            if(this.distance == 400){
+                this.distance = 0
             }
         }
         if (this.glodList.size) {

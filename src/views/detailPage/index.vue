@@ -10,15 +10,15 @@
           class="list"
           @click="handleJump2LongPicPage(item)"
         >
-          <div>
+          <div class="title-item">
             <!-- <p>{{ item.time }}</p> -->
             <p class="title">{{ item.text }}</p>
             <span class="bottomtext">
-              <p class="read">阅读{{ item.dailyClickCount }}</p>
+              <p class="read">{{ item.title }}</p>
               <!-- <p>赞{{ item.good }}</p> -->
             </span>
           </div>
-          <img src="../../assets/icon.png" alt="" />
+          <img :src="item.userImg" alt="" />
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@ import {
   ref,
 } from "vue";
 import { readList } from "../../components/static";
-import { healthInfoComplete, healthInfoDetail } from "@/api/resource";
+import { healthInfoComplete, healthInfoDetail,readIndex } from "@/api/resource";
 import { throttle } from "@/utils/throttle";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -58,7 +58,7 @@ export default defineComponent({
       });
       if (res) {
         let temp: number = item.id;
-        store.commit("setGameId", item.userImg);
+        store.commit("setHealthImg", res['link']);
         router.push({
           name: "picPage",
           params: { info: temp },
@@ -72,6 +72,8 @@ export default defineComponent({
 
     onMounted(async () => {
       const { index } = store.state;
+      let data = await readIndex();
+      console.log(data,'333')
       state.list = index.healthInfo.healthInfoList;
     });
 
@@ -148,14 +150,19 @@ export default defineComponent({
       display: -webkit-box;
       -webkit-box-orient: vertical;
     }
+
+    .title-item{
+      width: 600px;
+    }
     .read {
       margin-right: 39px;
     }
     img {
       width: 159px;
       height: 168px;
-      position: absolute;
-      right: 79px;
+      position: relative;
+      right: 0px;
+      border-radius: 10px;
     }
   }
 }

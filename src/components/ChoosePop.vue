@@ -45,6 +45,7 @@ const emit = defineEmits(['answer'])
 const props = defineProps({
   show: Boolean,
   chooesList: Object,
+  startId:Number
 });
 const state: {
   question: any;
@@ -70,8 +71,9 @@ watch(props, (newProps) => {
 
 const judge = async ( index: number) => {
   tab.value = index;
+  console.log(state.question,'state.question')
   let res = await chooseSubmit({
-    startId: state.question.startId,
+    startId: props.startId,
     choose: index + 1,
   });
   console.log(res,'res------')
