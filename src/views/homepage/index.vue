@@ -17,7 +17,7 @@
     </div>
   </div>
   <rule-pop v-model:show="showRulePop"></rule-pop>
-  <task-Pop v-model:show="showTaskPop"  @getHealthInfo="getHealthInfo"></task-Pop>
+  <task-Pop v-model:show="showTaskPop"></task-Pop>
 </template>
 
 <script lang="ts">
@@ -105,16 +105,6 @@ export default defineComponent({
         begin.value = true;
       })();
     };
-    const getHealthInfo = async () => {
-      await store.commit("getHealthInfo")
-      console.log(store,'ssssss')
-      // let res = await healthInfoIndex();
-      // if (res) {
-      //   store.commit("setHealthInfo", res);
-      //   state.healthInfo = res;
-      // }
-    };
-
 
     onMounted(async () => {
       svgaplayerweb();
@@ -137,7 +127,6 @@ export default defineComponent({
       begin,
       showRulePop,
       showTaskPop,
-      getHealthInfo
     };
   },
 });
