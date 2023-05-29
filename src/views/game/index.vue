@@ -110,10 +110,12 @@ export default defineComponent({
 
     const init = () => {
       const { index } = store.state;
-      console.log(index.healthInfo.guidStatus, '------ss',)
+      console.log(index.healthInfo, '------ss',)
       if (index.healthInfo.guidStatus == 0) {
         showGuid1.value = true
-      } else {
+      } else if (index.healthInfo.guidStatus == void 0){
+        window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+      }else {
         guid3Over()
       }
     }
@@ -350,6 +352,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 @import "./style/common.scss";
 </style>

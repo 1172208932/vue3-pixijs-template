@@ -17,7 +17,12 @@ const prefix = `monaco-editor/esm/vs`;
 // https://cn.vitejs.dev/config/
 export default ({ mode }: ConfigEnv): UserConfig => {
   // 环境变量
-  const { VITE_BASE_URL } = loadEnv(mode, CWD);
+  const { VITE_BASE_URL,VITE_APP_EN } = loadEnv(mode, CWD);
+
+  let outDir ='dist/running';
+  if(VITE_APP_EN == 'test'){
+    outDir='dist/running-dev'
+  }
   return {
     base: VITE_BASE_URL, // 设置打包路径
     css: {
@@ -105,7 +110,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           drop_debugger: true, // 生产环境去除debugger
         },
       },
-      outDir: 'dist/running',
+      outDir,
       rollupOptions: {
         input: {
           main: resolve(__dirname, "index.html"),

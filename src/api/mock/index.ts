@@ -10,9 +10,7 @@ import chooseSubmit from './chooseSubmit';
 import completeTask from './completeTask';
 import taskList from './taskList';
 import readIndex from './readIndex';
-
-
-
+import receiveTaskPrize from './receiveTaskPrize';
 
 import healthInfoDetail from './healthInfoDetail';
 import healthInfoComplete from './healthInfoComplete';
@@ -35,7 +33,6 @@ export const addMock = (APIPath :any) => {
     mock.onGet(APIPath.taskList).reply(200, taskList);
     mock.onGet(APIPath.completeTask).reply(200, completeTask);
     mock.onGet(APIPath.readIndex).reply(200, readIndex);
-
-    
+    mock.onGet(APIPath.receiveTaskPrize).reply(200, receiveTaskPrize);
 
 }

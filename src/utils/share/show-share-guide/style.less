@@ -1,0 +1,39 @@
+#share_guide_layer {
+	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 2000;
+	background-color: rgba(0, 0, 0, 0.7);
+
+	.bubble {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+
+		.bg{
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 470px;
+			height: 350px;
+		}
+
+		.wrapper{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 350px;
+			height: 200px;
+			position: absolute;
+			right: 120px;
+			top: 150px;
+
+			.label {
+				color: white;
+			}
+		}
+	}
+}

@@ -44,8 +44,12 @@ export default defineComponent({
     let readGlodNum = ref<number>(0)
 
     onMounted(async () => {
-      const { info } = route.params
+      const { info,state } = route.params
+      console.log(info,state,'info')
       const { index } = store.state
+      if( index.healthInfo?.guidStatus == void 0){
+        window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+      }
       healInfoId.value = Number(info);
       userImg.value = index.img;
       beginTimeDown()
@@ -65,7 +69,7 @@ export default defineComponent({
 
     const complete = async () => {
       let res = await healthInfoComplete({
-        healInfoId,
+        healInfoId:healInfoId.value,
       });
       if (res) {
         readGlodNum.value = Number(res)
@@ -103,7 +107,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped >
 .picBox {
   width: 750px;
   // height: 100vh;

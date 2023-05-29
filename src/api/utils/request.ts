@@ -9,6 +9,9 @@ import {
     sleep
 } from "./index";
 
+let messageObjList = ["2003"]
+let messageList = ["快去完成任务得次数吧"]
+
 
 class NbRequest {
     timeout:any
@@ -112,7 +115,14 @@ function responseThen(response) {
     // if the custom code is not 20000, it is judged as an error.
     // 可以做一些 errcode的判断之类的 ，但是因为目前没有统一... 直接返回的是数据
     if (!res.success) {
-        showToast({message:res.message})
+        let message ;
+        if(messageObjList.indexOf(res.code) != -1){
+            message = messageList[messageObjList.indexOf(res.code)]
+        }else{
+            message =  res.message
+        }
+
+        showToast({message})
         return res
         // return Promise.reject(new Error(res.msg || 'Error'))
     } else {

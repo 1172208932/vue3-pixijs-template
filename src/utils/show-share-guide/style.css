@@ -8,19 +8,19 @@
 	z-index: 2000;
 	background-color: rgba(0, 0, 0, 0.7);
 }
-.bubble {
+.bubbleshare {
 	position: absolute;
 	right: 10px;
 	top: 10px;
 }
-.bg{
+.sharebg{
 	position: absolute;
 	right: 0;
 	top: 0;
 	width: 470px;
 	height: 350px;
 }
-.wrapper{
+.wrappershare{
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -30,6 +30,6 @@
 	right: 120px;
 	top: 150px;
 }
-.label {
+.labelshare {
 	color: white;
 }

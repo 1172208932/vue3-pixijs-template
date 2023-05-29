@@ -1,7 +1,7 @@
 /**
  * on 2020/9/19.
  */
-import './style.css';
+import './style.less';
 let guideLayer;
 let label;
 let autoHideTimer;
@@ -10,10 +10,10 @@ function ensureElements() {
     if (!guideLayer) {
         let tplText = `
 <div id="share_guide_layer">
-	<div class="bubbleshare">
-		<img class="sharebg" src="https://font-common-assets.oss-cn-hangzhou.aliyuncs.com/sharemask.png">
-		<div class="wrappershare">
-			<span class="labelshare">
+	<div class="bubble">
+		<img class="bg" src="https://font-common-assets.oss-cn-hangzhou.aliyuncs.com/sharemask.png">
+		<div class="wrapper">
+			<span class="label">
 			</span>
 		</div>
 	</div>

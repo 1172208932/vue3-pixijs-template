@@ -1,5 +1,5 @@
 export default {
-    "success": false,
+    "success": true,
     "code": "200",
     "message": "huodongweikaishi ",
     "data": {

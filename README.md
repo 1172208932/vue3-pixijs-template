@@ -49,3 +49,7 @@ You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/
 - `ci` 持续集成
 - `types` 类型定义文件更改
 - `wip` 开发中
+
+
+### 注意
+ssh-keygen -R 139.198.127.38  // 清除ssh缓存

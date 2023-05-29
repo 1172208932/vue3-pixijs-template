@@ -22,7 +22,7 @@ const APIPath = {
   taskList: `${snsUrl}act-gateway/act-core/act/1/task_2/queryTasks`, // 任务列表
   completeTask: `${snsUrl}act-gateway/act-core/act/1/task_2/completeTask`, // 任务列表
   readIndex: `${snsUrl}act-gateway/act-core/act/1/parkourRead/index`, // 获取消保快乐学
-
+  receiveTaskPrize: `${snsUrl}act-gateway/act-core/act/1/task_2/receiveTaskPrize`, // 领取任务奖励
 };
 if(import.meta.env.VITE_APP_EN === "development"){
   addMock(APIPath);
@@ -79,13 +79,13 @@ export const healthInfoDetail = <T = any>(params:any): Promise<BaseResponse<T>> 
   });
 };
 
-export const gameStart = <T = any>(): Promise<BaseResponse<T>> => {
+export const gameStart = <T = any>(): Promise<any> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.gameStart, { },{})
       .then((res) => {
-        if(res['success']){
-          resolve(res.data);
-        }
+        // if(res['success']){
+          resolve(res);
+        // }
     })
       .catch((err) => {
         reject(err);
@@ -170,6 +170,18 @@ export const completeTask = <T = any>(): Promise<any> => {
 export const taskList = <T = any>(): Promise<any> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.taskList, {},{})
+      .then((res) => {
+        resolve(res);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
+
+export const receiveTaskPrize = <T = any>(params): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(APIPath.receiveTaskPrize, params,{})
       .then((res) => {
         resolve(res);
     })

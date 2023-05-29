@@ -36,6 +36,10 @@ export default defineComponent({
     });
 
     onMounted(async () => {
+      // const { index } = store.state;
+      // if( index.healthInfo?.guidStatus == void 0){
+      //   window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+      // }
       getHealthInfo();
     });
 
@@ -47,6 +51,7 @@ export default defineComponent({
 
     const getHealthInfo = async () => {
       let res = await healthInfoIndex();
+      console.log(res,'healthInfoIndex')
       if (res) {
         // const { index } = store.state;
         store.commit("setHealthInfo", res);

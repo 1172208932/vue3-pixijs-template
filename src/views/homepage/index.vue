@@ -74,12 +74,12 @@ export default defineComponent({
     const goGame = async () => {
       let res = await gameStart();
       console.log(res)
-      store.commit("setGameId", res["startId"] + "");
-      // if (res["startId"]) {
+      if(res.success && res.data["startId"]){
+        store.commit("setGameId", res.data["startId"] + "");
         router.push({
           name: "game",
         });
-      // }
+      }
     };
 
     const back = () =>{
@@ -129,7 +129,11 @@ export default defineComponent({
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
       const { index } = store.state;
-      state.healthInfo = index.healthInfo;
+      if( index.healthInfo?.guidStatus == void 0){
+        window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+      }else{
+        state.healthInfo = index.healthInfo;
+      }
     });
 
     return {
@@ -148,7 +152,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped >
 .box {
   width: 100%;
   height: 100%;
@@ -185,8 +189,8 @@ export default defineComponent({
     top: 15%;
   }
   .btns {
-    position: relative;
-    bottom: 21%;
+    position: absolute;
+    bottom: 11%;
     width: 100%;
     .times {
       width: 192px;
