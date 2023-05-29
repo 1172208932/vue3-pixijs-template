@@ -156,7 +156,9 @@ function close() {
 }
 
 .read-title {
-  width: 100%;
+  width: 435px;
+  height: auto;
+  padding: 15px;
   text-align: center;
   position: absolute;
   top: 393px;

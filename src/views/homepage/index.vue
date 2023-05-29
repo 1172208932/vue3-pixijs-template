@@ -106,21 +106,12 @@ export default defineComponent({
       })();
     };
     const getHealthInfo = async () => {
-      let res = await healthInfoIndex();
-      if (res) {
-        // const { index } = store.state;
-        store.commit("setHealthInfo", res);
-        state.healthInfo = res;
-        // console.log(index.healthInfo.actEndTime, "------ss");
-      }
-
-      // if (res?.success) {
-      //   healthInfo = res.data;
-      //   if (res.data.readRewardCoin) {
-      //     modalStore.pushPop("Success_modal", {
-      //       coinCount: res.data.readRewardCoin,
-      //     });
-      //   }
+      await store.commit("getHealthInfo")
+      console.log(store,'ssssss')
+      // let res = await healthInfoIndex();
+      // if (res) {
+      //   store.commit("setHealthInfo", res);
+      //   state.healthInfo = res;
       // }
     };
 
