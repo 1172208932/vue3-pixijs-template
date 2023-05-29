@@ -2,7 +2,6 @@
 import { useStore } from "vuex";
 import { healthInfoIndex } from "@/api/resource";
 
-const store = useStore();
 export interface UserState {
     healthInfo: any;
   }
@@ -29,6 +28,7 @@ export interface UserState {
         state.img = data;
       },
       async getHealthInfo(){
+        const store = useStore();
         let res = await healthInfoIndex();
         if (res) {
           store.commit("setHealthInfo", res);

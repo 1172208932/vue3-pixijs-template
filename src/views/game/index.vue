@@ -133,7 +133,7 @@ export default defineComponent({
     const guid3Over = async () => {
       showguidPop.value = false
       showDownTime.value = true;
-
+      store.commit("getHealthInfo");
       let timerGuid = setInterval(() => {
         if (downTimeNum.value == 1) {
           clearInterval(timerGuid)
@@ -170,6 +170,7 @@ export default defineComponent({
       const { index } = store.state;
       let res = await gameReborn(index.gameId)
       if(res.success){
+        store.commit("getHealthInfo");
         store.commit("setGameId", res.data.startId);
         showOverPop.value = false
         timenum.value = 30

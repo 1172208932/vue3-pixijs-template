@@ -9,9 +9,8 @@
  *
  * 注意：1.4.0开始，分享成功的回调已经被去除，所以只能做假分享
  */
-// import { updateUrlgParameter } from "@src/utils/utils";
 import { ShareWay } from "../ShareWay";
-import { callApi } from "@src/utils/api-base";
+import { callApi } from "@/api/resource";
 const ua = navigator.userAgent;
 const isWeixinWork = !!ua.match(/wxwork/i);
 const jsApiList12 = ['onMenuShareTimeline', 'onMenuShareAppMessage',]; //1.2
