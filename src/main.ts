@@ -5,8 +5,9 @@ import router from './router/index'
 import store from "./store";
 import {VueMasonryPlugin} from 'vue-masonry';
 import naive from "naive-ui";
-import { Popup } from 'vant';
+import { Popup,Toast } from 'vant';
 import 'vant/lib/index.css';
+import "./main.css"
 const app = createApp(App)
 app
     .use(VueMasonryPlugin)
@@ -14,4 +15,5 @@ app
     .use(router)
     .use(naive)
     .use(Popup)
+    .use(Toast)
     .mount('#app')

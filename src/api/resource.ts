@@ -28,11 +28,13 @@ if(import.meta.env.VITE_APP_EN === "development"){
   addMock(APIPath);
 }
 
-export const healthInfoIndex = <T = any>(): Promise<BaseResponse<T>> => {
+export const healthInfoIndex = <T = any>(): Promise<any> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.healthInfoIndex, { },{})
       .then((res) => {
-        resolve(res.data);
+        if(res["success"]){
+          resolve(res.data);
+        }
     })
       .catch((err) => {
         reject(err);
@@ -81,7 +83,9 @@ export const gameStart = <T = any>(): Promise<BaseResponse<T>> => {
   return new Promise((resolve, reject) => {
     NbRequest.get(APIPath.gameStart, { },{})
       .then((res) => {
-        resolve(res.data);
+        if(res['success']){
+          resolve(res.data);
+        }
     })
       .catch((err) => {
         reject(err);
