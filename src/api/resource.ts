@@ -190,3 +190,15 @@ export const receiveTaskPrize = <T = any>(params): Promise<any> => {
     });
   });
 };
+
+export const callApi = <T = any>(url,params): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    NbRequest.get(url, params,{})
+      .then((res) => {
+        resolve(res.data);
+    })
+      .catch((err) => {
+        reject(err);
+    });
+  });
+};
