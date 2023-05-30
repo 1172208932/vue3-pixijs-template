@@ -2,8 +2,20 @@
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
       <div class="title">健康币收集</div>
-      <img v-if="isFirst" src="../assets/overebtn_1.png" @click="close" class="right_btn" alt="" />
-      <img v-if="isFirst" src="../assets/overebtn_2.png" @click="$emit('resurgence')" class="left_btn" alt="" />
+      <img
+        v-if="isFirst"
+        src="../assets/overebtn_1.png"
+        @click="close"
+        class="right_btn"
+        alt=""
+      />
+      <img
+        v-if="isFirst"
+        src="../assets/overebtn_2.png"
+        @click="$emit('resurgence')"
+        class="left_btn"
+        alt=""
+      />
       <div v-if="!isFirst" class="back-btn" @click="close">返回首页</div>
       <div class="over_tip">每局游戏只能通过答题复活1次</div>
       <img src="../assets/glod_little.png" class="glod_icon" alt="" />
@@ -20,8 +32,8 @@ const router = useRouter();
 
 const props = defineProps({
   show: Boolean,
-  glodNum:Number,
-  isFirst:Boolean
+  glodNum: Number,
+  isFirst: Boolean,
 });
 
 let showPopup = ref<boolean>(false);
@@ -31,13 +43,13 @@ watch(props, (newProps) => {
 });
 
 function close() {
-        router.replace({
-          name: "homepage",
-          query:{
-            form:'game'
-          }
-        });
-      }
+  router.replace({
+    name: "homepage",
+    query: {
+      form: "game",
+    },
+  });
+}
 </script>
   
 <style scoped>
@@ -45,7 +57,7 @@ function close() {
   background: none !important;
 }
 
-.over_tip{
+.over_tip {
   width: 100%;
   text-align: center;
   position: absolute;
@@ -62,7 +74,7 @@ function close() {
   margin-top: 45px;
 }
 
-.right_btn{
+.right_btn {
   width: 220px;
   height: 72px;
   position: absolute;
@@ -70,7 +82,7 @@ function close() {
   left: 330px;
 }
 
-.glod_icon{
+.glod_icon {
   width: 33px;
   height: 33px;
   position: absolute;
@@ -78,7 +90,7 @@ function close() {
   left: 260px;
 }
 
-.title{
+.title {
   width: 100%;
   text-align: center;
   position: absolute;
@@ -87,7 +99,7 @@ function close() {
   font-weight: 700;
   color: #148c85;
 }
-.glod_num{
+.glod_num {
   width: 200px;
   text-align: left;
   position: absolute;
@@ -98,14 +110,13 @@ function close() {
   color: #148c85;
 }
 
-.left_btn{
+.left_btn {
   width: 220px;
   height: 72px;
   position: absolute;
   top: 730px;
   left: 60px;
 }
-
 
 .overBg {
   width: 614px;
