@@ -1,33 +1,35 @@
 <template>
   <van-popup v-model:show="showPopup">
     <div class="chooseBg">
-      <p class="title">{{ state.question?.title }}</p>
-      <div class="chooseItems">
-        <div
-          v-for="(item, index) in state.questionList"
-          :key="index"
-          :class="
-            right === index + 1 && tab === index
-              ? 'chooseItem right'
-              : wrong === index + 1 && tab === index
-              ? 'chooseItem wrong'
-              : 'chooseItem'
-          "
-          @click="judge(index)"
-        >
-          <p>{{ item }}</p>
-          <img
-            v-if="right === index + 1 && tab === index"
-            src="../assets/yes.png"
-            alt=""
-            class="yes"
-          />
-          <img
-            v-if="wrong === index + 1 && tab === index"
-            src="../assets/no.png"
-            alt=""
-            class="no"
-          />
+      <div class="chooseInner">
+        <p class="title">{{ state.question?.title }}</p>
+        <div class="chooseItems">
+          <div
+            v-for="(item, index) in state.questionList"
+            :key="index"
+            :class="
+              right === index + 1 && tab === index
+                ? 'chooseItem right'
+                : wrong === index + 1 && tab === index
+                ? 'chooseItem wrong'
+                : 'chooseItem'
+            "
+            @click="judge(index)"
+          >
+            <p>{{ item }}</p>
+            <img
+              v-if="right === index + 1 && tab === index"
+              src="../assets/yes.png"
+              alt=""
+              class="yes"
+            />
+            <img
+              v-if="wrong === index + 1 && tab === index"
+              src="../assets/no.png"
+              alt=""
+              class="no"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -40,12 +42,14 @@ import { ref, watch } from "vue";
 import { chooseSubmit } from "@/api/resource";
 import { showSuccessToast } from "vant";
 import EventBus from "@/utils/eventbus";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
-const emit = defineEmits(['answer'])
+const emit = defineEmits(["answer"]);
 const props = defineProps({
   show: Boolean,
   chooesList: Object,
-  startId:Number
+  startId: Number,
 });
 const state: {
   question: any;
@@ -69,39 +73,42 @@ watch(props, (newProps) => {
   }
 });
 
-const judge = async ( index: number) => {
+const judge = async (index: number) => {
   tab.value = index;
   let res = await chooseSubmit({
     startId: props.startId,
     choose: index + 1,
   });
-  console.log(res,'res------')
   if (res) {
     close();
-    if (res['correct']) {
+    if (res["correct"]) {
       right.value = index + 1;
       // 回答正确
-      setTimeout(()=>{
-        emit('answer',[],true)
-      },500)
+      setTimeout(() => {
+        emit("answer", [], true);
+      }, 500);
     } else {
       // 回答错误
       wrong.value = index + 1;
-      console.log(res['rightOption'],typeof(res['rightOption']))
-      right.value = res['rightOpion'];
+      right.value = res["rightOpion"];
       let item = state.questionList.filter((i, key, arr) => {
-        return key + 1 === res['rightOption']
-      })
-      console.log(item,'item11')
-      setTimeout(()=>{
-        emit('answer', item[0],false)
-      },500)
+        return key + 1 === res["rightOption"];
+      });
+      setTimeout(() => {
+        emit("answer", item[0], false);
+      }, 500);
     }
   }
 };
 
 function close() {
   EventBus.fire("CLOSEPOP");
+  router.replace({
+    name: "homepage",
+    query: {
+      form: "game",
+    },
+  });
 }
 </script>
   
@@ -120,21 +127,22 @@ function close() {
   width: 614px;
   height: 1023px;
   background: url("../assets/popup_frame.png") no-repeat top left / 100% 100%;
-  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   .title {
     font-size: 30px;
     font-weight: bold;
-    position: relative;
-    top: 22%;
     width: 90%;
-    height: 360px;
-    margin: 0 auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+    // height: 360px;
+    margin: 0px auto 15px auto;
   }
+}
+.chooseInner {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .chooseItem {
   width: 493px;
@@ -145,13 +153,16 @@ function close() {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 44px;
+  // margin-bottom: 44px;
 }
 .chooseItems {
-  position: absolute;
-  top: 380px;
-  left: 50%;
-  transform: translateX(-50%);
+  // margin: 0 auto;
+  // display: inline-block;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 41%;
 }
 .yes {
   width: 53px;

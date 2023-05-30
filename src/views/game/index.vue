@@ -111,7 +111,6 @@ export default defineComponent({
 
     const init = () => {
       const { index } = store.state;
-      console.log(index.healthInfo, '------ss',)
       if (index.healthInfo.guidStatus == 0) {
         showGuid1.value = true
       } else if (index.healthInfo.guidStatus == void 0){
