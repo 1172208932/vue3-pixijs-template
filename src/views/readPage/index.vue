@@ -61,8 +61,8 @@ export default defineComponent({
     };
 
     const backHome = () => {
-      window.location.href =
-        "https://www.ysupup.com/china_life_hi_fun_playground/";
+      window.location.href = import.meta.env.VITE_APP_INDEX_URL
+        
     };
 
     return {

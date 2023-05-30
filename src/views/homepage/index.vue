@@ -38,6 +38,7 @@ import TaskPop from "@/components/TaskPop.vue";
 import { gameStart } from "@/api/resource";
 import { useStore } from "vuex";
 import { healthInfoIndex } from "@/api/resource";
+import { throttle } from "@/utils/throttle";
 
 export default defineComponent({
   name: "homeIndex",
@@ -72,7 +73,7 @@ export default defineComponent({
       showTaskPop.value = false;
     };
 
-    const goGame = async () => {
+    const goGame = throttle(async () => {
       let res = await gameStart();
       console.log(res)
       if(res.success && res.data["startId"]){
@@ -81,7 +82,7 @@ export default defineComponent({
           name: "game",
         });
       }
-    };
+    },3000) 
 
     const backRead = () =>{
       router.replace({

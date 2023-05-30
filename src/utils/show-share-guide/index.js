@@ -11,7 +11,7 @@ function ensureElements() {
         let tplText = `
 <div id="share_guide_layer">
 	<div class="bubbleshare">
-		<img class="sharebg" src="https://font-common-assets.oss-cn-hangzhou.aliyuncs.com/sharemask.png">
+		<img class="sharebg" src="https://cdn.ysupup.com/font-common-assets/sharemask.png">
 		<div class="wrappershare">
 			<span class="labelshare">
 			</span>

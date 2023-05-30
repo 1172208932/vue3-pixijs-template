@@ -127,7 +127,7 @@ function close() {
     position: relative;
     top: 22%;
     width: 90%;
-    height: 140px;
+    height: 360px;
     margin: 0 auto;
     overflow: hidden;
     text-overflow: ellipsis;

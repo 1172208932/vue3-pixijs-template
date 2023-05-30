@@ -22,6 +22,8 @@
         </div>
       </div>
     </div>
+    <read-pop :readGlodNum="readGlodNum" v-model:show="showReadPop"></read-pop>
+
   </div>
 </template>
 
@@ -38,14 +40,20 @@ import { readList } from "../../components/static";
 import { healthInfoComplete, healthInfoDetail,readIndex } from "@/api/resource";
 import { throttle } from "@/utils/throttle";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 import EventBus from "@/utils/eventbus";
+import ReadPop from "@/components/readPop.vue"
+
 export default defineComponent({
   name: "detailPage",
-  components: {},
+  components: {ReadPop},
   setup(props, { emit }: SetupContext) {
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
+    let showReadPop = ref<boolean>(false);
+    let readGlodNum = ref<number>(0)
+
     const state: {
       list: any;
     } = reactive({
@@ -78,12 +86,16 @@ export default defineComponent({
     onMounted(async () => {
       const { index } = store.state;
       if( index.healthInfo?.guidStatus == void 0){
-        window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+          window.location.href = import.meta.env.VITE_APP_INDEX_URL
+      }
+      const { glodNum } = route.query;
+      readGlodNum.value = Number(glodNum);
+      if(glodNum){
+        showReadPop.value = true
       }
       let data = await readIndex();
       console.log(data,'333')
-      state.list =
-       data['healthInfoList'];
+      state.list = data['healthInfoList'];
       // [
       //   {
       //     "dailyClickCount": 0, 
@@ -131,6 +143,8 @@ export default defineComponent({
     return {
       ...toRefs(state),
       readList,
+      showReadPop,
+      readGlodNum,
       back,
       handleJump2LongPicPage,
     };

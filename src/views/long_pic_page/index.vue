@@ -44,7 +44,7 @@ export default defineComponent({
     let readGlodNum = ref<number>(0)
 
     let haveGift = ref<boolean>(false);
-
+    let iscomp = false
 
     onMounted(async () => {
       const { info,status } = route.params
@@ -52,7 +52,7 @@ export default defineComponent({
       haveGift.value = Number(status) == 0;
       const { index } = store.state
       if( index.healthInfo?.guidStatus == void 0){
-        window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+        window.location.href = import.meta.env.VITE_APP_INDEX_URL
       }
       healInfoId.value = Number(info);
       userImg.value = index.img;
@@ -79,7 +79,8 @@ export default defineComponent({
       });
       if (res) {
         readGlodNum.value = Number(res)
-        showReadPop.value = true
+        iscomp = true
+        // showReadPop.value = true
       }
     };
 
@@ -93,9 +94,19 @@ export default defineComponent({
         clearInterval(timer)
         showBackPop.value = true
       }else{
-        router.replace({
-        name: "detailPage",
-      });
+        if(iscomp){
+            router.replace({
+            name: "detailPage",
+            query:{
+              glodNum:readGlodNum.value
+            }
+          });
+        }else{
+          router.replace({
+            name: "detailPage"
+          });
+        }
+
       }
     }
 
