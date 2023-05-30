@@ -2,8 +2,20 @@
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
       <div class="title">健康币收集</div>
-      <img v-if="isFirst" src="../assets/overebtn_1.png" @click="close" class="right_btn" alt="" />
-      <img v-if="isFirst" src="../assets/overebtn_2.png" @click="$emit('resurgence')" class="left_btn" alt="" />
+      <img
+        v-if="isFirst"
+        src="../assets/overebtn_1.png"
+        @click="close"
+        class="right_btn"
+        alt=""
+      />
+      <img
+        v-if="isFirst"
+        src="../assets/overebtn_2.png"
+        @click="$emit('resurgence')"
+        class="left_btn"
+        alt=""
+      />
       <div v-if="!isFirst" class="back-btn" @click="close">返回首页</div>
       <div class="over_tip">每局游戏只能通过答题复活1次</div>
       <div class="over-box">
@@ -25,8 +37,8 @@ const router = useRouter();
 
 const props = defineProps({
   show: Boolean,
-  glodNum:Number,
-  isFirst:Boolean
+  glodNum: Number,
+  isFirst: Boolean,
 });
 
 let showPopup = ref<boolean>(false);
@@ -36,13 +48,13 @@ watch(props, (newProps) => {
 });
 
 function close() {
-        router.replace({
-          name: "homepage",
-          query:{
-            form:'game'
-          }
-        });
-      }
+  router.replace({
+    name: "homepage",
+    query: {
+      form: "game",
+    },
+  });
+}
 </script>
   
 <style scoped>
@@ -50,7 +62,7 @@ function close() {
   background: none !important;
 }
 
-.over_tip{
+.over_tip {
   width: 100%;
   text-align: center;
   position: absolute;
@@ -67,7 +79,7 @@ function close() {
   margin-top: 45px;
 }
 
-.right_btn{
+.right_btn {
   width: 220px;
   height: 72px;
   position: absolute;
@@ -76,8 +88,7 @@ function close() {
 }
 
 
-
-.title{
+.title {
   width: 100%;
   text-align: center;
   position: absolute;
@@ -115,7 +126,6 @@ function close() {
   top: 730px;
   left: 60px;
 }
-
 
 .overBg {
   width: 614px;

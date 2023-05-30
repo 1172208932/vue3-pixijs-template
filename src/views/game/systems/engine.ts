@@ -26,6 +26,8 @@ export default class PixiEngine {
         }
         EventBus.on('BEGIN_GAME', this.beginGame, this)
         EventBus.on('GAME_OVER_WORLD', this.gameOver, this)
+        EventBus.on('RESET_GAME', this.resetGame, this)
+
 
 
         PixiApp = new PIXI.Application({ width, height, transparent: true });
@@ -121,6 +123,9 @@ export default class PixiEngine {
         this.world.playerRight()
     }, 500)
 
+    resetGame(){
+        this.world.resetGame()
+    }
 
 
     initgame() {
@@ -135,8 +140,7 @@ export default class PixiEngine {
     }
 
     beginGame() {
-        this.world.gameOver = false
-        this.world.player.ani.play()
+        this.world.beginGame()
     }
 
     gameOver(){

@@ -22,7 +22,7 @@
   <choose-pop v-model:show="showChoosePop" :startId="questionStartId" :chooesList=question @answer="answerFn"></choose-pop>
   <over-pop v-model:show="showOverPop" :isFirst="isFirst" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
-  <wrong-pop :showWrontTitle="showWrontTitle" v-model:show="showWrongPop" @closeGuid="guid3Over"></wrong-pop>
+  <wrong-pop :showWrontTitle="showWrontTitle" v-model:show="showWrongPop" @showNext="showOverFn"></wrong-pop>
   <right-pop @resurgenceGame='resurgenceGame' v-model:show="showRightPop" @closeGuid="guid3Over"></right-pop>
 </template>
 
@@ -111,7 +111,6 @@ export default defineComponent({
 
     const init = () => {
       const { index } = store.state;
-      console.log(index.healthInfo, '------ss',)
       if (index.healthInfo.guidStatus == 0) {
         showGuid1.value = true
       } else if (index.healthInfo.guidStatus == void 0){
@@ -171,11 +170,13 @@ export default defineComponent({
       const { index } = store.state;
       let res = await gameReborn(index.gameId)
       if(res.success){
-        store.commit("getHealthInfo");
+        // store.commit("getHealthInfo");
         store.commit("setGameId", res.data.startId);
-        showOverPop.value = false
-        timenum.value = 30
-        isFirst.value = false
+        showOverPop.value = false;
+        timenum.value = 30;
+        isFirst.value = false;
+        EventBus.fire("RESET_GAME");
+
         guid3Over()
       }
     }
@@ -299,6 +300,11 @@ export default defineComponent({
       }
     }
 
+    const showOverFn=()=>{
+      isFirst.value =false
+      showOverPop.value = true
+    }
+
     onMounted(async () => {
 
       svgaplayerweb()
@@ -349,6 +355,7 @@ export default defineComponent({
       getQuestionList,
       guid3Over,
       answerFn,
+      showOverFn,
       isFirst
     };
   },

@@ -34,7 +34,7 @@ export default class World {
         this.app = app;
 
 
-        this.app.ticker.add(this.update);
+       
         Matter.Events.on(engine, 'collisionStart', (event) => {
             const pairs = event.pairs;
 
@@ -130,8 +130,16 @@ export default class World {
         this.app.stage.addChild(this.player.sprite);
     }
 
-    beginGame() {
+    beginGame() { 
+        this.app.ticker.add(this.update);
+        this.gameOver = false
+        this.player.ani.play()
+    }
 
+    resetGame(){
+        this.glodEatNum = 0;
+        this.maxGlodNum = 25
+        this.app.ticker.remove(this.update)
     }
 
     addGoldTrack(track) {

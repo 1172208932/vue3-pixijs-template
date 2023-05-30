@@ -3,10 +3,9 @@
     <div class="overBg">
       <div class="read-title">正确答案：{{ showWrontTitle }}</div>
 
-      <div class="back-btn" @click="close">立即结算</div>
+      <div class="back-btn" @click="close">本局结算</div>
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
-
   </van-popup>
 </template>
   
@@ -18,8 +17,9 @@ const router = useRouter();
 const props = defineProps({
   show: Boolean,
   readGlodNum: Number,
-  showWrontTitle:String
+  showWrontTitle: String,
 });
+const emit = defineEmits(["showNext"]);
 
 let showPopup = ref<boolean>(false);
 
@@ -29,12 +29,13 @@ watch(props, (newProps) => {
 
 function close() {
   showPopup.value = false;
-  router.replace({
-          name: "homepage",
-          query:{
-            form:'game'
-          }
-        });
+  emit('showNext')
+  // router.replace({
+  //   name: "homepage",
+  //   query: {
+  //     form: "game",
+  //   },
+  // });
 }
 </script>
   
@@ -94,7 +95,6 @@ function close() {
   left: 60px;
 }
 
-
 .back-btn {
   width: 280px;
   height: 92px;
@@ -116,7 +116,6 @@ function close() {
   background: url("../assets/wrong_1.png") no-repeat top left / 100% 100%;
   position: relative;
 }
-
 
 .begin-t2 {
   width: 100%;

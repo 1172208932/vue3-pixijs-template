@@ -4,7 +4,6 @@
       <div class="back-btn" @click="close">立即开始</div>
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
-
   </van-popup>
 </template>
   
@@ -15,9 +14,9 @@ const router = useRouter();
 
 const props = defineProps({
   show: Boolean,
-  readGlodNum: Number
+  readGlodNum: Number,
 });
-const emit = defineEmits(['resurgenceGame'])
+const emit = defineEmits(["resurgenceGame"]);
 
 let showPopup = ref<boolean>(false);
 
@@ -26,8 +25,8 @@ watch(props, (newProps) => {
 });
 
 function close() {
-  showPopup.value = false
-  emit('resurgenceGame')
+  showPopup.value = false;
+  emit("resurgenceGame");
 }
 </script>
   
@@ -87,12 +86,11 @@ function close() {
   left: 60px;
 }
 
-
 .back-btn {
   width: 280px;
   height: 92px;
   top: 580px;
-  background: url("../assets/btn.png") no-repeat top left / 100% 100%;
+  background: url("../assets/btn_old.png") no-repeat top left / 100% 100%;
   position: absolute;
   color: #ffffff;
   font-size: 40px;
@@ -109,7 +107,6 @@ function close() {
   background: url("../assets/true_1.png") no-repeat top left / 100% 100%;
   position: relative;
 }
-
 
 .begin-t2 {
   width: 100%;

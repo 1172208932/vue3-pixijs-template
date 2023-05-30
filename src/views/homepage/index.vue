@@ -257,8 +257,8 @@ export default defineComponent({
   top: 440px;
 }
 .task {
-  width: 211px;
-  height: 150px;
+  width: 96px;
+  height: 105px;
   background: url("../../assets/tip.png") no-repeat top left / 100% 100%;
   display: inline-block;
   position: fixed;
