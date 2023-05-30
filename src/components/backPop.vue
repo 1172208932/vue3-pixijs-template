@@ -24,7 +24,7 @@ watch(props, (newProps) => {
 });
 
 function close() {
-        router.push({
+        router.replace({
           name: "homepage",
         });
       }

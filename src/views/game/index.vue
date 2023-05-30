@@ -71,6 +71,7 @@ export default defineComponent({
     let showGuid1 = ref<boolean>(false);
     let showGuid2 = ref<boolean>(false);
     let showDownTime = ref<boolean>(false); // 倒计时
+    let showBg = ref<boolean>(false); // 倒计时
 
     let showPop = ref<boolean>(false);
     let showChoosePop = ref<boolean>(false);
@@ -321,6 +322,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      showBg,
       SOUND_LIST,
       audio,
       showPop,

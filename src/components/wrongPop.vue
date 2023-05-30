@@ -29,8 +29,11 @@ watch(props, (newProps) => {
 
 function close() {
   showPopup.value = false;
-  router.push({
+  router.replace({
           name: "homepage",
+          query:{
+            form:'game'
+          }
         });
 }
 </script>

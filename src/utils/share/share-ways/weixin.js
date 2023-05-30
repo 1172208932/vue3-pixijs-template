@@ -54,7 +54,7 @@ export class Weixin extends ShareWay {
         }
         try {
             console.log('options',options);
-            const { signUrl = encodeURIComponent(location.href), jsApiList: additionJsApiList, openTagList, isMiniApp = false, apk, customSignData } = options;
+            const { signUrl = 'https://www.ysupup.com/china_life_hi_fun_playground_rungame/index.html#/', jsApiList: additionJsApiList, openTagList, isMiniApp = false, apk, customSignData } = options;
             const signData = customSignData || await callApi('/act-gateway/act-user-biz/wechat/getSignInfo',{
                 url: signUrl,
                 appId: 2

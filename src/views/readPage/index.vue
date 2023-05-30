@@ -44,7 +44,7 @@ export default defineComponent({
     });
 
     const goRead = () => {
-      router.push({
+      router.replace({
         name: "detailPage",
       });
     };
@@ -70,7 +70,7 @@ export default defineComponent({
     };
 
     const goGame = () => {
-      router.push({
+      router.replace({
         name: "homepage",
       });
     };

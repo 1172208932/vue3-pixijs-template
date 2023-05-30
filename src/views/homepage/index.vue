@@ -2,7 +2,7 @@
   <div class="box">
     <div class="homepageFixed">
       <div class="homePage" v-show="begin">
-        <img src="../../assets/back.png" class="back" alt="" @click="back">
+        <img src="../../assets/back.png" class="back" alt="" @click="backRead">
         <canvas id="canvas1"></canvas>
         <img src="../../assets/logo.png" class="titleImg" />
         <!-- <span class="rule" @click="showRule"></span> -->
@@ -28,8 +28,9 @@ import {
   onMounted,
   SetupContext,
   ref,
+  watch,
 } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute  } from "vue-router";
 import { Downloader, Parser, Player } from "svga-web";
 import EventBus from "@/utils/eventbus";
 import RulePop from "@/components/RulePop.vue";
@@ -76,14 +77,16 @@ export default defineComponent({
       console.log(res)
       if(res.success && res.data["startId"]){
         store.commit("setGameId", res.data["startId"] + "");
-        router.push({
+        router.replace({
           name: "game",
         });
       }
     };
 
-    const back = () =>{
-      router.back();
+    const backRead = () =>{
+      router.replace({
+        name: "readPage",
+      });
     }
 
     const svgaplayerweb = () => {
@@ -124,16 +127,48 @@ export default defineComponent({
       // }
     };
 
+    const route = useRoute();
+
+    const handleRouteChange = (to, from) => {
+      console.log('跳转前的页面：', from);
+      console.log('即将跳转到的页面：', to);
+        if(from.fullPath == "/game" && to.fullPath == '/homepage'){
+          location.reload()
+        }
+    };
+
+    const stopWatch = watch(
+      () => route.fullPath,
+      (newPath, oldPath) => {
+        console.log(22222222222222)
+        handleRouteChange(route, { fullPath: oldPath });
+      }
+    );
+
+    onUnmounted(() => {
+      stopWatch();
+    });
 
     onMounted(async () => {
+      const { form } = route.query;
+      console.log(form,'fffffffffffffffrom')
+      if(form){
+        router.replace({
+          name:'homepage'
+        })
+        setTimeout(()=>{
+        location.reload()
+        })
+      }
+      getHealthInfo()
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
-      const { index } = store.state;
-      if( index.healthInfo?.guidStatus == void 0){
-        window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
-      }else{
-        state.healthInfo = index.healthInfo;
-      }
+      // const { index } = store.state;
+      // if( index.healthInfo?.guidStatus == void 0){
+      //   window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+      // }else{
+      //   state.healthInfo = index.healthInfo;
+      // }
     });
 
     return {
@@ -142,7 +177,7 @@ export default defineComponent({
       showTask,
       closePop,
       goGame,
-      back,
+      backRead,
       begin,
       showRulePop,
       showTaskPop,
@@ -187,6 +222,7 @@ export default defineComponent({
     position: absolute;
     left: 0%;
     top: 15%;
+    z-index: 100;
   }
   .btns {
     position: absolute;

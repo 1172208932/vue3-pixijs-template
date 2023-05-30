@@ -31,8 +31,11 @@ watch(props, (newProps) => {
 });
 
 function close() {
-        router.push({
+        router.replace({
           name: "homepage",
+          query:{
+            form:'game'
+          }
         });
       }
 </script>

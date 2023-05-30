@@ -2,9 +2,9 @@
   <div class="picBox">
     <img v-if="userImg" :src="userImg" class="pic" />
     <img src="../../assets/back.png" class="back" alt="" @click="back">
-    <img  v-if="countdown>=0" src="../../assets/down_time_bg.png" class="down_time_bg" alt="" @click="back">
-    <div class="blackNum left-top" v-if="countdown > 3"><span>{{countdown}}</span><span>s</span></div>
-    <div class="redNum left-top" v-if="countdown <= 3 && countdown >=0"><span>{{countdown}}</span><span>s</span></div>
+    <img  v-if="countdown>=0 && haveGift" src="../../assets/down_time_bg.png" class="down_time_bg" alt="" @click="back">
+    <div class="blackNum left-top" v-if="countdown > 3 && haveGift"><span>{{countdown}}</span><span>s</span></div>
+    <div class="redNum left-top" v-if="countdown <= 3 && countdown >=0 && haveGift"><span>{{countdown}}</span><span>s</span></div>
     <back-pop v-model:show="showBackPop" @closePop="backPopCall"></back-pop>
     <read-pop :readGlodNum="readGlodNum" v-model:show="showReadPop"></read-pop>
   </div>
@@ -43,16 +43,22 @@ export default defineComponent({
     let showReadPop = ref<boolean>(false);
     let readGlodNum = ref<number>(0)
 
+    let haveGift = ref<boolean>(false);
+
+
     onMounted(async () => {
-      const { info,state } = route.params
-      console.log(info,state,'info')
+      const { info,status } = route.params
+      console.log(route.params,status,'info')
+      haveGift.value = Number(status) == 0;
       const { index } = store.state
       if( index.healthInfo?.guidStatus == void 0){
         window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
       }
       healInfoId.value = Number(info);
       userImg.value = index.img;
-      beginTimeDown()
+      if(haveGift.value){
+        beginTimeDown()
+      }
     });
 
     /* 开始倒计时 */
@@ -83,11 +89,13 @@ export default defineComponent({
     }
 
     const back = () => {
-      if(countdown.value  > 0){
+      if(countdown.value  > 0 && haveGift.value){
         clearInterval(timer)
         showBackPop.value = true
       }else{
-        router.back();
+        router.replace({
+        name: "detailPage",
+      });
       }
     }
 
@@ -101,6 +109,7 @@ export default defineComponent({
       readList,
       showBackPop,
       countdown,
+      haveGift,
       backPopCall
     };
   },
