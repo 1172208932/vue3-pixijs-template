@@ -2,6 +2,8 @@
   <div class="box">
     <div class="readPage">
       <img src="../../assets/back.png" class="back" alt="" @click="backHome" />
+      <img src="../../assets/logo.png" class="titleImg" />
+
       <div class="btns">
         <span class="run_btn" @click="goGame"></span>
         <span class="read_btn" @click="goRead"></span>
@@ -100,6 +102,16 @@ export default defineComponent({
   background: url("../../assets/btn_run.png") no-repeat top left / 100% 100%;
   display: flex;
   margin: 0 auto 88px auto;
+}
+.titleImg {
+  width: 332px;
+  height: 45px;
+  display: flex;
+  // margin-top: 140px;
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .read_btn {
   width: 489px;

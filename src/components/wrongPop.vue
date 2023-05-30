@@ -3,7 +3,7 @@
     <div class="overBg">
       <div class="read-title">正确答案：{{ showWrontTitle }}</div>
 
-      <div class="back-btn" @click="close">再试一次</div>
+      <div class="back-btn" @click="close">立即结算</div>
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
 
@@ -99,7 +99,7 @@ function close() {
   width: 280px;
   height: 92px;
   top: 560px;
-  background: url("../assets/btn.png") no-repeat top left / 100% 100%;
+  background: url("../assets/btn_old.png") no-repeat top left / 100% 100%;
   position: absolute;
   color: #ffffff;
   font-size: 40px;

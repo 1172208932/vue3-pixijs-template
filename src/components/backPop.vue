@@ -1,7 +1,7 @@
 <template>
   <van-popup v-model:show="showPopup" :close-on-click-overlay="false">
     <div class="overBg">
-      <div class="back-btn"  @click="$emit('closePop')">返回阅读</div>
+      <div class="back-btn"  @click="$emit('closePop')">继续阅读</div>
     </div>
     <img src="../assets/close.png" class="close" @click="$emit('closePop')" alt="" />
 
@@ -90,7 +90,7 @@ function close() {
   width: 280px;
   height:  92px;
   top: 670px;
-  background: url("../assets/btn.png") no-repeat top left / 100% 100%;
+  background: url("../assets/btn_new.png") no-repeat top left / 100% 100%;
   position: absolute;
   color: #ffffff;
   font-size: 40px;

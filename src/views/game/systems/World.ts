@@ -6,7 +6,7 @@ import Player from './Player'
 import * as TWEEN from "@tweenjs/tween.js";
 import EventBus from '@/utils/eventbus';
 
-let trackTime = 5;
+let trackTime = 6;
 let timerOut
 export default class World {
     private _engine: any;
@@ -72,7 +72,7 @@ export default class World {
 
     gameOverFn() {
         clearTimeout(timerOut);
-        trackTime = 5
+        trackTime = 6
 
         this.gameOver = true
         this.player.ani.pause()
@@ -143,7 +143,7 @@ export default class World {
                 this.addGold(track)
             }
             if (trackTime == 0) {
-                trackTime = 5
+                trackTime = 6
                 return
             }
             this.addGoldTrack(track);
@@ -184,7 +184,7 @@ export default class World {
             if (this.distance == 1) {
                 this.addGoldTrack(Math.floor(Math.random()*3))
             }
-            if(this.distance == 400){
+            if(this.distance == 350){
                 this.distance = 0
             }
         }

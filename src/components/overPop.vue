@@ -6,8 +6,13 @@
       <img v-if="isFirst" src="../assets/overebtn_2.png" @click="$emit('resurgence')" class="left_btn" alt="" />
       <div v-if="!isFirst" class="back-btn" @click="close">返回首页</div>
       <div class="over_tip">每局游戏只能通过答题复活1次</div>
-      <img src="../assets/glod_little.png" class="glod_icon" alt="" />
-      <div class="glod_num">{{ glodNum }}</div>
+      <div class="over-box">
+        <div class="over-box-item">
+          <img src="../assets/glod_little.png" class="glod_icon" alt="" />
+          <div class="glod_num">{{ glodNum }}</div>
+        </div>
+      </div>
+
     </div>
     <img src="../assets/close.png" class="close" @click="close" alt="" />
   </van-popup>
@@ -70,13 +75,7 @@ function close() {
   left: 330px;
 }
 
-.glod_icon{
-  width: 33px;
-  height: 33px;
-  position: absolute;
-  top: 580px;
-  left: 260px;
-}
+
 
 .title{
   width: 100%;
@@ -88,14 +87,25 @@ function close() {
   color: #148c85;
 }
 .glod_num{
-  width: 200px;
+  /* width: 200px; */
   text-align: left;
-  position: absolute;
+  position: relative;
+  top: -10px;
+  margin-left: 5px;
+  /* position: absolute;
   top: 565px;
-  left: 305px;
+  left: 305px; */
   font-size: 48px;
   font-weight: 700;
   color: #148c85;
+}
+
+.glod_icon{
+  width: 33px;
+  height: 33px;
+  /* position: absolute;
+  top: 580px;
+  left: 260px; */
 }
 
 .left_btn{
@@ -138,5 +148,17 @@ function close() {
   font-weight: bold;
   line-height: 92px;
 }
+
+.over-box{
+width: 100%;
+position: absolute;
+top: 570px;
+text-align: center;
+}
+.over-box-item{
+display: flex;
+justify-content: center;
+}
+
 </style>
   
