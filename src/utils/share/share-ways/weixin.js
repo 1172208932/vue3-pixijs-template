@@ -9,7 +9,6 @@
  *
  * 注意：1.4.0开始，分享成功的回调已经被去除，所以只能做假分享
  */
-
 import { ShareWay } from "../ShareWay";
 import { callApi } from "@/api/resource";
 const ua = navigator.userAgent;

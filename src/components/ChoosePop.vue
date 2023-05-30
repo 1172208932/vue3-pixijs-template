@@ -71,13 +71,13 @@ watch(props, (newProps) => {
 
 const judge = async ( index: number) => {
   tab.value = index;
-  console.log(state.question,'state.question')
   let res = await chooseSubmit({
     startId: props.startId,
     choose: index + 1,
   });
   console.log(res,'res------')
   if (res) {
+    close();
     if (res['correct']) {
       right.value = index + 1;
       // 回答正确
@@ -138,7 +138,8 @@ function close() {
 }
 .chooseItem {
   width: 493px;
-  height: 81px;
+  height: auto;
+  padding: 20px;
   background: #aeefdb;
   border-radius: 15px;
   display: flex;

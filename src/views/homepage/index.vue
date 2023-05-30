@@ -17,7 +17,7 @@
     </div>
   </div>
   <rule-pop v-model:show="showRulePop"></rule-pop>
-  <task-Pop v-model:show="showTaskPop"  @getHealthInfo="getHealthInfo"></task-Pop>
+  <task-Pop v-model:show="showTaskPop"></task-Pop>
 </template>
 
 <script lang="ts">
@@ -108,6 +108,7 @@ export default defineComponent({
         begin.value = true;
       })();
     };
+
     const getHealthInfo = async () => {
       let res = await healthInfoIndex();
       if (res) {
@@ -129,25 +130,6 @@ export default defineComponent({
 
     const route = useRoute();
 
-    const handleRouteChange = (to, from) => {
-      console.log('跳转前的页面：', from);
-      console.log('即将跳转到的页面：', to);
-        if(from.fullPath == "/game" && to.fullPath == '/homepage'){
-          location.reload()
-        }
-    };
-
-    const stopWatch = watch(
-      () => route.fullPath,
-      (newPath, oldPath) => {
-        console.log(22222222222222)
-        handleRouteChange(route, { fullPath: oldPath });
-      }
-    );
-
-    onUnmounted(() => {
-      stopWatch();
-    });
 
     onMounted(async () => {
       const { form } = route.query;
@@ -181,7 +163,6 @@ export default defineComponent({
       begin,
       showRulePop,
       showTaskPop,
-      getHealthInfo
     };
   },
 });

@@ -159,14 +159,18 @@ function close() {
 }
 
 .read-title {
-  width: 100%;
+  background: #aeefdb;
+  border-radius: 15px;
+  width: 435px;
+  height: auto;
+  padding: 25px;
   text-align: center;
   position: absolute;
   top: 393px;
   left: 50%;
   transform: translateX(-50%);
 
-  font-size: 28px;
+  font-size: 25px;
   font-weight: 700;
   color: #000000;
 }

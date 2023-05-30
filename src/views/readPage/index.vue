@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="readPage">
-      <img src="../../assets/back.png" class="back" alt="" @click="backHome">
+      <img src="../../assets/back.png" class="back" alt="" @click="backHome" />
       <div class="btns">
         <span class="run_btn" @click="goGame"></span>
         <span class="read_btn" @click="goRead"></span>
@@ -20,7 +20,6 @@ import {
   ref,
 } from "vue";
 import { useRouter } from "vue-router";
-import { healthInfoIndex } from "@/api/resource";
 import { useStore } from "vuex";
 import EventBus from "@/utils/eventbus";
 export default defineComponent({
@@ -50,23 +49,9 @@ export default defineComponent({
     };
 
     const getHealthInfo = async () => {
-      let res = await healthInfoIndex();
-      console.log(res,'healthInfoIndex')
-      if (res) {
-        // const { index } = store.state;
-        store.commit("setHealthInfo", res);
-        state.healthInfo = res;
-        // console.log(index.healthInfo.actEndTime, "------ss");
-      }
-
-      // if (res?.success) {
-      //   healthInfo = res.data;
-      //   if (res.data.readRewardCoin) {
-      //     modalStore.pushPop("Success_modal", {
-      //       coinCount: res.data.readRewardCoin,
-      //     });
-      //   }
-      // }
+      await store.commit("getHealthInfo");
+      const { index } = store.state;
+      if(index.healthInfoList?.healthInfoList?.length > 0) state.healthInfo = index.healthInfoList;
     };
 
     const goGame = () => {
@@ -75,16 +60,17 @@ export default defineComponent({
       });
     };
 
-    const backHome = ()=>{
-      window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
-    }
+    const backHome = () => {
+      window.location.href =
+        "https://www.ysupup.com/china_life_hi_fun_playground/";
+    };
 
     return {
       ...toRefs(state),
       goRead,
       goGame,
       getHealthInfo,
-      backHome
+      backHome,
     };
   },
 });
@@ -100,7 +86,7 @@ export default defineComponent({
   .btns {
     padding-top: 688px;
   }
-  .back{
+  .back {
     width: 127px;
     height: 60px;
     position: absolute;
