@@ -145,7 +145,7 @@ export default defineComponent({
       // 首页接口
       store.dispatch("getHealthInfo");
       const { index } = store.state;
-      if(index.healthInfoList?.healthInfoList?.length > 0) state.healthInfo = index.healthInfoList;
+      if(index.healthInfo) state.healthInfo = index.healthInfo;
       
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
