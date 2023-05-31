@@ -43,6 +43,9 @@ import { chooseSubmit } from "@/api/resource";
 import { showSuccessToast } from "vant";
 import EventBus from "@/utils/eventbus";
 import { useRouter } from "vue-router";
+import { throttle } from "@/utils/throttle";
+
+
 const router = useRouter();
 
 const emit = defineEmits(["answer"]);
@@ -73,7 +76,7 @@ watch(props, (newProps) => {
   }
 });
 
-const judge = async (index: number) => {
+const judge = throttle(async (index: number) => {
   tab.value = index;
   let res = await chooseSubmit({
     startId: props.startId,
@@ -99,7 +102,7 @@ const judge = async (index: number) => {
       }, 500);
     }
   }
-};
+},3000) ;
 
 function close() {
   EventBus.fire("CLOSEPOP");

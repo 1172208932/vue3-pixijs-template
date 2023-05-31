@@ -12,11 +12,11 @@
         >
           <div class="title-item">
             <!-- <p>{{ item.time }}</p> -->
-            <p class="title">{{ item.text }}</p>
-            <span class="bottomtext">
-              <p class="read">{{ item.title }}</p>
+            <p class="title">{{ item.title }}</p>
+            <!-- <span class="bottomtext"> -->
+              <!-- <p class="read">{{ item.title }}</p> -->
               <!-- <p>赞{{ item.good }}</p> -->
-            </span>
+            <!-- </span> -->
           </div>
           <img :src="item.userImg" alt="" />
         </div>
@@ -85,8 +85,8 @@ export default defineComponent({
 
     onMounted(async () => {
       const { index } = store.state;
-      if( index.healthInfo?.guidStatus == void 0){
-          window.location.href = import.meta.env.VITE_APP_INDEX_URL
+      if( index.healthInfo?.guidStatus === void 0){
+          // window.location.href = import.meta.env.VITE_APP_INDEX_URL
       }
       const { glodNum } = route.query;
       readGlodNum.value = Number(glodNum);
@@ -95,7 +95,8 @@ export default defineComponent({
       }
       let data = await readIndex();
       console.log(data,'333')
-       state.list = data['healthInfoList'];
+       state.list = 
+       data['healthInfoList'];
       // [
       //   {
       //     "dailyClickCount": 0, 
@@ -208,7 +209,7 @@ export default defineComponent({
       font-size: 30px !important;
       font-weight: bold !important;
       color: #404040 !important;
-      width: 67%;
+      width: 96%;
       overflow: hidden;
       text-overflow: ellipsis;
       -webkit-line-clamp: 3;

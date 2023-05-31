@@ -12,7 +12,7 @@
       <img
         v-if="isFirst"
         src="../assets/overebtn_2.png"
-        @click="$emit('resurgence')"
+        @click="resurg"
         class="left_btn"
         alt=""
       />
@@ -33,6 +33,14 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import { throttle } from "@/utils/throttle";
+
+const emit = defineEmits(["resurgence"]);
+
+const resurg = throttle(()=>{
+  emit('resurgence')
+},3000)
+
 const router = useRouter();
 
 const props = defineProps({

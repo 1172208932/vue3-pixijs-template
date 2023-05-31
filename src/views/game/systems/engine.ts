@@ -142,7 +142,6 @@ export default class PixiEngine {
     }
 
     speedUp(data){
-        console.log(data,'daaaaaaaaaaa')
         this.world.speedUp(data!.detail!.speed)
     }
 

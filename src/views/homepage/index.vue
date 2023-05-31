@@ -151,7 +151,7 @@ export default defineComponent({
       EventBus.on("CLOSEPOP", closePop);
       // const { index } = store.state;
       // if( index.healthInfo?.guidStatus == void 0){
-      //   window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
+      //   window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
       // }else{
       //   state.healthInfo = index.healthInfo;
       // }

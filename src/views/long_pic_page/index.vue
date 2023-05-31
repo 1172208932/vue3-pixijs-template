@@ -51,8 +51,8 @@ export default defineComponent({
       console.log(route.params,status,'info')
       haveGift.value = Number(status) == 0;
       const { index } = store.state
-      if( index.healthInfo?.guidStatus == void 0){
-        window.location.href = import.meta.env.VITE_APP_INDEX_URL
+      if( index.healthInfo?.guidStatus === void 0){
+        // window.location.href = import.meta.env.VITE_APP_INDEX_URL
       }
       healInfoId.value = Number(info);
       userImg.value = index.img;

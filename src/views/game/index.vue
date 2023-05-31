@@ -166,7 +166,7 @@ export default defineComponent({
     /**
      * 点击答题成功复活
      */
-    const resurgenceGame = async () => {
+    const resurgenceGame = throttle(async () => {
       const { index } = store.state;
       let res = await gameReborn(index.gameInfo.startId)
       if(res.success){
@@ -179,7 +179,7 @@ export default defineComponent({
 
         guid3Over()
       }
-    }
+    },3000)
 
     let timer
 
@@ -251,7 +251,7 @@ export default defineComponent({
       })()
     }
 
-    const gameOver = async () => {
+    const gameOver =throttle(async () => {
       const { index } = store.state;
       console.log(index.gameInfo.startId,'index.gameInfo.startId')
       if (isFirst.value) {
@@ -275,7 +275,7 @@ export default defineComponent({
       })
       playerTree.start()
       clearInterval(timer)
-    }
+    },3000) 
 
     const svgaplayerweb1 = () => {
       const downloader = new Downloader()

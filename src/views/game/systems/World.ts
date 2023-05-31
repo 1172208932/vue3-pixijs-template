@@ -196,7 +196,6 @@ export default class World {
 
         if (this.player?.update && this.player) {
             this.player?.update();
-             console.log(this.speed)
 
             this.distance = this.distance + this.speed;
             if (this.distance == this.speed) {
