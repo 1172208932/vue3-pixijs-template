@@ -4,6 +4,6 @@ export default {
     "message": "huodongweikaishi ",
     "data": {
         "startId":123,
-        "eachGameCoin":"50"
+        "eachGameCoin":"20"
         }
 }

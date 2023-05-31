@@ -4,6 +4,6 @@ export default {
     "message": "",
     "data": {
         "startId":45,
-        "eachGameCoin":"单局游戏健康币个数"
+        "eachGameCoin":"12"
         }
 }

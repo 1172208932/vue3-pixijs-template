@@ -6,7 +6,7 @@ export interface UserState {
     healthInfo: any;
   }
   export interface GameState {
-    gameId: any;
+    gameInfo: any;
   }
   export interface HealthImgStage {
     img: any;
@@ -14,15 +14,15 @@ export interface UserState {
   export default {
     state: {
         healthInfo: {},
-        gameId:'',
+        gameInfo:{},
         img:''
     },
     mutations: {
       setHealthInfo(state: UserState, data: string) {
         state.healthInfo = data;
       },
-      setGameId(state: GameState, data: string) {
-        state.gameId = data;
+      setGameInfo(state: GameState, data: any) {
+        state.gameInfo = data;
       },
       setHealthImg(state: HealthImgStage, data: string) {
         state.img = data;

@@ -111,10 +111,10 @@ export default defineComponent({
 
     const init = () => {
       const { index } = store.state;
-      if (index.healthInfo.guidStatus == 0) {
+      if (index.healthInfo.guidStatus === 0) {
         showGuid1.value = true
-      } else if (index.healthInfo.guidStatus == void 0){
-       window.location.href = import.meta.env.VITE_APP_INDEX_URL
+      } else if (index.healthInfo.guidStatus === void 0){
+        // window.location.href = import.meta.env.VITE_APP_INDEX_URL
       }else {
         guid3Over()
       }
@@ -168,10 +168,10 @@ export default defineComponent({
      */
     const resurgenceGame = async () => {
       const { index } = store.state;
-      let res = await gameReborn(index.gameId)
+      let res = await gameReborn(index.gameInfo.startId)
       if(res.success){
         // store.commit("getHealthInfo");
-        store.commit("setGameId", res.data.startId);
+        store.commit("setGameInfo", res.data);
         showOverPop.value = false;
         timenum.value = 30;
         isFirst.value = false;
@@ -197,6 +197,13 @@ export default defineComponent({
           clearInterval(timer)
           // gameOver()
           EventBus.fire('GAME_OVER_WORLD')
+        }
+
+        if (timenum.value == 45) {
+          EventBus.fire('SEEP_UP',{speed:1})
+        }
+        if (timenum.value == 20) {
+          EventBus.fire('SEEP_UP',{speed:1.5})
         }
       }, 1000)
       // EventBus.fire("AGAIN_GAME");
@@ -246,14 +253,17 @@ export default defineComponent({
 
     const gameOver = async () => {
       const { index } = store.state;
+      console.log(index.gameInfo.startId,'index.gameInfo.startId')
       if (isFirst.value) {
-        let res = await gameSubmit(index.gameId, glodNum.value)
+        let res = await gameSubmit(index.gameInfo.startId, glodNum.value)
         if (res?.success) {
           firstGlofNum = glodNum.value
           showOverPop.value = true
         }
       } else {
-        let res = await gameSubmit(index.gameId, glodNum.value - firstGlofNum)
+        console.log(index.gameInfo.startId,'index.gameInfo.startId')
+
+        let res = await gameSubmit(index.gameInfo.startId, glodNum.value - firstGlofNum)
         if (res?.success) {
           showOverPop.value = true
         }
@@ -288,7 +298,7 @@ export default defineComponent({
      */
     const getQuestionList = async () => {
       const { index } = store.state
-      let res = await getQuestion({ gameStartId: index.gameId })
+      let res = await getQuestion({ gameStartId: index.gameInfo.startId })
       console.log(index, 'index', res)
 
       if (res) {

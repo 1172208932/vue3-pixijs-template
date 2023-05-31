@@ -5,7 +5,8 @@ import Glod from './Glod';
 import Player from './Player'
 import * as TWEEN from "@tweenjs/tween.js";
 import EventBus from '@/utils/eventbus';
-
+import { useStore } from "vuex";
+import store from '@/store/index'
 let trackTime = 6;
 let timerOut
 export default class World {
@@ -22,9 +23,10 @@ export default class World {
     public distance: number = 0;
     public player
     public gameOver = true
-    public glodEatNum:number = 0;
-    public maxGlodNum:number = 50
-
+    public glodEatNum: number = 0;
+    public maxGlodNum: number = 50;
+    public speed:number = 0.8
+    trackNow =  Math.floor(Math.random() * 3);
     constructor(
         engine: any,
         app: Application
@@ -33,8 +35,6 @@ export default class World {
 
         this.app = app;
 
-
-       
         Matter.Events.on(engine, 'collisionStart', (event) => {
             const pairs = event.pairs;
 
@@ -77,13 +77,13 @@ export default class World {
         this.gameOver = true
         this.player.ani.pause()
         EventBus.fire('GAME_OVER')
-        console.log(this.glodList,'this.glodListthis.glodList')
+        console.log(this.glodList, 'this.glodListthis.glodList')
         this.glodList.forEach(glod => {
             glod.destroy()
             glod._sprite.destroy()
             this.glodList.delete(glod.num)
         })
-        console.log(this.glodList,'this.glodListthis.glodList')
+        console.log(this.glodList, 'this.glodListthis.glodList')
     }
 
     removeGlod(num) {
@@ -100,7 +100,7 @@ export default class World {
 
         const Player = new TWEEN.Tween(this.player.body.position);
         Player.to({ x: this.trackList[this.nowPlayTrack - 2] }, 500).start().onComplete(() => {
-        this.nowPlayTrack -= 1
+            this.nowPlayTrack -= 1
 
             // Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack - 2],y:this.player._body.position.y});
         });
@@ -110,18 +110,18 @@ export default class World {
         if (this.nowPlayTrack == 3) { return }
 
         const Player = new TWEEN.Tween(this.player.body.position);
-        console.log(this.trackList[this.nowPlayTrack],'this.trackList[this.nowPlayTrack]')
+        console.log(this.trackList[this.nowPlayTrack], 'this.trackList[this.nowPlayTrack]')
         Player.to({ x: this.trackList[this.nowPlayTrack] }, 500).start().onComplete(() => {
             this.nowPlayTrack += 1
 
-        //  Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack],y:this.player._body.position.y});
+            //  Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack],y:this.player._body.position.y});
         });
     }
 
     //  [50,375,700]
     addPlayer() {
         let playerTexture: Texture = Texture.from('ip2');
-        this.player = new Player('player', this._engine, 0x001, 375, 930, 117, 182, playerTexture,this.app);
+        this.player = new Player('player', this._engine, 0x001, 375, 930, 117, 182, playerTexture, this.app);
         // Matter.Body.setStatic(this.player.body, true);
         // Matter.Body.setInertia(this.player.body,0.5)
 
@@ -130,20 +130,28 @@ export default class World {
         this.app.stage.addChild(this.player.sprite);
     }
 
-    beginGame() { 
+    beginGame() {
+        this.speed = 0.8
         this.app.ticker.add(this.update);
+        this.maxGlodNum = Number(store.state.index.gameInfo.eachGameCoin)
         this.gameOver = false
         this.player.ani.play()
     }
 
-    resetGame(){
+    resetGame() {
+        this.speed = 0.8
         this.glodEatNum = 0;
-        this.maxGlodNum = 25
+        this.maxGlodNum = Number(store.state.index.gameInfo.eachGameCoin)
+
         this.app.ticker.remove(this.update)
     }
 
+    speedUp(speed){
+        this.speed = speed
+    }
+
     addGoldTrack(track) {
-            timerOut =  setTimeout(() => {
+        timerOut = setTimeout(() => {
             trackTime--;
             if (trackTime == 0) {
                 this.addBarrier(track)
@@ -160,8 +168,8 @@ export default class World {
     }
     // [[354,130][-10, 1230]]  [374   374]    [ 754]
     addGold(track) {
-        this.glodEatNum ++ 
-        if(this.glodEatNum>= this.maxGlodNum + 1){ return }
+        this.glodEatNum++
+        if (this.glodEatNum >= this.maxGlodNum + 1) { return }
         let goldTexture: Texture = Texture.from('gold');
         let player = new Glod('glod', this._engine, 0x001, 394, 130, 40, 40, goldTexture, this.glodId, track, 'glod');
         // Matter.Body.setStatic(player.body, true);
@@ -188,11 +196,23 @@ export default class World {
 
         if (this.player?.update && this.player) {
             this.player?.update();
-            this.distance++;
-            if (this.distance == 1) {
-                this.addGoldTrack(Math.floor(Math.random()*3))
+             console.log(this.speed)
+
+            this.distance = this.distance + this.speed;
+            if (this.distance == this.speed) {
+                trackTime--;
+                if (trackTime == 0) {
+                    this.addBarrier(this.trackNow)
+                } else {
+                    this.addGold(this.trackNow)
+                }
+                if (trackTime == 0) {
+                    trackTime = 4
+                    this.trackNow = Math.floor(Math.random() * 3)
+                    return
+                }
             }
-            if(this.distance == 350){
+            if (this.distance >= 40) {
                 this.distance = 0
             }
         }

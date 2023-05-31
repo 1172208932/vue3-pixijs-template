@@ -77,7 +77,7 @@ export default defineComponent({
       let res = await gameStart();
       console.log(res)
       if(res.success && res.data["startId"]){
-        store.commit("setGameId", res.data["startId"] + "");
+        store.commit("setGameInfo", res.data);
         router.replace({
           name: "game",
         });

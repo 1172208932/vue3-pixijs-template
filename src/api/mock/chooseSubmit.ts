@@ -4,6 +4,6 @@ export default {
     "message": "",
     "data":{
         "rightOption":1,
-        "correct":false
+        "correct":true
         }
 }

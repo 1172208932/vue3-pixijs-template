@@ -27,6 +27,8 @@ export default class PixiEngine {
         EventBus.on('BEGIN_GAME', this.beginGame, this)
         EventBus.on('GAME_OVER_WORLD', this.gameOver, this)
         EventBus.on('RESET_GAME', this.resetGame, this)
+        EventBus.on('SEEP_UP', this.speedUp, this)
+
 
 
 
@@ -137,6 +139,11 @@ export default class PixiEngine {
         loader.load(() => {
                 this.world.addPlayer();
         })
+    }
+
+    speedUp(data){
+        console.log(data,'daaaaaaaaaaa')
+        this.world.speedUp(data!.detail!.speed)
     }
 
     beginGame() {

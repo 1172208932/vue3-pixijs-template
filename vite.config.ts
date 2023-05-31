@@ -106,7 +106,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       minify: "terser", // 'terser' 相对较慢，但大多数情况下构建后的文件体积更小。'esbuild' 最小化混淆更快但构建后的文件相对更大。
       terserOptions: {
         compress: {
-          drop_console: false, // 生产环境去除console
+          drop_console: true, // 生产环境去除console
           drop_debugger: true, // 生产环境去除debugger
         },
       },
