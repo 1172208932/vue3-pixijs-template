@@ -110,14 +110,14 @@ export default defineComponent({
       })();
     };
 
-    const getHealthInfo = async () => {
-      let res = await healthInfoIndex();
-      if (res) {
-        // const { index } = store.state;
-        store.commit("setHealthInfo", res);
-        state.healthInfo = res;
-        // console.log(index.healthInfo.actEndTime, "------ss");
-      }
+    // const getHealthInfo = async () => {
+    //   let res = await healthInfoIndex();
+    //   if (res) {
+    //     // const { index } = store.state;
+    //     store.commit("setHealthInfo", res);
+    //     state.healthInfo = res;
+    //     // console.log(index.healthInfo.actEndTime, "------ss");
+    //   }
 
       // if (res?.success) {
       //   healthInfo = res.data;
@@ -127,14 +127,13 @@ export default defineComponent({
       //     });
       //   }
       // }
-    };
+    // };
 
     const route = useRoute();
 
 
     onMounted(async () => {
       const { form } = route.query;
-      console.log(form,'fffffffffffffffrom')
       if(form){
         router.replace({
           name:'homepage'
@@ -143,7 +142,11 @@ export default defineComponent({
         location.reload()
         })
       }
-      getHealthInfo()
+      // 首页接口
+      store.dispatch("getHealthInfo");
+      const { index } = store.state;
+      if(index.healthInfoList?.healthInfoList?.length > 0) state.healthInfo = index.healthInfoList;
+      
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
       // const { index } = store.state;
