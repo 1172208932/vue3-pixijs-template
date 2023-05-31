@@ -175,7 +175,7 @@ function close() {
   width: 40px;
   height: 40px;
   position: absolute;
-  right: 30px;
+  right: 60px;
 }
 .right {
   background: #39ebc7 !important;

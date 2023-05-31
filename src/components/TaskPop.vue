@@ -66,7 +66,7 @@ const getGift = async (item) => {
     pendingRecordCode: item?.pendingRecordCodeList[0],
   });
   if (res.success) {
-    store.commit("getHealthInfo");
+    store.dispatch("getHealthInfo");
     showToast("领取成功");
     getTask();
   }

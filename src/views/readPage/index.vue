@@ -41,19 +41,15 @@ export default defineComponent({
       // if( index.healthInfo?.guidStatus == void 0){
       //   window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
       // }
-      getHealthInfo();
+      store.dispatch("getHealthInfo");
+      const { index } = store.state;
+      if(index.healthInfo) state.healthInfo = index.healthInfo;
     });
 
     const goRead = () => {
       router.replace({
         name: "detailPage",
       });
-    };
-
-    const getHealthInfo = async () => {
-      await store.commit("getHealthInfo");
-      const { index } = store.state;
-      if(index.healthInfoList?.healthInfoList?.length > 0) state.healthInfo = index.healthInfoList;
     };
 
     const goGame = () => {
@@ -71,7 +67,6 @@ export default defineComponent({
       ...toRefs(state),
       goRead,
       goGame,
-      getHealthInfo,
       backHome,
     };
   },

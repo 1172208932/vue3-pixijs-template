@@ -133,7 +133,7 @@ export default defineComponent({
     const guid3Over = async () => {
       showguidPop.value = false
       showDownTime.value = true;
-      store.commit("getHealthInfo");
+      store.dispatch("getHealthInfo");
       let timerGuid = setInterval(() => {
         if (downTimeNum.value == 1) {
           clearInterval(timerGuid)

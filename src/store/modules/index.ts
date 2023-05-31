@@ -27,11 +27,12 @@ export interface UserState {
       setHealthImg(state: HealthImgStage, data: string) {
         state.img = data;
       },
-      async getHealthInfo(){
-        const store = useStore();
+    },
+    actions:{
+      async getHealthInfo({commit}){
         let res = await healthInfoIndex();
         if (res) {
-          store.commit("setHealthInfo", res);
+          commit("setHealthInfo", res);
         }
       }
     }
