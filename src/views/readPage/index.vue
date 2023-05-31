@@ -41,7 +41,7 @@ export default defineComponent({
       // if( index.healthInfo?.guidStatus == void 0){
       //   window.location.href =  window.location.href = "https://www.ysupup.com/china_life_hi_fun_playground/"
       // }
-      store.dispatch("getHealthInfo");
+      await store.dispatch("getHealthInfo");
       const { index } = store.state;
       if(index.healthInfo) state.healthInfo = index.healthInfo;
     });

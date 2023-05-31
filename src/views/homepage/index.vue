@@ -143,10 +143,10 @@ export default defineComponent({
         })
       }
       // 首页接口
-      store.dispatch("getHealthInfo");
+      await store.dispatch("getHealthInfo");
       const { index } = store.state;
-      if(index.healthInfo) state.healthInfo = index.healthInfo;
-      
+      if(index.healthInfo?.healthInfoList?.length > 0) state.healthInfo = index.healthInfo;
+
       svgaplayerweb();
       EventBus.on("CLOSEPOP", closePop);
       // const { index } = store.state;
