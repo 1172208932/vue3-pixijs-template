@@ -32,6 +32,7 @@ export interface UserState {
       async getHealthInfo({commit}){
         let res = await healthInfoIndex();
         if (res) {
+          console.log(res,'ssssssssssss')
           commit("setHealthInfo", res);
         }
       }
