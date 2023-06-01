@@ -28,11 +28,10 @@ export default class PixiEngine {
         EventBus.on('GAME_OVER_WORLD', this.gameOver, this)
         EventBus.on('RESET_GAME', this.resetGame, this)
         EventBus.on('SEEP_UP', this.speedUp, this)
+        EventBus.on('SET_GLOD_SEEP', this.setGlodSpeed, this)
 
 
-
-
-        PixiApp = new PIXI.Application({ width, height, transparent: true });
+        PixiApp = new PIXI.Application({ width, height, transparent: true, forceCanvas:true });
         function animate(time) {
             requestAnimationFrame(animate)
             TWEEN.update(time)
@@ -143,6 +142,10 @@ export default class PixiEngine {
 
     speedUp(data){
         this.world.speedUp(data!.detail!.speed)
+    }
+
+    setGlodSpeed(data){
+        this.world.setGlodSpeed(data!.detail!.speed)
     }
 
     beginGame() {

@@ -7,6 +7,7 @@ import * as TWEEN from "@tweenjs/tween.js";
 import EventBus from '@/utils/eventbus';
 import { useStore } from "vuex";
 import store from '@/store/index'
+import {GameConfig} from "./config"
 let trackTime = 6;
 let timerOut
 export default class World {
@@ -27,6 +28,7 @@ export default class World {
     public maxGlodNum: number = 50;
     public speed:number = 0.8
     trackNow =  Math.floor(Math.random() * 3);
+    isDouble = false
     constructor(
         engine: any,
         app: Application
@@ -99,7 +101,7 @@ export default class World {
         // this.nowPlayTrack -= 1
 
         const Player = new TWEEN.Tween(this.player.body.position);
-        Player.to({ x: this.trackList[this.nowPlayTrack - 2] }, 500).start().onComplete(() => {
+        Player.to({ x: this.trackList[this.nowPlayTrack - 2] }, 300).start().onComplete(() => {
             this.nowPlayTrack -= 1
 
             // Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack - 2],y:this.player._body.position.y});
@@ -111,7 +113,7 @@ export default class World {
 
         const Player = new TWEEN.Tween(this.player.body.position);
         console.log(this.trackList[this.nowPlayTrack], 'this.trackList[this.nowPlayTrack]')
-        Player.to({ x: this.trackList[this.nowPlayTrack] }, 500).start().onComplete(() => {
+        Player.to({ x: this.trackList[this.nowPlayTrack] }, 300).start().onComplete(() => {
             this.nowPlayTrack += 1
 
             //  Matter.Body.setPosition( this.player._body, {x: this.trackList[this.nowPlayTrack],y:this.player._body.position.y});
@@ -132,6 +134,7 @@ export default class World {
 
     beginGame() {
         this.speed = 0.8
+        GameConfig.speed = 0
         this.app.ticker.add(this.update);
         this.maxGlodNum = Number(store.state.index.gameInfo.eachGameCoin)
         this.gameOver = false
@@ -141,6 +144,7 @@ export default class World {
     resetGame() {
         this.speed = 0.8
         this.glodEatNum = 0;
+        GameConfig.speed = 0
         this.maxGlodNum = Number(store.state.index.gameInfo.eachGameCoin)
 
         this.app.ticker.remove(this.update)
@@ -148,6 +152,13 @@ export default class World {
 
     speedUp(speed){
         this.speed = speed
+    }
+
+    setGlodSpeed(num){
+        GameConfig.speed = num
+        this.glodList.forEach(glod => {
+            glod.setSpeed(num)
+        })
     }
 
     addGoldTrack(track) {
@@ -201,13 +212,23 @@ export default class World {
             if (this.distance == this.speed) {
                 trackTime--;
                 if (trackTime == 0) {
+
+                }else if(trackTime == 1){
+                    if(this.isDouble){
+                        this.addBarrier(2)
+                    }
                     this.addBarrier(this.trackNow)
                 } else {
                     this.addGold(this.trackNow)
                 }
                 if (trackTime == 0) {
-                    trackTime = 4
-                    this.trackNow = Math.floor(Math.random() * 3)
+                    trackTime = 3 + Math.floor(Math.random() * 3);
+                    this.trackNow = Math.floor(Math.random() * 3);
+                    if(this.trackNow == 0){
+                        this.isDouble = true
+                    }else{
+                        this.isDouble = false
+                    }
                     return
                 }
             }

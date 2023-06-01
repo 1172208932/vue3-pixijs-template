@@ -50,7 +50,7 @@ import { completeGuide, getQuestion, gameSubmit,gameReborn } from "@/api/resourc
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
-
+import {GameConfig} from "./systems/config"
 let firstGlofNum: number = 0;
 
 export default defineComponent({
@@ -199,12 +199,22 @@ export default defineComponent({
           EventBus.fire('GAME_OVER_WORLD')
         }
 
-        if (timenum.value == 45) {
-          EventBus.fire('SEEP_UP',{speed:1})
+        if (timenum.value == 50) {
+          EventBus.fire('SEEP_UP',{speed:1.2})
+          EventBus.fire('SET_GLOD_SEEP',{speed:0.02})
+        }
+        if (timenum.value == 40) {
+          EventBus.fire('SET_GLOD_SEEP',{speed:0.04})
+
+        }
+        if (timenum.value == 30) {
+          EventBus.fire('SEEP_UP',{speed:1.2})
+          EventBus.fire('SET_GLOD_SEEP',{speed:0.05})
         }
         if (timenum.value == 20) {
-          EventBus.fire('SEEP_UP',{speed:1.5})
+          EventBus.fire('SET_GLOD_SEEP',{speed:0.06})
         }
+
       }, 1000)
       // EventBus.fire("AGAIN_GAME");
     };

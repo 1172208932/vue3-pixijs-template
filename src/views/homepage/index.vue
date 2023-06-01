@@ -9,7 +9,7 @@
         <span class="task" @click="showTask"></span>
         <div class="btns">
           <span class="times"
-            >剩余次数：{{ healthInfo.remainGameTimes || "0" }}</span
+            >剩余次数：{{ index.healthInfo.remainGameTimes || "0" }}</span
           >
           <span class="go_btn" @click="goGame"></span>
         </div>
@@ -53,7 +53,7 @@ export default defineComponent({
     let begin = ref<boolean>(false);
 
     const store = useStore();
-
+    const { index } = store.state
     const state: {
       healthInfo: any;
     } = reactive({
@@ -167,6 +167,7 @@ export default defineComponent({
       begin,
       showRulePop,
       showTaskPop,
+      index
     };
   },
 });

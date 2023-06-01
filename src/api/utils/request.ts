@@ -121,8 +121,9 @@ function responseThen(response) {
         }else{
             message =  res.message
         }
-
-        showToast({message})
+        if(res.code != '10001'){
+            showToast({message})
+        }
         return res
         // return Promise.reject(new Error(res.msg || 'Error'))
     } else {

@@ -100,6 +100,10 @@ export default class PhysicsSprite {
         this._sprite.position = this._body.position
     }
 
+    setSpeed(speed){
+        this.speed = speed
+    }
+
     setScale = (y) => {
         //  glodOffset = [[354,-10],[374,374],[394,754]]
         let process = (y - 130) / (1230 - 130);
