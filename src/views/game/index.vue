@@ -35,7 +35,6 @@ import {
   SetupContext,
   ref,
 } from "vue";
-import { SOUND_TYPE, SOUND_LIST } from "./soundEnum";
 import PixiEngine from "./systems/engine";
 import ChoosePop from "@/components/ChoosePop.vue";
 import OverPop from "@/components/overPop.vue";
@@ -228,11 +227,6 @@ export default defineComponent({
       // state.percentage = state.money / 22 * 100
     }
 
-    const initGameData = () => {
-      glodNum.value = 0;
-      timenum.value = 60;
-    }
-
     const closePop = () => {
       showChoosePop.value = false
     }
@@ -331,10 +325,7 @@ export default defineComponent({
       svgaplayerweb1()
       EventBus.on("GET_STARE", getScore);
       EventBus.on("GAME_OVER", gameOver);
-      // // SOUND_LIST.forEach((elm,index) => {
-      // //                   this.audio[index] = document.getElementById(`${'play'+index}`)
-      // //                   this.audioUrlArr.push(elm)
-      // //                });
+
 
       EventBus.on("CLOSEPOP", closePop);
       let PixiEngineObj = new PixiEngine(750, 1400);
@@ -350,7 +341,6 @@ export default defineComponent({
     return {
       ...toRefs(state),
       showBg,
-      SOUND_LIST,
       audio,
       showPop,
       showOverPop,
