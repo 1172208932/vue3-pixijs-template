@@ -1,6 +1,7 @@
 import { Texture, Sprite } from 'pixi.js';
 import * as Matter from 'matter-js';
 import { GameConfig } from "./config"
+import * as TWEEN from "@tweenjs/tween.js";
 
 export default class PhysicsSprite {
     public _id: number | string;
@@ -109,7 +110,13 @@ export default class PhysicsSprite {
         let process = (y - 130) / (1230 - 130);
         this._body.position.x = this.glodOffset[this.track][0]  - ((this.glodOffset[this.track][0] - this.glodOffset[this.track][1] ) * process)
 
-        this._sprite.scale.x = this._sprite.scale.y = 2.5 * process
+        if(this._body.bodyType == 'barrier'){
+            this._sprite.scale.x = this._sprite.scale.y = 3 * process
+
+        }else{
+            this._sprite.scale.x = this._sprite.scale.y = 2 * process
+
+        }
 
         this._sprite.position = this._body.position
         this._sprite.rotation = this._body.angle;
@@ -140,6 +147,16 @@ export default class PhysicsSprite {
 
     destroy() {
         Matter.World.remove(this._engine.world, this._body);
+        // if(this.body.bodyType == 'barrier'){
+            // this.sprite.destroy()
+        // }else{
+        //     const Player = new TWEEN.Tween(this.sprite.position);
+        //     const scal = new TWEEN.Tween(this.sprite);
+        //     scal.to({ width:60,height:60 }, 500).start()
+        //     Player.to({ x:590,y:10 }, 500).start().onComplete(() => {
+        //         this.sprite.destroy()
+        //     });
+        // }
     }
 
     get body(): any {

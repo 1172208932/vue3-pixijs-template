@@ -1,6 +1,6 @@
 let GameConfig = {
     speed:0,
-    addSpeed:0.0005
+    addSpeed:0.003
 }
 
 export {

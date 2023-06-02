@@ -54,8 +54,8 @@ export default class PhysicsStaticSprite {
 
     private createPhysics = ():  void => {
         let options: any = {
-            friction: 0.3,
-            frictionAir: 0.3,
+            friction: 0.4,
+            frictionAir: 0.4,
             isSensor: true,
             mass:0.2 
         };

@@ -6,9 +6,10 @@
       <canvas id="canvas1"></canvas>
       <canvas id="canvas2"></canvas>
       <div class="game-box" id="canvas" ref="canvasRef"></div>
+    <div class="glod"><span>{{ glodNum }}</span></div>
+
     </div>
     <div class="time"><span>{{ timenum }}</span><span class="timenum2">s</span></div>
-    <div class="glod"><span>{{ glodNum }}</span></div>
     <div class="guid1" v-if="showGuid1" @click="clickGuid1"></div>
     <div class="guid2" v-if="showGuid2" @click="clickGuid2">
       <img src="../../assets/guid2.png" alt="">
@@ -207,7 +208,7 @@ export default defineComponent({
 
         }
         if (timenum.value == 30) {
-          EventBus.fire('SEEP_UP',{speed:1.2})
+          EventBus.fire('SEEP_UP',{speed:1.4})
           EventBus.fire('SET_GLOD_SEEP',{speed:0.05})
         }
         if (timenum.value == 20) {
@@ -255,8 +256,11 @@ export default defineComponent({
       })()
     }
 
-    const gameOver =throttle(async () => {
+    const gameOver = throttle(async () => {
       const { index } = store.state;
+      if(timenum.value == 0){
+        isFirst.value = false
+      }
       console.log(index.gameInfo.startId,'index.gameInfo.startId')
       if (isFirst.value) {
         let res = await gameSubmit(index.gameInfo.startId, glodNum.value)

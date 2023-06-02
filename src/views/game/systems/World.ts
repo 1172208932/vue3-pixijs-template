@@ -1,13 +1,12 @@
-import { Application, Texture } from 'pixi.js';
+import { Application, Texture, Sprite } from 'pixi.js';
 // import Matter from './Matter';
 import * as Matter from 'matter-js';
 import Glod from './Glod';
 import Player from './Player'
 import * as TWEEN from "@tweenjs/tween.js";
 import EventBus from '@/utils/eventbus';
-import { useStore } from "vuex";
 import store from '@/store/index'
-import {GameConfig} from "./config"
+import { GameConfig } from "./config"
 let trackTime = 6;
 let timerOut
 export default class World {
@@ -26,8 +25,8 @@ export default class World {
     public gameOver = true
     public glodEatNum: number = 0;
     public maxGlodNum: number = 50;
-    public speed:number = 0.8
-    trackNow =  Math.floor(Math.random() * 3);
+    public speed: number = 0.8
+    trackNow = Math.floor(Math.random() * 3);
     isDouble = false
     constructor(
         engine: any,
@@ -87,12 +86,30 @@ export default class World {
         })
         console.log(this.glodList, 'this.glodListthis.glodList')
     }
-
+    /* 移除金币 */
     removeGlod(num) {
+        if(this.glodList.get(num)._body.bodyType != 'barrier'){
+            this.creatIconMove(this.glodList.get(num)._sprite.position, this.glodList.get(num)._sprite.width, this.glodList.get(num)._sprite.height)
+        }
         this.glodList.get(num).destroy()
         this.glodList.get(num)._sprite.destroy()
         this.glodList.delete(num)
         console.log(this.glodList)
+    }
+
+    creatIconMove(position, width, height) {
+        let goldTexture: Texture = Texture.from('gold');
+        let iconplayer = new Sprite(goldTexture)
+        iconplayer.width = width
+        iconplayer.height = height
+        iconplayer.position = position
+        this.app.stage.addChild(iconplayer);
+
+        const scal = new TWEEN.Tween(iconplayer);
+        // scal.to({ width:60,height:60 }, 500).start()
+        scal.to({ position: { x: 590, y: 10 }, width: 60, height: 60 }, 500).start().onComplete(() => {
+            iconplayer.destroy()
+        });
     }
 
     playerLeft() {
@@ -130,12 +147,22 @@ export default class World {
         Matter.World.addBody(this._engine.world, this.player.body);
 
         this.app.stage.addChild(this.player.sprite);
+
+
+        // let goldTexture: Texture = Texture.from('gold');
+
+        // let iconplayer = new Sprite(goldTexture)
+        // iconplayer.width =iconplayer.height = 60
+        // iconplayer.position = {x:590,y:10}
+        // this.app.stage.addChild(iconplayer);
+
     }
 
     beginGame() {
         this.speed = 0.8
         GameConfig.speed = 0
         this.app.ticker.add(this.update);
+        // @ts-ignore
         this.maxGlodNum = Number(store.state.index.gameInfo.eachGameCoin)
         this.gameOver = false
         this.player.ani.play()
@@ -145,16 +172,17 @@ export default class World {
         this.speed = 0.8
         this.glodEatNum = 0;
         GameConfig.speed = 0
+        // @ts-ignore
         this.maxGlodNum = Number(store.state.index.gameInfo.eachGameCoin)
 
         this.app.ticker.remove(this.update)
     }
 
-    speedUp(speed){
+    speedUp(speed) {
         this.speed = speed
     }
 
-    setGlodSpeed(num){
+    setGlodSpeed(num) {
         GameConfig.speed = num
         this.glodList.forEach(glod => {
             glod.setSpeed(num)
@@ -213,8 +241,8 @@ export default class World {
                 trackTime--;
                 if (trackTime == 0) {
 
-                }else if(trackTime == 1){
-                    if(this.isDouble){
+                } else if (trackTime == 1) {
+                    if (this.isDouble) {
                         this.addBarrier(2)
                     }
                     this.addBarrier(this.trackNow)
@@ -224,9 +252,9 @@ export default class World {
                 if (trackTime == 0) {
                     trackTime = 3 + Math.floor(Math.random() * 3);
                     this.trackNow = Math.floor(Math.random() * 3);
-                    if(this.trackNow == 0){
+                    if (this.trackNow == 0) {
                         this.isDouble = true
-                    }else{
+                    } else {
                         this.isDouble = false
                     }
                     return

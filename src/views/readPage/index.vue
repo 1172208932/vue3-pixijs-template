@@ -99,8 +99,8 @@ export default defineComponent({
   margin: 0 auto 88px auto;
 }
 .titleImg {
-  width: 332px;
-  height: 45px;
+  width: calc(1058px/3) ;
+  height: calc(175px/3);
   display: flex;
   // margin-top: 140px;
   position: absolute;
