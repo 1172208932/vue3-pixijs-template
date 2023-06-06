@@ -6,12 +6,10 @@
     "dev": "vite",
     "build": "vite build",
     "build:test": "vite build --mode test",
-    "scp": " scp -r ./dist/* root@139.198.127.38:/usr/local/nginx/html/china_life_hi_fun_playground_rungame",
+    "scp": " scp -r ./dist/running/index.html root@139.198.127.38:/usr/local/nginx/html/china_life_hi_fun_playground_rungame",
     "scp:dev": " scp -r ./dist/running-dev/index.html root@139.198.104.34:/usr/local/nginx/html/china_life_hi_fun_playground_rungame",
-    "ossup": "cd nodejs && node upload.js",
-    "ossupdev": "cd nodejs && node delOssDev.js && node upload.js",
-    "ossdel": "cd nodejs && node delOss.js",
-    "ossdeldev": "cd nodejs && node delOssDev.js"
+    "ossup": "cd nodejs && node delOss.js && node upload.js",
+    "ossupdev": "cd nodejs && node delOssDev.js && node upload.js"
   },
   "dependencies": {
     "@pixi/filter-shockwave": "^4.2.0",
