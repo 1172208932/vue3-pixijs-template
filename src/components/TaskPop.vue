@@ -117,7 +117,7 @@ onMounted(() => {
 
 .taskBg {
   width: 750px;
-  height: 973px;
+  height: 974px;
   background: url("../assets/bankground.png") no-repeat top left / 100% 100%;
   position: relative;
 }

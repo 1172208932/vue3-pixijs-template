@@ -105,7 +105,7 @@ function close() {
 
 .overBg {
   width: 614px;
-  height: 956px;
+  height: 946px;
   background: url("../assets/read_over.png") no-repeat top left / 100% 100%;
   position: relative;
 }

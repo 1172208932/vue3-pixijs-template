@@ -102,7 +102,7 @@ function close() {
 }
 .overBg {
   width: 614px;
-  height: 876px;
+  height: 885px;
   background: url("../assets/backBg.png") no-repeat top left / 100% 100%;
   position: relative;
 }

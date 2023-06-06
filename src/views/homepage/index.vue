@@ -148,6 +148,7 @@ export default defineComponent({
       if(index.healthInfo?.healthInfoList?.length > 0) state.healthInfo = index.healthInfo;
 
       svgaplayerweb();
+      begin.value = true;
       EventBus.on("CLOSEPOP", closePop);
       // const { index } = store.state;
       // if( index.healthInfo?.guidStatus == void 0){
@@ -194,7 +195,7 @@ export default defineComponent({
 .homePage {
   width: 750px;
   height: 1624px;
-  background: url("../../assets/homepage.png") no-repeat top left / 100% 100%;
+  background: url("../../assets/home_page.png") no-repeat top left / 100% 100%;
   position: relative;
 
   canvas {
@@ -279,7 +280,7 @@ export default defineComponent({
   display: flex;
   // margin-top: 140px;
   position: absolute;
-  top: 170px;
+  top: 130px;
   left: 50%;
   transform: translateX(-50%);
 }

@@ -103,7 +103,7 @@ function close() {
 
 .overBg {
   width: 614px;
-  height: 843px;
+  height: 838px;
   background: url("../assets/true_1.png") no-repeat top left / 100% 100%;
   position: relative;
 }

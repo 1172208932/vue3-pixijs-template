@@ -8,7 +8,7 @@
       <div class="lists">
         <div v-for="(item, index) in list" :key="index" class="list" @click="handleJump2LongPicPage(item)">
           <img v-if="item.status == 0" class="title-glod" src="../../assets/glod_little.png" alt="">
-          <img v-else class="title-glod" src="https://cdn.ysupup.com/ysupup/temp_base/1685436415156/news_page/finish_coin.png" alt="">
+          <img v-else class="title-glod" src="../../assets/finish_coin.png" alt="">
           <div class="title-item">
             <!-- <p>{{ item.time }}</p> -->
             <p class="title">{{ item.title }}</p>

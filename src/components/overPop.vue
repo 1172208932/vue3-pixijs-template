@@ -74,7 +74,7 @@ function close() {
   width: 100%;
   text-align: center;
   position: absolute;
-  top: 680px;
+  top: 620px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 23px;
@@ -100,7 +100,7 @@ function close() {
   width: 100%;
   text-align: center;
   position: absolute;
-  top: 500px;
+  top: 430px;
   font-size: 28px;
   font-weight: 700;
   color: #148c85;
@@ -137,7 +137,7 @@ function close() {
 
 .overBg {
   width: 614px;
-  height: 956px;
+  height: 946px;
   background: url("../assets/game_over_bg.png") no-repeat top left / 100% 100%;
   position: relative;
 }
@@ -170,7 +170,7 @@ function close() {
 .over-box{
 width: 100%;
 position: absolute;
-top: 570px;
+top: 520px;
 text-align: center;
 }
 .over-box-item{
