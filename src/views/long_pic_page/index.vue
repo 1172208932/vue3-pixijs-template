@@ -48,7 +48,6 @@ export default defineComponent({
 
     onMounted(async () => {
       const { info,status } = route.params
-      console.log(route.params,status,'info')
       haveGift.value = Number(status) == 0;
       const { index } = store.state
       if( index.healthInfo?.guidStatus === void 0){
@@ -64,7 +63,7 @@ export default defineComponent({
     /* 开始倒计时 */
     const beginTimeDown = () => {
       timer = setInterval(() => {
-        if (countdown.value <= 0) {
+        if (countdown.value <= 1) {
           clearInterval(timer);
           timer = "";
           complete();

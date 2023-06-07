@@ -37,7 +37,6 @@ import RulePop from "@/components/RulePop.vue";
 import TaskPop from "@/components/TaskPop.vue";
 import { gameStart } from "@/api/resource";
 import { useStore } from "vuex";
-import { healthInfoIndex } from "@/api/resource";
 import { throttle } from "@/utils/throttle";
 
 export default defineComponent({
@@ -75,7 +74,6 @@ export default defineComponent({
 
     const goGame = throttle(async () => {
       let res = await gameStart();
-      console.log(res)
       if(res.success && res.data["startId"]){
         store.commit("setGameInfo", res.data);
         router.replace({
@@ -280,7 +278,7 @@ export default defineComponent({
   display: flex;
   // margin-top: 140px;
   position: absolute;
-  top: 130px;
+  top: 175px;
   left: 50%;
   transform: translateX(-50%);
 }

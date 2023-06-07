@@ -3,6 +3,8 @@
     <div class="detailPage"></div>
     <img src="../../assets/back.png" class="back" alt="" @click="back">
     <img src="../../assets/logo.png" class="titleImg" />
+    <img src="../../assets/read_title.png" class="readTitle" />
+
 
     <div class="detailList">
       <div class="lists">
@@ -94,10 +96,11 @@ export default defineComponent({
       if (glodNum) {
         showReadPop.value = true
       }
-      let data = await readIndex();
-      console.log(data, '333')
-      state.list =
-         data['healthInfoList'];
+      setTimeout( async ()=>{
+        let data = await readIndex();
+        state.list = data['healthInfoList'];
+      },500)
+
         // [
         //   {
         //     "dailyClickCount": 0,
@@ -183,14 +186,25 @@ export default defineComponent({
   display: flex;
   // margin-top: 140px;
   position: absolute;
-  top: 40px;
+  top:110px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.readTitle{
+  width: 574px;
+  height: 262px;
+  display: flex;
+  // margin-top: 140px;
+  position: absolute;
+  top: 170px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .detailList {
   width: 750px;
-  height: 70%;
+  height: 62%;
   background: url("../../assets/neirong_kuang.png") no-repeat top left / 100% 100%;
   position: absolute;
   bottom: 0;
@@ -246,8 +260,6 @@ export default defineComponent({
 
     .title-item {
       width: 600px;
-
-
     }
 
     .read {
