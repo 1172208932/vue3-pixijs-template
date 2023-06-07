@@ -50,7 +50,6 @@ import { completeGuide, getQuestion, gameSubmit,gameReborn } from "@/api/resourc
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
-import {GameConfig} from "./systems/config"
 let firstGlofNum: number = 0;
 
 export default defineComponent({
@@ -90,7 +89,6 @@ export default defineComponent({
 
     let playerTree
     const store = useStore();
-    const { index } = store.state;
 
     const state: {
       percentage: number;

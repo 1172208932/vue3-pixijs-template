@@ -23,7 +23,6 @@ import {
 } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import EventBus from "@/utils/eventbus";
 export default defineComponent({
   name: "readPage",
   components: {},

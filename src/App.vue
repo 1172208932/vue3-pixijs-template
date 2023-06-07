@@ -17,8 +17,6 @@ onMounted(async () => {
     openTagList: ['wx-open-launch-weapp']
   })
 
-  console.log(res, 'sharrrrrrrrrrrrrrr')
-
   setTimeout(() => {
     updateShare({
       url: "https://act-2.ysupup.com/act-gateway/act-user-biz/urlMapping/fed07d",
