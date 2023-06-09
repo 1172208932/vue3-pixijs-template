@@ -1,0 +1,19 @@
+before_script:
+  - 'which sshpass || (apt-get update -y && apt-get install sshpass -y)'
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  
+  build_and_upload:
+  stage: deploy
+  script:
+    - echo "Building the project..."
+    - npm install
+    - npm run build:test
+    - npm run ossupdev
+    - echo "Uploading to Nginx server..."
+    - sshpass -p "$SSH_PASSWORD" scp -r ./dist/running-dev/index.html root@139.198.104.34:/usr/local/nginx/html/china_life_hi_fun_playground_rungame
+  only:
+    - dev
+
+
