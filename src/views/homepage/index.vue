@@ -3,7 +3,7 @@
     <div class="homepageFixed">
       <div class="homePage" v-show="begin">
         <img src="../../assets/back.png" class="back" alt="" @click="backRead">
-        <canvas id="canvas1"></canvas>
+        <div id="canvas1"></div>
         <img src="../../assets/logo.png" class="titleImg" />
         <!-- <span class="rule" @click="showRule"></span> -->
         <span class="task" @click="showTask"></span>
@@ -31,13 +31,16 @@ import {
   watch,
 } from "vue";
 import { useRouter,useRoute  } from "vue-router";
-import { Downloader, Parser, Player } from "svga-web";
+// import { Downloader, Parser, Player } from "svga-web";
 import EventBus from "@/utils/eventbus";
 import RulePop from "@/components/RulePop.vue";
 import TaskPop from "@/components/TaskPop.vue";
 import { gameStart } from "@/api/resource";
 import { useStore } from "vuex";
 import { throttle } from "@/utils/throttle";
+import { Downloader, Parser, Player } from 'svga.lite'
+import lottie from 'lottie-web';
+import indexjson from './index.json'
 
 export default defineComponent({
   name: "homeIndex",
@@ -89,23 +92,37 @@ export default defineComponent({
     }
 
     const svgaplayerweb = () => {
-      const downloader = new Downloader();
-      const parser = new Parser();
-      const player = new Player("#canvas1");
-      const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
-      (async () => {
-        const fileData = await downloader.get(`${isTextUrl}homepage.svga`);
-        const svgaData = await parser.do(fileData);
-
-        player.set({
+      let animation = lottie.loadAnimation({
+          container: document.getElementById('canvas1'),
+          renderer: 'svg',
           loop: true,
-        });
+          autoplay: true,
+          animationData: indexjson,
+      });
 
-        await player.mount(svgaData);
+      // const downloader = new Downloader();
+      // const parser = new Parser();
+      // const player = new Player("#canvas1");
+      // const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
+      // (async () => {
+      //   const fileData = await downloader.get(`${isTextUrl}homepage.svga`);
+      //   const svgaData = await parser.do(fileData);
+      //   player.set({
+      //     loop: true,
+      //     cacheFrames: true,
+      //     intersectionObserverRender: false
+      //   })
+      //   // player.set({
+      //   //   loop: true,
+      //   //   cacheFrames: true,
+      //   //   intersectionObserverRender: true
+      //   //   })
 
-        player.start();
+      //   await player.mount(svgaData);
+
+      //   player.start();
         begin.value = true;
-      })();
+      // })();
     };
 
     // const getHealthInfo = async () => {

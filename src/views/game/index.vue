@@ -4,7 +4,7 @@
     <div class="bg">
       <!-- <div class="rand"></div> -->
       <canvas id="canvas1"></canvas>
-      <canvas id="canvas2"></canvas>
+      <div id="canvas2"></div>
       <div class="game-box" id="canvas" ref="canvasRef"></div>
     <div class="glod"><span>{{ glodNum }}</span></div>
 
@@ -43,14 +43,17 @@ import GuidPop from "@/components/guidPop.vue";
 
 import WrongPop from "@/components/wrongPop.vue";
 import RightPop from "@/components/rightPop.vue";
+import treejson from './tree.json'
 
 
 import { Downloader, Parser, Player } from 'svga-web'
+// import { Downloader, Parser, Player } from 'svga.lite'
 import { completeGuide, getQuestion, gameSubmit,gameReborn } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
 let firstGlofNum: number = 0;
+import lottie from 'lottie-web';
 
 export default defineComponent({
   name: "gameIndex",
@@ -79,7 +82,6 @@ export default defineComponent({
     let showWrongPop = ref<boolean>(false);
     let showWrontTitle = ref<string>('');
     let showRightPop = ref<boolean>(false);
-
     let isFirst = ref<boolean>(true);
 
 
@@ -88,6 +90,8 @@ export default defineComponent({
 
 
     let playerTree
+    let animation
+
     const store = useStore();
 
     const state: {
@@ -182,10 +186,8 @@ export default defineComponent({
     let timer
 
     const begin = () => {
-      playerTree.set({
-        loop: true
-      })
-      playerTree.start()
+      animation.play();
+
 
       EventBus.fire("BEGIN_GAME");
 
@@ -234,24 +236,40 @@ export default defineComponent({
       showChoosePop.value = true
     }
     const svgaplayerweb = () => {
-      const downloader = new Downloader()
-      const parser = new Parser()
-      playerTree = new Player('#canvas2');
+      console.log(document.getElementById('canvas2'),'document.getElementById(#canvas2)')
+      animation = lottie.loadAnimation({
+          container: document.getElementById('canvas2'),
+          renderer: 'svg',
+          loop: true,
+          autoplay: false,
+          animationData: treejson,
+      });
+      // lottie.loadAnimation({
+      //   container: element, // the dom element that will contain the animation
+      //   renderer: 'svg',
+      //   loop: true,
+      //   autoplay: true,
+      //   path: 'data.json' // the path to the animation json
+      // });
 
-      (async () => {
-        const fileData = await downloader.get(`${isTextUrl}gameTree.svga`)
-        const svgaData = await parser.do(fileData)
+      // const downloader = new Downloader()
+      // const parser = new Parser()
+      // playerTree = new Player('##');
 
-        playerTree.set({
-          loop: 1,
-          endFrame: 1
-        })
+      // (async () => {
+      //   const fileData = await downloader.get(`${isTextUrl}gameTree.svga`)
+      //   const svgaData = await parser.do(fileData)
 
-        await playerTree.mount(svgaData)
+      //   playerTree.set({
+      //     loop: 1,
+      //     endFrame: 1
+      //   })
 
-        playerTree.start()
+      //   await playerTree.mount(svgaData)
 
-      })()
+      //   playerTree.start()
+
+      // })()
     }
 
     const gameOver = throttle(async () => {
@@ -275,11 +293,12 @@ export default defineComponent({
         }
       }
 
-      playerTree.set({
-        loop: 1,
-        endFrame: 1
-      })
-      playerTree.start()
+      animation.stop()
+      // playerTree.set({
+      //   loop: 1,
+      //   endFrame: 1
+      // })
+      // playerTree.start()
       clearInterval(timer)
     },3000) 
 
@@ -324,7 +343,7 @@ export default defineComponent({
     onMounted(async () => {
 
       svgaplayerweb()
-      svgaplayerweb1()
+      // svgaplayerweb1()
       EventBus.on("GET_STARE", getScore);
       EventBus.on("GAME_OVER", gameOver);
 
