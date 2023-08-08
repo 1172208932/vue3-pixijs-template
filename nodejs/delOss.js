@@ -3,7 +3,6 @@ const OSS = require('ali-oss');
 
 // 配置OSS客户端
 const client = new OSS({
-
 });
 
 // 递归清空指定目录

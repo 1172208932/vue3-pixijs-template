@@ -24,9 +24,7 @@ const APIPath = {
   readIndex: `${snsUrl}act-gateway/act-core/act/1/parkourRead/index`, // 获取消保快乐学
   receiveTaskPrize: `${snsUrl}act-gateway/act-core/act/1/task_2/receiveTaskPrize`, // 领取任务奖励
 };
-if(import.meta.env.VITE_APP_EN === "development"){
   addMock(APIPath);
-}
 
 export const healthInfoIndex = <T = any>(): Promise<any> => {
   return new Promise((resolve, reject) => {

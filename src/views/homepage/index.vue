@@ -2,7 +2,7 @@
   <div class="box">
     <div class="homepageFixed">
       <div class="homePage" v-show="begin">
-        <img src="../../assets/back.png" class="back" alt="" @click="backRead">
+        <!-- <img src="../../assets/back.png" class="back" alt="" @click="backRead"> -->
         <div id="canvas1"></div>
         <img src="../../assets/logo.png" class="titleImg" />
         <!-- <span class="rule" @click="showRule"></span> -->

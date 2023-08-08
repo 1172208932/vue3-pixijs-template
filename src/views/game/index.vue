@@ -3,13 +3,12 @@
     <audio ref="audio" preload="true" :src="mp3Path"></audio>
     <div class="bg">
       <!-- <div class="rand"></div> -->
-      <canvas id="canvas1"></canvas>
       <div id="canvas2"></div>
       <div class="game-box" id="canvas" ref="canvasRef"></div>
-    <div class="glod"><span>{{ glodNum }}</span></div>
+    <!-- <div class="glod"><span>{{ glodNum }}</span></div> -->
 
     </div>
-    <div class="time"><span>{{ timenum }}</span><span class="timenum2">s</span></div>
+    <!-- <div class="time"><span>{{ timenum }}</span><span class="timenum2">s</span></div>
     <div class="guid1" v-if="showGuid1" @click="clickGuid1"></div>
     <div class="guid2" v-if="showGuid2" @click="clickGuid2">
       <img src="../../assets/guid2.png" alt="">
@@ -17,7 +16,7 @@
     <div class="down-time" v-if="showDownTime">
       <div class="down-title">倒计时</div>
       <div class="down-num">{{ downTimeNum }}</div>
-    </div>
+    </div> -->
 
   </div>
   <choose-pop v-model:show="showChoosePop" :startId="questionStartId" :chooesList=question @answer="answerFn"></choose-pop>
@@ -236,14 +235,15 @@ export default defineComponent({
       showChoosePop.value = true
     }
     const svgaplayerweb = () => {
-      console.log(document.getElementById('canvas2'),'document.getElementById(#canvas2)')
-      animation = lottie.loadAnimation({
-          container: document.getElementById('canvas2'),
-          renderer: 'svg',
-          loop: true,
-          autoplay: false,
-          animationData: treejson,
-      });
+      // console.log(document.getElementById('canvas2'),'document.getElementById(#canvas2)')
+      // animation = lottie.loadAnimation({
+      //   //@ts-ignore
+      //     container: document.getElementById('canvas2'),
+      //     renderer: 'svg',
+      //     loop: true,
+      //     autoplay: false,
+      //     animationData: treejson,
+      // });
       // lottie.loadAnimation({
       //   container: element, // the dom element that will contain the animation
       //   renderer: 'svg',
@@ -305,7 +305,6 @@ export default defineComponent({
     const svgaplayerweb1 = () => {
       const downloader = new Downloader()
       const parser = new Parser()
-      const player = new Player('#canvas1');
 
       (async () => {
         const fileData = await downloader.get(`${isTextUrl}game_yun.svga`)

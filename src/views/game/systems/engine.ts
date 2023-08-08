@@ -1,22 +1,19 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEN from "@tweenjs/tween.js";
-import { playFlipAnimation, FLIP_TYPE, playFipAllAnimation } from "./animation";
-import { shuffle } from "./utils"
 import EventBus from '@/utils/eventbus';
 import World from './World';
-import Matter from './Matter';
 import { throttle } from "@/utils/throttle"
-
+import { GameConfig, manifest } from "./config"
+import Piece from "./Piece"
+import { shuffle } from "./utils"
 let PixiApp: PIXI.Application;
-let cardList;
-// 定义变量以存储触摸和鼠标事件的初始位置
-let touchStartX = 0;
-let mouseStartX = 0;
-let isMouseDown = false;
+
 export default class PixiEngine {
     public world: World;
     public engine: any;
-
+    boardContainer;
+    Board: any[];
+    pieceList: any[]
     constructor(width: number, height: number) {
         this.init(width, height)
     }
@@ -27,132 +24,89 @@ export default class PixiEngine {
         EventBus.on('BEGIN_GAME', this.beginGame, this)
         EventBus.on('GAME_OVER_WORLD', this.gameOver, this)
         EventBus.on('RESET_GAME', this.resetGame, this)
-        EventBus.on('SEEP_UP', this.speedUp, this)
-        EventBus.on('SET_GLOD_SEEP', this.setGlodSpeed, this)
 
 
-        PixiApp = new PIXI.Application({ width, height, transparent: true, forceCanvas:true });
+        PixiApp = new PIXI.Application({ width, height, backgroundAlpha: 0, resizeTo: window });
         function animate(time) {
             requestAnimationFrame(animate)
             TWEEN.update(time)
         }
         requestAnimationFrame(animate)
-        this.engine = Matter.Engine.create();
-        this.engine.gravity.y = 0
-        this.world = new World(this.engine, PixiApp);
-
-        Matter.Engine.run(this.engine);
-
-        // 物理调试runder
-
-        // const debugRender = Matter.Render.create({
-        //     element: document.querySelector(".game-box"),
-        //     engine: this.engine,
-        //     options: {
-        //         width: 750,
-        //         height: 1400,
-        //         showCollisions: true,
-        //         showVelocity: true
-        //     }
-        // });
-        // Matter.Render.run(debugRender);
-        // console.log(document.querySelector(".game-box"))
-        // setTimeout(() => {
-        //     document.querySelector(".game-box").querySelector(":nth-child(1)").style.opacity = 0.3
-
-        // }, 1000)
 
         this.initgame()
-        this.addEvent()
     }
 
-    addEvent() {
-        PixiApp.view.addEventListener('touchstart', (event) => {
-            // 获取触摸事件的初始位置
-            touchStartX = event.touches[0].clientX;
-        });
-        PixiApp.view.addEventListener('touchend', (event) => {
-            // 获取触摸事件的结束位置
-            const touchEndX = event.changedTouches[0].clientX;
 
-            // 计算触摸事件的水平位移
-            const deltaX = touchEndX - touchStartX;
 
-            // 判断滑动方向
-            if (Math.abs(deltaX) > 50) { // 设置一个阈值，以避免误判
-                if (deltaX > 0) {
-                    console.log('向右滑动');
-                    this.rightSwitch()
-                } else {
-                    this.leftSwitch()
-                    console.log('向左滑动');
-                }
-            }
-        });
-        PixiApp.view.addEventListener('mousedown', (event) => {
-            // 获取鼠标事件的初始位置
-            mouseStartX = event.clientX;
-            isMouseDown = true;
-        });
-        PixiApp.view.addEventListener('mouseup', (event) => {
-            if (!isMouseDown) return;
-
-            // 获取鼠标事件的结束位置
-            const mouseEndX = event.clientX;
-
-            // 计算鼠标事件的水平位移
-            const deltaX = mouseEndX - mouseStartX;
-
-            // 判断滑动方向
-            if (Math.abs(deltaX) > 50) { // 设置一个阈值，以避免误判
-                if (deltaX > 0) {
-                    console.log('向右滑动');
-                    this.rightSwitch()
-                } else {
-                    this.leftSwitch()
-                    console.log('向左滑动');
-                }
-            }
-            isMouseDown = false;
-        });
-    }
-
-    leftSwitch = throttle(() => {
-        this.world.playerLeft()
-    }, 500)
-    rightSwitch = throttle(() => {
-        this.world.playerRight()
-    }, 500)
-
-    resetGame(){
+    resetGame() {
         this.world.resetGame()
     }
 
 
-    initgame() {
-        const isTextUrl = import.meta.env.VITE_RESOURCE_URL;
-        const loader = new PIXI.Loader();
-        loader.add('barrier', `${isTextUrl}barrier.png`)
-        loader.add('ip2', `${isTextUrl}Ip2.png`)
-        loader.add('gold', `${isTextUrl}gold.png`)
-        loader.load(() => {
-                this.world.addPlayer();
-        })
+    initgame = async () => {
+
+        await PIXI.Assets.init({ manifest });
+
+        // Load a bundle...
+        // let    loadScreenAssets =
+        await PIXI.Assets.loadBundle('load-screen');
+        // console.log(loadScreenAssets)
+        this.boardContainer = new PIXI.Container();
+        this.boardContainer.x = 50
+        this.boardContainer.y = 100
+
+        PixiApp.stage.addChild(this.boardContainer)
+
+        this.initBoard()
+        this.initPieces()
+        this.fillBoard()
+    }
+    // 初始化棋盘
+    initBoard() {
+        this.Board = new Array(GameConfig.row).fill(new Array(GameConfig.col))
+        console.log(this.Board)
+    }
+    // 初始化棋子
+    initPieces() {
+        let random
+
+        this.pieceList = []
+        for (let i = 0; i < GameConfig.row * GameConfig.col; i++) {
+            if (i % 2 == 0) {
+                random = Math.floor(Math.random() * 3) + 1
+            }
+            this.pieceList.push(new Piece(PIXI.Texture.from('icon' + random)))
+        }
+
+
+        this.pieceList = shuffle(this.pieceList)
+    }
+    // 填充棋盘
+    fillBoard() {
+        for (let row = 0; row < GameConfig.row; row++) {
+            for (let col = 0; col < GameConfig.col; col++) {
+                let item = this.pieceList[row * GameConfig.row + col]
+                item.x = row * 25
+                item.y = col * 25
+                item.eventMode = 'static';
+                item.cursor = 'pointer';
+                item.on('pointerdown', this.onItemClick);
+                this.boardContainer.addChild(item);
+            }
+        }
     }
 
-    speedUp(data){
-        this.world.speedUp(data!.detail!.speed)
-    }
-
-    setGlodSpeed(data){
-        this.world.setGlodSpeed(data!.detail!.speed)
+    onItemClick(e){
+        let {target} = e;
+        
+        console.log(e)
     }
 
     beginGame() {
         this.world.beginGame()
     }
 
-    gameOver(){
+    gameOver() {
         this.world.gameOverFn()
     }
 

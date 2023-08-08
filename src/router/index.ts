@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/homepage",
+    path: "/",
     name: "homepage",
     component: () => import("../views/homepage/index.vue"),
   },
@@ -11,11 +11,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "game",
     component: () => import("../views/game/index.vue"),
   },
-  {
-    path: "/",
-    name: "readPage",
-    component: () => import("../views/readPage/index.vue"),
-  },
+  // {
+  //   path: "/",
+  //   name: "readPage",
+  //   component: () => import("../views/readPage/index.vue"),
+  // },
   {
     path: "/detailPage",
     name: "detailPage",
