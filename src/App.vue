@@ -18,20 +18,20 @@ import { getPerformance } from "firebase/performance";
 
 onMounted(async () => {
 
-  const firebaseConfig = {
-  apiKey: "AIzaSyCdqClrTzNZK4IbySqS58Qok884r_BV9yQ",
-  authDomain: "drawh5.firebaseapp.com",
-  projectId: "drawh5",
-  storageBucket: "drawh5.appspot.com",
-  messagingSenderId: "809039365807",
-  appId: "1:809039365807:web:4241e1ec1586ecadff365a",
-  measurementId: "G-K683S033GL"
-};
+//   const firebaseConfig = {
+//   apiKey: "AIzaSyCdqClrTzNZK4IbySqS58Qok884r_BV9yQ",
+//   authDomain: "drawh5.firebaseapp.com",
+//   projectId: "drawh5",
+//   storageBucket: "drawh5.appspot.com",
+//   messagingSenderId: "809039365807",
+//   appId: "1:809039365807:web:4241e1ec1586ecadff365a",
+//   measurementId: "G-K683S033GL"
+// };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const perf = getPerformance(app);
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+// const perf = getPerformance(app);
   let res = await start([Weixin], () => { }, {
     openTagList: ['wx-open-launch-weapp']
   })

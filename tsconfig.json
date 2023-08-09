@@ -15,7 +15,6 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
-    "suppressImplicitAnyIndexErrors": true,
     "strictPropertyInitialization": false,
     "downlevelIteration": true,
     "noUnusedLocals": false,

@@ -111,14 +111,14 @@ export default defineComponent({
     });
 
     const init = () => {
-      const { index } = store.state;
-      if (index.healthInfo.guidStatus === 0) {
-        showGuid1.value = true
-      } else if (index.healthInfo.guidStatus === void 0){
-        // window.location.href = import.meta.env.VITE_APP_INDEX_URL
-      }else {
-        guid3Over()
-      }
+      // const { index } = store.state;
+      // if (index.healthInfo.guidStatus === 0) {
+      //   showGuid1.value = true
+      // } else if (index.healthInfo.guidStatus === void 0){
+      //   // window.location.href = import.meta.env.VITE_APP_INDEX_URL
+      // }else {
+      //   guid3Over()
+      // }
     }
     
 
