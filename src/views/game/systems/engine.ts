@@ -26,6 +26,10 @@ export default class PixiEngine {
         // EventBus.on('BEGIN_GAME', this.beginGame, this)
         // EventBus.on('GAME_OVER_WORLD', this.gameOver, this)
         EventBus.on('RESET_GAME', this.resetGame, this)
+        EventBus.on('RANDOM_GAME', this.randomGame, this)
+        EventBus.on('AGAIN_GAME', this.againGame, this)
+
+        
 
 
         PixiApp = new PIXI.Application({ width, height, backgroundAlpha: 0, resizeTo: window });
@@ -117,8 +121,77 @@ export default class PixiEngine {
         console.log(this.Board)
     }
 
-    onItemClick(target) {
+    randomGame() {
+        this.points = [];
+        if (this.firstClickPiecr != null) {
+            this.firstClickPiecr.init()
+            this.firstClickPiecr = null
+        }
+        this.pieceList = shuffle(this.pieceList);
+        for (let row = 0; row < (GameConfig.row + 2); row++) {
+            for (let col = 0; col < (GameConfig.col + 2); col++) {
+                if (col == 0 || row == 0 || row == (GameConfig.row + 1) || col == (GameConfig.col + 1)) {
+                    this.Board[col][row] = {
+                        x: row * 50,
+                        y: col * 50,
+                        isEmpty: true
+                    }
+                } else {
+                    let item = this.pieceList[(row - 1) * GameConfig.row + (col - 1)]
+                    item.x = row * 50
+                    item.y = col * 50
+                    item.boardX = row
+                    item.boardY = col
+                    item.eventMode = 'static';
+                    item.cursor = 'pointer';
+                    // item.removeEventListener('pointerdown')
+                    // item.on('pointerdown', (e) => {
+                    //     this.onItemClick(item)
+                    // });
+                    this.Board[col][row] = item
+                }
+            }
+        }
+    }
 
+    againGame(){
+        this.points = [];
+        if (this.firstClickPiecr != null) {
+            this.firstClickPiecr.init()
+            this.firstClickPiecr = null
+        }
+        this.pieceList.forEach(item=>{
+            item.init()
+        })
+        this.pieceList = shuffle(this.pieceList);
+        for (let row = 0; row < (GameConfig.row + 2); row++) {
+            for (let col = 0; col < (GameConfig.col + 2); col++) {
+                if (col == 0 || row == 0 || row == (GameConfig.row + 1) || col == (GameConfig.col + 1)) {
+                    this.Board[col][row] = {
+                        x: row * 50,
+                        y: col * 50,
+                        isEmpty: true
+                    }
+                } else {
+                    let item = this.pieceList[(row - 1) * GameConfig.row + (col - 1)]
+                    item.x = row * 50
+                    item.y = col * 50
+                    item.boardX = row
+                    item.boardY = col
+                    item.eventMode = 'static';
+                    item.cursor = 'pointer';
+                    // item.removeEventListener('pointerdown')
+                    // item.on('pointerdown', (e) => {
+                    //     this.onItemClick(item)
+                    // });
+                    this.Board[col][row] = item
+                }
+            }
+        }
+    }
+
+    onItemClick(target) {
+        console.log(11111)
         if (target == this.firstClickPiecr) { return }
         if (this.firstClickPiecr == null) {
             this.firstClickPiecr = target

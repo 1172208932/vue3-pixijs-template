@@ -51,6 +51,8 @@ export default class Piece extends Sprite {
         this.width = 40
         this.height = 40
         this.filters = null
+        this.isEmpty = false
+        this.visible = true
     }
 
     destroy() {

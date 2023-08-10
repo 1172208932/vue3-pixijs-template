@@ -5,21 +5,23 @@
       <!-- <div class="rand"></div> -->
       <div id="canvas2"></div>
       <div class="game-box" id="canvas" ref="canvasRef"></div>
-    <!-- <div class="glod"><span>{{ glodNum }}</span></div> -->
+      <div class="glod" @click="randomGame"><span> 打乱</span></div>
+      <div class="glod" style="left:0" @click="againGame"><span> 重开</span></div>
 
     </div>
     <!-- <div class="time"><span>{{ timenum }}</span><span class="timenum2">s</span></div>
     <div class="guid1" v-if="showGuid1" @click="clickGuid1"></div>
     <div class="guid2" v-if="showGuid2" @click="clickGuid2">
       <img src="../../assets/guid2.png" alt="">
-    </div>
-    <div class="down-time" v-if="showDownTime">
+    </div> -->
+    <!-- <div class="down-time" v-if="showDownTime">
       <div class="down-title">倒计时</div>
       <div class="down-num">{{ downTimeNum }}</div>
     </div> -->
 
   </div>
-  <choose-pop v-model:show="showChoosePop" :startId="questionStartId" :chooesList=question @answer="answerFn"></choose-pop>
+  <choose-pop v-model:show="showChoosePop" :startId="questionStartId" :chooesList=question
+    @answer="answerFn"></choose-pop>
   <over-pop v-model:show="showOverPop" :isFirst="isFirst" :glodNum="glodNum" @resurgence="getQuestionList"></over-pop>
   <guid-pop v-model:show="showguidPop" @closeGuid="guid3Over"></guid-pop>
   <wrong-pop :showWrontTitle="showWrontTitle" v-model:show="showWrongPop" @showNext="showOverFn"></wrong-pop>
@@ -47,7 +49,7 @@ import treejson from './tree.json'
 
 import { Downloader, Parser, Player } from 'svga-web'
 // import { Downloader, Parser, Player } from 'svga.lite'
-import { completeGuide, getQuestion, gameSubmit,gameReborn } from "@/api/resource";
+import { completeGuide, getQuestion, gameSubmit, gameReborn } from "@/api/resource";
 import EventBus from "@/utils/eventbus";
 import { throttle } from "@/utils/throttle"
 import { useStore } from "vuex";
@@ -107,7 +109,7 @@ export default defineComponent({
       isDisabled: false,
       isBegin: false,
       money: 0,
-      questionStartId:0
+      questionStartId: 0
     });
 
     const init = () => {
@@ -120,7 +122,15 @@ export default defineComponent({
       //   guid3Over()
       // }
     }
-    
+
+    const randomGame = ()=>{
+      EventBus.fire('RANDOM_GAME') 
+    }
+
+    const againGame = ()=>{
+      EventBus.fire('AGAIN_GAME') 
+    }
+
 
     const clickGuid1 = () => {
       showGuid1.value = false
@@ -170,7 +180,7 @@ export default defineComponent({
     const resurgenceGame = throttle(async () => {
       const { index } = store.state;
       let res = await gameReborn(index.gameInfo.startId)
-      if(res.success){
+      if (res.success) {
         // store.commit("getHealthInfo");
         store.commit("setGameInfo", res.data);
         showOverPop.value = false;
@@ -180,7 +190,7 @@ export default defineComponent({
 
         guid3Over()
       }
-    },3000)
+    }, 3000)
 
     let timer
 
@@ -199,19 +209,19 @@ export default defineComponent({
         }
 
         if (timenum.value == 50) {
-          EventBus.fire('SEEP_UP',{speed:1.2})
-          EventBus.fire('SET_GLOD_SEEP',{speed:0.02})
+          EventBus.fire('SEEP_UP', { speed: 1.2 })
+          EventBus.fire('SET_GLOD_SEEP', { speed: 0.02 })
         }
         if (timenum.value == 40) {
-          EventBus.fire('SET_GLOD_SEEP',{speed:0.04})
+          EventBus.fire('SET_GLOD_SEEP', { speed: 0.04 })
 
         }
         if (timenum.value == 30) {
-          EventBus.fire('SEEP_UP',{speed:1.4})
-          EventBus.fire('SET_GLOD_SEEP',{speed:0.05})
+          EventBus.fire('SEEP_UP', { speed: 1.4 })
+          EventBus.fire('SET_GLOD_SEEP', { speed: 0.05 })
         }
         if (timenum.value == 20) {
-          EventBus.fire('SET_GLOD_SEEP',{speed:0.06})
+          EventBus.fire('SET_GLOD_SEEP', { speed: 0.06 })
         }
 
       }, 1000)
@@ -274,10 +284,10 @@ export default defineComponent({
 
     const gameOver = throttle(async () => {
       const { index } = store.state;
-      if(timenum.value == 0){
+      if (timenum.value == 0) {
         isFirst.value = false
       }
-      console.log(index.gameInfo.startId,'index.gameInfo.startId')
+      console.log(index.gameInfo.startId, 'index.gameInfo.startId')
       if (isFirst.value) {
         let res = await gameSubmit(index.gameInfo.startId, glodNum.value)
         if (res?.success) {
@@ -285,7 +295,7 @@ export default defineComponent({
           showOverPop.value = true
         }
       } else {
-        console.log(index.gameInfo.startId,'index.gameInfo.startId')
+        console.log(index.gameInfo.startId, 'index.gameInfo.startId')
 
         let res = await gameSubmit(index.gameInfo.startId, glodNum.value - firstGlofNum)
         if (res?.success) {
@@ -300,21 +310,21 @@ export default defineComponent({
       // })
       // playerTree.start()
       clearInterval(timer)
-    },3000) 
+    }, 3000)
 
     const svgaplayerweb1 = () => {
       const downloader = new Downloader()
       const parser = new Parser()
 
-      (async () => {
-        const fileData = await downloader.get(`${isTextUrl}game_yun.svga`)
-        const svgaData = await parser.do(fileData)
-        player.set({
-          loop: 0,
-        })
-        await player.mount(svgaData)
-        player.start()
-      })()
+        (async () => {
+          const fileData = await downloader.get(`${isTextUrl}game_yun.svga`)
+          const svgaData = await parser.do(fileData)
+          player.set({
+            loop: 0,
+          })
+          await player.mount(svgaData)
+          player.start()
+        })()
     }
 
     /**
@@ -334,8 +344,8 @@ export default defineComponent({
       }
     }
 
-    const showOverFn=()=>{
-      isFirst.value =false
+    const showOverFn = () => {
+      isFirst.value = false
       showOverPop.value = true
     }
 
@@ -377,6 +387,8 @@ export default defineComponent({
       glodNum,
       downTimeNum,
       showWrontTitle,
+      againGame,
+      randomGame,
       clickGuid1,
       clickGuid2,
       showPopChoose,
