@@ -1,8 +1,8 @@
 let GameConfig = {
     speed:0,
     addSpeed:0.003,
-    row:6,
-    col:6
+    row:4,
+    col:4
 }
 
 const isTextUrl = import.meta.env.VITE_RESOURCE_URL;

@@ -1,4 +1,5 @@
 import { Texture, Sprite } from 'pixi.js';
+import * as PIXI from 'pixi.js';
 import * as Matter from 'matter-js';
 import { GameConfig } from "./config"
 import * as TWEEN from "@tweenjs/tween.js";
@@ -23,6 +24,16 @@ export default class Piece extends Sprite {
     onSelect() {
         this.width = 45
         this.height = 45
+        const filter = new PIXI.filters.ColorMatrixFilter();
+        const { matrix } = filter;
+        let  count  = 0.1
+        matrix[1] = Math.sin(count) * 3;
+        matrix[2] = Math.cos(count);
+        matrix[3] = Math.cos(count) * 1.5;
+        matrix[4] = Math.sin(count / 3) * 2;
+        matrix[5] = Math.sin(count / 2);
+        matrix[6] = Math.sin(count / 4);
+        this.filters = [filter];
         // this.scale.set(1.1);
     }
 
@@ -39,6 +50,7 @@ export default class Piece extends Sprite {
     init() {
         this.width = 40
         this.height = 40
+        this.filters = null
     }
 
     destroy() {

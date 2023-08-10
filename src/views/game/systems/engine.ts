@@ -54,7 +54,7 @@ export default class PixiEngine {
         await PIXI.Assets.loadBundle('load-screen');
         // console.log(loadScreenAssets)
         this.boardContainer = new PIXI.Container();
-        this.boardContainer.x = 0
+        this.boardContainer.x = 50
         this.boardContainer.y = 100
 
         PixiApp.stage.addChild(this.boardContainer)
@@ -65,18 +65,24 @@ export default class PixiEngine {
     }
     // 初始化棋盘
     initBoard() {
-        this.Board = new Array(GameConfig.row+2).fill(new Array(GameConfig.col+2))
+        this.Board = Array.from(new Array(GameConfig.row + 2).fill(0), () =>
+            new Array(GameConfig.col + 2).fill({
+                isEmpty: true
+            })
+        )
     }
     // 初始化棋子
     initPieces() {
         let random
-
         this.pieceList = []
         for (let i = 0; i < GameConfig.row * GameConfig.col; i++) {
             if (i % 2 == 0) {
                 random = Math.floor(Math.random() * 3) + 1
             }
             let piece = new Piece(PIXI.Texture.from('icon' + random))
+            piece.anchor.x = 0.5
+            piece.anchor.y = 0.5
+
             piece.itemType = random
             this.pieceList.push(piece)
         }
@@ -84,14 +90,16 @@ export default class PixiEngine {
     }
     // 填充棋盘
     fillBoard() {
-        for (let row = 0; row < GameConfig.row+2; row++) {
-            for (let col = 0; col < GameConfig.col+2; col++) {
-                if(col == 0 || row == 0 || row == GameConfig.row+1|| col == GameConfig.col+1){
-                    this.Board[row][col] = {
-                        isEmpty:true
+        for (let row = 0; row < (GameConfig.row + 2); row++) {
+            for (let col = 0; col < (GameConfig.col + 2); col++) {
+                if (col == 0 || row == 0 || row == (GameConfig.row + 1) || col == (GameConfig.col + 1)) {
+                    this.Board[col][row] = {
+                        x: row * 50,
+                        y: col * 50,
+                        isEmpty: true
                     }
-                }else{
-                    let item = this.pieceList[(row-1) * GameConfig.row + (col-1)]
+                } else {
+                    let item = this.pieceList[(row - 1) * GameConfig.row + (col - 1)]
                     item.x = row * 50
                     item.y = col * 50
                     item.boardX = row
@@ -102,14 +110,15 @@ export default class PixiEngine {
                         this.onItemClick(item)
                     });
                     this.boardContainer.addChild(item);
-                    this.Board[row][col] = item
-
+                    this.Board[col][row] = item
                 }
             }
         }
+        console.log(this.Board)
     }
 
     onItemClick(target) {
+
         if (target == this.firstClickPiecr) { return }
         if (this.firstClickPiecr == null) {
             this.firstClickPiecr = target
@@ -122,7 +131,10 @@ export default class PixiEngine {
                     this.firstClickPiecr.init()
                     this.firstClickPiecr.remove()
                     target.remove()
-                    this.firstClickPiecr=null
+                    this.firstClickPiecr = null
+                    console.log(this.Board)
+                    this.drawLine();
+
                 } else {
                     this.firstClickPiecr.init()
                     this.firstClickPiecr = target
@@ -134,6 +146,30 @@ export default class PixiEngine {
         }
 
         target.onSelect()
+    }
+
+    drawLine() {
+        console.log(this.points)
+
+        const realPath = new PIXI.Graphics();
+
+        realPath.lineStyle(2, 0xFFFFFF, 1);
+        this.points.forEach((item, index) => {
+            let peer = this.Board[item[1]][item[0]]
+            if (index == 0) {
+                realPath.moveTo(peer.x, peer.y);
+            } else {
+                realPath.lineTo(peer.x, peer.y);
+            }
+        })
+
+        realPath.position.x = 0;
+        realPath.position.y = 0;
+
+        this.boardContainer.addChild(realPath);
+        setTimeout(() => {
+            realPath.destroy()
+        }, 300)
     }
 
     addPoints(...args: any[]): void {
@@ -171,8 +207,8 @@ export default class PixiEngine {
 
     canCleanup(x1, y1, x2, y2) {
         this.points = [];
-        let cols = GameConfig.col
-        let rows = GameConfig.row
+        let cols = GameConfig.col + 2
+        let rows = GameConfig.row + 2
 
         if (x1 === x2) {
             if (1 === y1 - y2 || 1 === y2 - y1) { //相邻
