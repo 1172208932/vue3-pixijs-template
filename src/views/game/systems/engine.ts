@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEN from "@tweenjs/tween.js";
 import EventBus from '@/utils/eventbus';
-import World from './World';
 import { throttle } from "@/utils/throttle"
 import { GameConfig, manifest } from "./config"
 import Piece from "./Piece"
@@ -9,7 +8,6 @@ import { shuffle } from "./utils"
 let PixiApp: PIXI.Application;
 
 export default class PixiEngine {
-    public world: World;
     public engine: any;
     boardContainer;
     Board: any[];
@@ -45,7 +43,6 @@ export default class PixiEngine {
 
 
     resetGame() {
-        this.world.resetGame()
     }
 
 
