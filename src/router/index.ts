@@ -2,20 +2,15 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/home",
-    name: "Home",
-    component: () => import("../views/index/index.vue"),
-    meta:{
-      title: '首页',
-      keepAlive: true,
-      transition:'fade'
-    }
-  },
-  {
     path: "/",
-    name: "Loading",
-    component: () => import("../views/loading/loading.vue"),
-  }
+    name: "Minesweeper",
+    component: () => import("../views/minesweeper/index.vue"),
+    meta: {
+      title: "移动端扫雷",
+      keepAlive: true,
+      transition: "fade",
+    },
+  },
 ];
 
 const router = createRouter({

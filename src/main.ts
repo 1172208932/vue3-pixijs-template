@@ -1,13 +1,13 @@
-import './utils/polyfills' 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router/index'
+import "./utils/polyfills";
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router/index";
 import store from "./store";
-import {VueMasonryPlugin} from 'vue-masonry';
+import { VueMasonryPlugin } from "vue-masonry";
 
-const app = createApp(App)
+const app = createApp(App);
 app
-    .use(VueMasonryPlugin)
-    .use(store)
-    .use(router)
-    .mount('#app')
+  .use(VueMasonryPlugin)
+  .use(store)
+  .use(router)
+  .mount("#app");
