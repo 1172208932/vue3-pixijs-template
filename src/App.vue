@@ -1,38 +1,26 @@
 <template>
   <el-config-provider>
     <router-view #="{ Component, route }">
-      <!-- <transition :name="route.meta?.transition"> -->
-        <component :is="Component" :key="route.path" />
-      <!-- </transition> -->
+      <component :is="Component" :key="route.path" />
     </router-view>
   </el-config-provider>
 </template>
 
-
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter", "PingFang SC", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-* {
-  padding: 0;
-  margin: 0;
-}
-body {
-  background: #eae6df;
+  color: #0f172a;
 }
 
-.fade-enter-active {
-  transition: opacity 0.5s ease;
+body {
+  background: linear-gradient(180deg, #f8fafc 0%, #e9edf5 40%, #f8fafc 100%);
+  margin: 0;
 }
-.fade-leave-active {
-  transition: none;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+
+* {
+  box-sizing: border-box;
 }
 </style>
